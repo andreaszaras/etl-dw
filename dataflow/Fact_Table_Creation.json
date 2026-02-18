@@ -64,6 +64,9 @@
 				},
 				{
 					"name": "join5"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -194,7 +197,13 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join5",
-				"join5 sink(allowSchemaDrift: true,",
+				"join5 select(mapColumn(",
+				"          each(match(/* All input columns */ true()),",
+				"               /* Input name */ $$ = $$)",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
