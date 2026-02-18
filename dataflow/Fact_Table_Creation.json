@@ -31,6 +31,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "DimProduct"
+				},
+				{
+					"dataset": {
+						"referenceName": "SourceDataset_xgn",
+						"type": "DatasetReference"
+					},
+					"name": "DimAddress"
 				}
 			],
 			"sinks": [],
@@ -51,7 +58,11 @@
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> DimProduct"
+				"     format: 'table') ~> DimProduct",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DimAddress"
 			]
 		}
 	}
