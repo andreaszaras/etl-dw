@@ -14,11 +14,8 @@
 		"type": "AzureSqlTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "SalesLT",
-			"table": {
-				"value": "@dataset().cw_table",
-				"type": "Expression"
-			}
+			"schema": "stg",
+			"table": "SalesOrderHeader"
 		}
 	}
 }
