@@ -67,8 +67,8 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "dw",
-			"table": "DimProduct"
+			"schema": "SalesLT",
+			"table": "Customer"
 		}
 	}
 }
