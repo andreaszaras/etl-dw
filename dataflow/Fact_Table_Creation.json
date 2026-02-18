@@ -127,7 +127,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> DimAddress",
-				"SalesOrderHeader, SalesOrderDetail join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"SalesOrderHeader, SalesOrderDetail join(SalesOrderHeader@SalesOrderID == SalesOrderDetail@SalesOrderID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
