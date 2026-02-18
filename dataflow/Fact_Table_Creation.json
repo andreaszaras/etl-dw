@@ -20,13 +20,6 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable7",
-						"type": "DatasetReference"
-					},
-					"name": "DimCustomer"
-				},
-				{
-					"dataset": {
 						"referenceName": "SourceDataset_xgn",
 						"type": "DatasetReference"
 					},
@@ -93,24 +86,6 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> SalesOrderDetail",
-				"source(output(",
-				"          ProductKey as integer,",
-				"          ProductID as integer,",
-				"          ProductName as string,",
-				"          ProductNumber as string,",
-				"          Color as string,",
-				"          Size as string,",
-				"          StandardCost as decimal(19,4),",
-				"          ListPrice as decimal(19,4),",
-				"          Weight as decimal(8,2),",
-				"          ProductCategoryID as integer,",
-				"          CategoryName as string,",
-				"          ParentCategoryName as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> DimCustomer",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
@@ -135,7 +110,7 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
-				"join1, DimCustomer join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"join1 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
