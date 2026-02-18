@@ -51,11 +51,7 @@
 									"tableOption": "autoCreate"
 								},
 								"enableStaging": false,
-								"validateDataConsistency": false,
-								"translator": {
-									"value": "@item().copyActivity.translator",
-									"type": "Expression"
-								}
+								"validateDataConsistency": false
 							},
 							"inputs": [
 								{
