@@ -1,0 +1,9 @@
+{
+	"name": "ETL-DW-1",
+	"location": "francecentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "cc33cb35-385f-4c8b-854e-29cd7f62bcd1",
+		"tenantId": "ad5ba4a2-7857-4ea1-895e-b3d5207a174f"
+	}
+}
