@@ -53,6 +53,9 @@
 				},
 				{
 					"name": "join4"
+				},
+				{
+					"name": "join5"
 				}
 			],
 			"scriptLines": [
@@ -177,7 +180,12 @@
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join4"
+				"     broadcast: 'auto')~> join4",
+				"join4, DimAddress join(BillToAddressID == DimAddress@AddressID,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join5"
 			]
 		}
 	}
