@@ -50,6 +50,9 @@
 				},
 				{
 					"name": "join3"
+				},
+				{
+					"name": "join4"
 				}
 			],
 			"scriptLines": [
@@ -165,11 +168,16 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join2",
-				"join2, DimProduct join(SalesOrderDetail@ProductID == ERROR_FUNCTION(''),",
+				"join2, DimProduct join(SalesOrderDetail@ProductID == DimProduct@ProductID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join3"
+				"     broadcast: 'auto')~> join3",
+				"join3, DimAddress join(ShipToAddressID == AddressID,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join4"
 			]
 		}
 	}
