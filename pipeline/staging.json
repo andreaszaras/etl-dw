@@ -92,8 +92,17 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"scripts": [],
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "TRUNCATE TABLE stg.Customer;\nTRUNCATE TABLE stg.CustomerAddress;\nTRUNCATE TABLE stg.Address;\nTRUNCATE TABLE stg.Product;\nTRUNCATE TABLE stg.ProductCategory;\nTRUNCATE TABLE stg.SalesOrderHeader;\nTRUNCATE TABLE stg.SalesOrderDetail;"
+						}
+					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
