@@ -6,14 +6,14 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable1",
+						"referenceName": "AzureSqlTable5",
 						"type": "DatasetReference"
 					},
 					"name": "SalesOrderHeader"
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable2",
+						"referenceName": "AzureSqlTable6",
 						"type": "DatasetReference"
 					},
 					"name": "SalesOrderDetail"
@@ -34,7 +34,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "SourceDataset_xgn",
+						"referenceName": "AzureSqlTable4",
 						"type": "DatasetReference"
 					},
 					"name": "DimAddress"
@@ -108,7 +108,18 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> DimProduct",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          AddressID as integer,",
+				"          AddressLine1 as string,",
+				"          AddressLine2 as string,",
+				"          City as string,",
+				"          StateProvince as string,",
+				"          CountryRegion as string,",
+				"          PostalCode as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> DimAddress",
