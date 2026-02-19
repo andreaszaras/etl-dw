@@ -198,7 +198,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "TRUNCATE TABLE dw.DimDate;\n\nDECLARE @StartDate date = '2010-01-01';\nDECLARE @EndDate   date = '2030-12-31';\n\n;WITH DateCTE AS\n(\n    SELECT @StartDate AS TheDate\n    UNION ALL\n    SELECT DATEADD(DAY, 1, TheDate)\n    FROM DateCTE\n    WHERE TheDate < @EndDate\n)\nINSERT INTO dw.DimDate\n(\n    DateKey,\n    [Date],\n    [Year],\n    [Quarter],\n    [Month],\n    MonthName,\n    DayOfMonth,\n    DayOfWeek\n)\nSELECT\n    CONVERT(int, CONVERT(char(8), TheDate, 112)) AS DateKey,  -- yyyymmdd\n    TheDate,\n    YEAR(TheDate),\n    DATEPART(QUARTER, TheDate),\n    MONTH(TheDate),\n    DATENAME(MONTH, TheDate),\n    DAY(TheDate),\n\n    -- DayOfWeek: Monday=1 ... Sunday=7 (stable, not dependent on DATEFIRST)\n    ((DATEDIFF(DAY, '19000101', TheDate) % 7 + 7) % 7) + 1 AS DayOfWeek\nFROM DateCTE\nOPTION (MAXRECURSION 0);\n"
+							"text": "TRUNCATE TABLE dw.DimDate;\n\nDECLARE @StartDate date = '2000-01-01';\nDECLARE @EndDate   date = '2030-12-31';\n\n;WITH DateCTE AS\n(\n    SELECT @StartDate AS TheDate\n    UNION ALL\n    SELECT DATEADD(DAY, 1, TheDate)\n    FROM DateCTE\n    WHERE TheDate < @EndDate\n)\nINSERT INTO dw.DimDate\n(\n    DateKey,\n    [Date],\n    [Year],\n    [Quarter],\n    [Month],\n    MonthName,\n    DayOfMonth,\n    DayOfWeek\n)\nSELECT\n    CONVERT(int, CONVERT(char(8), TheDate, 112)) AS DateKey,  -- yyyymmdd\n    TheDate,\n    YEAR(TheDate),\n    DATEPART(QUARTER, TheDate),\n    MONTH(TheDate),\n    DATENAME(MONTH, TheDate),\n    DAY(TheDate),\n\n    -- DayOfWeek: Monday=1 ... Sunday=7 (stable, not dependent on DATEFIRST)\n    ((DATEDIFF(DAY, '19000101', TheDate) % 7 + 7) % 7) + 1 AS DayOfWeek\nFROM DateCTE\nOPTION (MAXRECURSION 0);\n"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -242,7 +242,25 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "ForEach_svt",
+						"activity": "Customer_Dim",
+						"dependencyConditions": [
+							"Completed"
+						]
+					},
+					{
+						"activity": "Product_Dim",
+						"dependencyConditions": [
+							"Completed"
+						]
+					},
+					{
+						"activity": "Date_Dim",
+						"dependencyConditions": [
+							"Completed"
+						]
+					},
+					{
+						"activity": "Address_Dim",
 						"dependencyConditions": [
 							"Completed"
 						]
