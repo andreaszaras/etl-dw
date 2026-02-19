@@ -137,6 +137,111 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Product_Dim",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "ForEach_svt",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"scripts": [],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Date_Dim",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "ForEach_svt",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"scripts": [],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Address_Dim",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "ForEach_svt",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"scripts": [],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Fact_Table",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "ForEach_svt",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "TRUNCATE TABLE dw.FactSales;\n\nINSERT INTO dw.FactSales\n(\n    SalesOrderID,\n    SalesOrderDetailID,\n\n    DateKey,\n    CustomerKey,\n    ProductKey,\n    ShipToAddressKey,\n    BillToAddressKey,\n\n    OrderQty,\n    UnitPrice,\n    UnitPriceDiscount,\n    LineTotal,\n\n    SubTotal,\n    TaxAmt,\n    Freight,\n    TotalDue\n)\nSELECT\n    h.SalesOrderID,\n    d.SalesOrderDetailID,\n\n    CONVERT(int, CONVERT(char(8), h.OrderDate, 112)) AS DateKey,\n\n    dc.CustomerKey,\n    dp.ProductKey,\n    daShip.AddressKey AS ShipToAddressKey,\n    daBill.AddressKey AS BillToAddressKey,\n\n    d.OrderQty,\n    d.UnitPrice,\n    d.UnitPriceDiscount,\n    d.LineTotal,\n\n    h.SubTotal,\n    h.TaxAmt,\n    h.Freight,\n    h.TotalDue\nFROM stg.SalesOrderHeader h\nJOIN stg.SalesOrderDetail d\n    ON d.SalesOrderID = h.SalesOrderID\nJOIN dw.DimCustomer dc\n    ON dc.CustomerID = h.CustomerID\nJOIN dw.DimProduct dp\n    ON dp.ProductID = d.ProductID\nLEFT JOIN dw.DimAddress daShip\n    ON daShip.AddressID = h.ShipToAddressID\nLEFT JOIN dw.DimAddress daBill\n    ON daBill.AddressID = h.BillToAddressID;\n"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"parameters": {
