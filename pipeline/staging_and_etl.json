@@ -157,8 +157,17 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"scripts": [],
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "TRUNCATE TABLE dw.DimProduct;\nINSERT INTO dw.DimProduct\n(\n    ProductID,\n    ProductName,\n    ProductNumber,\n    Color,\n    Size,\n    StandardCost,\n    ListPrice,\n    Weight,\n    ProductCategoryID,\n    CategoryName,\n    ParentCategoryName\n)\nSELECT\n    p.ProductID,\n    p.Name AS ProductName,\n    p.ProductNumber,\n    p.Color,\n    p.Size,\n    p.StandardCost,\n    p.ListPrice,\n    p.Weight,\n    pc.ProductCategoryID,\n    pc.Name AS CategoryName,\n    parent.Name AS ParentCategoryName\nFROM stg.Product p\nLEFT JOIN stg.ProductCategory pc\n    ON p.ProductCategoryID = pc.ProductCategoryID\nLEFT JOIN stg.ProductCategory parent\n    ON pc.ParentProductCategoryID = parent.ProductCategoryID;\n"
+						}
+					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			},
