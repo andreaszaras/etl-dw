@@ -132,7 +132,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "Customer_Dim\nTRUNCATE TABLE dw.DimCustomer;\nINSERT INTO dw.DimCustomer\n(\n    CustomerID,\n    FirstName,\n    LastName,\n    CompanyName,\n    EmailAddress,\n    Phone\n)\nSELECT\n    CustomerID,\n    FirstName,\n    LastName,\n    CompanyName,\n    EmailAddress,\n    Phone\nFROM stg.Customer\n\n\n\n"
+							"text": "TRUNCATE TABLE dw.DimCustomer;\nINSERT INTO dw.DimCustomer\n(\n    CustomerID,\n    FirstName,\n    LastName,\n    CompanyName,\n    EmailAddress,\n    Phone\n)\nSELECT\n    CustomerID,\n    FirstName,\n    LastName,\n    CompanyName,\n    EmailAddress,\n    Phone\nFROM stg.Customer\n\n\n\n"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
