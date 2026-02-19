@@ -205,8 +205,17 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"scripts": [],
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "TRUNCATE TABLE dw.DimAddress;\n\nINSERT INTO dw.DimAddress\n(\n    AddressID,\n    AddressLine1,\n    AddressLine2,\n    City,\n    StateProvince,\n    CountryRegion,\n    PostalCode\n)\nSELECT\n    a.AddressID,\n    a.AddressLine1,\n    a.AddressLine2,\n    a.City,\n    a.StateProvince,\n    a.CountryRegion,\n    a.PostalCode\nFROM stg.Address a;\n"
+						}
+					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			},
