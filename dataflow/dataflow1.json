@@ -43,7 +43,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable14",
+						"referenceName": "AzureSqlTable17",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -78,6 +78,9 @@
 				},
 				{
 					"name": "union4"
+				},
+				{
+					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
@@ -170,22 +173,9 @@
 				"source3, source4 union(byName: true)~> union2",
 				"union2, source5 union(byName: true)~> union3",
 				"union3, source6 union(byName: true)~> union4",
+				"union4 aggregate(aaa = count(1)) ~> aggregate1",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     input(",
-				"          BusinessEntityID as integer,",
-				"          PersonType as string,",
-				"          NameStyle as boolean,",
-				"          Title as string,",
-				"          Suffix as string,",
-				"          EmailPromotion as integer,",
-				"          AdditionalContactInfo as string,",
-				"          Demographics as string,",
-				"          rowguid as string,",
-				"          ModifiedDate as timestamp,",
-				"          FullName as string,",
-				"          DateOfBirth as date",
-				"     ),",
 				"     deletable:false,",
 				"     insertable:false,",
 				"     updateable:true,",
@@ -195,7 +185,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
-				"union4 sink(allowSchemaDrift: true,",
+				"aggregate1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
