@@ -26,7 +26,8 @@
 					"name": "FirstName"
 				},
 				{
-					"name": "alterRow1"
+					"name": "alterRow1",
+					"description": "upsertIf(true())"
 				}
 			],
 			"scriptLines": [
@@ -49,7 +50,7 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
 				"source1 derive(First_Name = toString(split(trim(FullName), ' ')[1])) ~> FirstName",
-				"FirstName alterRow() ~> alterRow1",
+				"FirstName alterRow(insertIf(true())) ~> alterRow1",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
