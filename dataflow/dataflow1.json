@@ -226,7 +226,7 @@
 				"union3, source6 union(byName: true)~> union4",
 				"union4 aggregate(aaa = count(1)) ~> aggregate1",
 				"MiddleName derive(age_years = toInteger(monthsBetween(currentDate(), DateOfBirth) / 12)) ~> age",
-				"product derive(color_imuted = iif(isNull(Color), 'Unknown', Color)) ~> ColorImputed",
+				"product derive(color_imuted = iif(isNull(Color) || trim(Color) == '', 'Unknown', Color)) ~> ColorImputed",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
