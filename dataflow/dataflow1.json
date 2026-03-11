@@ -12,7 +12,15 @@
 					"name": "source1"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable14",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "FirstName"
@@ -37,7 +45,31 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
-				"source1 derive(First_Name = toString(split(trim(FullName), ' ')[1])) ~> FirstName"
+				"source1 derive(First_Name = toString(split(trim(FullName), ' ')[1])) ~> FirstName",
+				"FirstName sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          BusinessEntityID as integer,",
+				"          PersonType as string,",
+				"          NameStyle as boolean,",
+				"          Title as string,",
+				"          Suffix as string,",
+				"          EmailPromotion as integer,",
+				"          AdditionalContactInfo as string,",
+				"          Demographics as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as timestamp,",
+				"          FullName as string,",
+				"          DateOfBirth as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
