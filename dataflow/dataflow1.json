@@ -10,6 +10,34 @@
 						"type": "DatasetReference"
 					},
 					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DelimitedText2",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				},
+				{
+					"dataset": {
+						"referenceName": "DelimitedText3",
+						"type": "DatasetReference"
+					},
+					"name": "source4"
+				},
+				{
+					"dataset": {
+						"referenceName": "DelimitedText4",
+						"type": "DatasetReference"
+					},
+					"name": "source5"
+				},
+				{
+					"dataset": {
+						"referenceName": "DelimitedText5",
+						"type": "DatasetReference"
+					},
+					"name": "source6"
 				}
 			],
 			"sinks": [
@@ -19,6 +47,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable16",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
 				}
 			],
 			"transformations": [
@@ -34,6 +69,15 @@
 				},
 				{
 					"name": "MiddleName"
+				},
+				{
+					"name": "union2"
+				},
+				{
+					"name": "union3"
+				},
+				{
+					"name": "union4"
 				}
 			],
 			"scriptLines": [
@@ -55,10 +99,77 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
+				"source(output(",
+				"          SalesOrderID as string,",
+				"          SalesOrderDetailID as string,",
+				"          CarrierTrackingNumber as string,",
+				"          OrderQty as string,",
+				"          ProductID as string,",
+				"          SpecialOfferID as string,",
+				"          UnitPrice as string,",
+				"          UnitPriceDiscount as string,",
+				"          LineTotal as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source3",
+				"source(output(",
+				"          SalesOrderID as string,",
+				"          SalesOrderDetailID as string,",
+				"          CarrierTrackingNumber as string,",
+				"          OrderQty as string,",
+				"          ProductID as string,",
+				"          SpecialOfferID as string,",
+				"          UnitPrice as string,",
+				"          UnitPriceDiscount as string,",
+				"          LineTotal as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source4",
+				"source(output(",
+				"          SalesOrderID as string,",
+				"          SalesOrderDetailID as string,",
+				"          CarrierTrackingNumber as string,",
+				"          OrderQty as string,",
+				"          ProductID as string,",
+				"          SpecialOfferID as string,",
+				"          UnitPrice as string,",
+				"          UnitPriceDiscount as string,",
+				"          LineTotal as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source5",
+				"source(output(",
+				"          SalesOrderID as string,",
+				"          SalesOrderDetailID as string,",
+				"          CarrierTrackingNumber as string,",
+				"          OrderQty as string,",
+				"          ProductID as string,",
+				"          SpecialOfferID as string,",
+				"          UnitPrice as string,",
+				"          UnitPriceDiscount as string,",
+				"          LineTotal as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source6",
 				"source1 derive(First_Name = toString(split(trim(FullName), ' ')[1])) ~> FirstName",
 				"MiddleName alterRow(insertIf(true())) ~> alterRow1",
 				"FirstName derive(Last_name = regexExtract(trim(toString(FullName)), '([^ ]+)$', 1)) ~> LastName",
 				"LastName derive(Midlle_Name = iif(     size(split(trim(toString(FullName)), ' ')) > 2,     at(split(trim(toString(FullName)), ' '), 2),     '' )) ~> MiddleName",
+				"source3, source4 union(byName: true)~> union2",
+				"union2, source5 union(byName: true)~> union3",
+				"union3, source6 union(byName: true)~> union4",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -83,7 +194,17 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
+				"union4 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
 			]
 		}
 	}
