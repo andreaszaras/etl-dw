@@ -28,6 +28,9 @@
 				{
 					"name": "alterRow1",
 					"description": "upsertIf(true())"
+				},
+				{
+					"name": "LastName"
 				}
 			],
 			"scriptLines": [
@@ -50,7 +53,8 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
 				"source1 derive(First_Name = toString(split(trim(FullName), ' ')[1])) ~> FirstName",
-				"FirstName alterRow(insertIf(true())) ~> alterRow1",
+				"LastName alterRow(insertIf(true())) ~> alterRow1",
+				"FirstName derive(Last_name = regexExtract(trim(toString(FullName)), '([^ ]+)$', 1)) ~> LastName",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
