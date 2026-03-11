@@ -31,6 +31,9 @@
 				},
 				{
 					"name": "LastName"
+				},
+				{
+					"name": "MiddleName"
 				}
 			],
 			"scriptLines": [
@@ -53,8 +56,9 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
 				"source1 derive(First_Name = toString(split(trim(FullName), ' ')[1])) ~> FirstName",
-				"LastName alterRow(insertIf(true())) ~> alterRow1",
+				"MiddleName alterRow(insertIf(true())) ~> alterRow1",
 				"FirstName derive(Last_name = regexExtract(trim(toString(FullName)), '([^ ]+)$', 1)) ~> LastName",
+				"LastName derive(Midlle_Name = iif(     size(split(trim(toString(FullName)), ' ')) > 2,     at(split(trim(toString(FullName)), ' '), 2),     '' )) ~> MiddleName",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
