@@ -81,6 +81,9 @@
 				},
 				{
 					"name": "aggregate1"
+				},
+				{
+					"name": "age"
 				}
 			],
 			"scriptLines": [
@@ -167,13 +170,14 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source6",
 				"source1 derive(First_Name = toString(split(trim(FullName), ' ')[1])) ~> FirstName",
-				"MiddleName alterRow(insertIf(true())) ~> alterRow1",
+				"age alterRow(insertIf(true())) ~> alterRow1",
 				"FirstName derive(Last_name = regexExtract(trim(toString(FullName)), '([^ ]+)$', 1)) ~> LastName",
 				"LastName derive(Midlle_Name = iif(     size(split(trim(toString(FullName)), ' ')) > 2,     at(split(trim(toString(FullName)), ' '), 2),     '' )) ~> MiddleName",
 				"source3, source4 union(byName: true)~> union2",
 				"union2, source5 union(byName: true)~> union3",
 				"union3, source6 union(byName: true)~> union4",
 				"union4 aggregate(aaa = count(1)) ~> aggregate1",
+				"MiddleName derive(age_years = toInteger(monthsBetween(currentDate(), DateOfBirth) / 12)) ~> age",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
