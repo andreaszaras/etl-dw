@@ -75,7 +75,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source2",
-				"lookup1 split(isNull(Found),",
+				"lookup1 split(!isNull(Found),",
 				"     disjoint: true) ~> split1@(stream1, stream2)",
 				"derivedColumn1, source2 lookup(source1@BusinessEntityID == source2@BusinessEntityID,",
 				"     multiple: false,",
