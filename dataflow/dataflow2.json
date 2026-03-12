@@ -6,10 +6,17 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable20",
+						"referenceName": "AzureSqlTable28",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable29",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
 				}
 			],
 			"sinks": [
@@ -31,6 +38,9 @@
 			"transformations": [
 				{
 					"name": "split1"
+				},
+				{
+					"name": "lookup1"
 				}
 			],
 			"scriptLines": [
@@ -52,9 +62,23 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
-				"source1 split(ERROR_FUNCTION(''),",
-				"     disjoint: false) ~> split1@(, )",
-				"split1 sink(allowSchemaDrift: true,",
+				"source(output(",
+				"          BusinessEntityID as integer,",
+				"          PhoneNumber as string,",
+				"          PhoneNumberTypeID as integer,",
+				"          ModifiedDate as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source2",
+				"lookup1 split(!isNull(DimCustomer.CustomerKey),",
+				"     disjoint: true) ~> split1@(dbo.stream1, dbo.stream2)",
+				"source1, source2 lookup(source1@BusinessEntityID == source2@BusinessEntityID,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup1",
+				"split1@dbo.stream1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -64,7 +88,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
-				"split1 sink(allowSchemaDrift: true,",
+				"split1@dbo.stream2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
