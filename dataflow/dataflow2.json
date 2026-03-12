@@ -41,6 +41,9 @@
 				},
 				{
 					"name": "lookup1"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -72,13 +75,14 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source2",
-				"lookup1 split(!isNull(DimCustomer.CustomerKey),",
-				"     disjoint: true) ~> split1@(dbo.stream1, dbo.stream2)",
-				"source1, source2 lookup(source1@BusinessEntityID == source2@BusinessEntityID,",
+				"lookup1 split(isNull(Found),",
+				"     disjoint: true) ~> split1@(stream1, stream2)",
+				"derivedColumn1, source2 lookup(source1@BusinessEntityID == source2@BusinessEntityID,",
 				"     multiple: false,",
 				"     pickup: 'any',",
 				"     broadcast: 'auto')~> lookup1",
-				"split1@dbo.stream1 sink(allowSchemaDrift: true,",
+				"source1 derive(Found = BusinessEntityID) ~> derivedColumn1",
+				"split1@stream1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -88,7 +92,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
-				"split1@dbo.stream2 sink(allowSchemaDrift: true,",
+				"split1@stream2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
