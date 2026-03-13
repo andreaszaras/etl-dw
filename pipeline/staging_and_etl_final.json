@@ -121,8 +121,9 @@
 						"mappings": [
 							{
 								"source": {
+									"name": "ProductSubcategoryID",
 									"type": "String",
-									"ordinal": 1
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Prop_0",
@@ -132,8 +133,9 @@
 							},
 							{
 								"source": {
+									"name": "ProductCategoryID",
 									"type": "String",
-									"ordinal": 2
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Prop_1",
@@ -143,8 +145,9 @@
 							},
 							{
 								"source": {
+									"name": "Name",
 									"type": "String",
-									"ordinal": 3
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Prop_2",
@@ -154,8 +157,9 @@
 							},
 							{
 								"source": {
+									"name": "rowguid",
 									"type": "String",
-									"ordinal": 4
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Prop_3",
@@ -165,8 +169,9 @@
 							},
 							{
 								"source": {
+									"name": "ModifiedDate",
 									"type": "String",
-									"ordinal": 5
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Prop_4",
