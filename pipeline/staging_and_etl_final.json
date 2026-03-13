@@ -215,7 +215,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": ";"
+							"text": ""
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
