@@ -215,7 +215,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "create schema stg;\n\nDECLARE @sql NVARCHAR(MAX) = '';\n\nSELECT @sql = @sql + \n    'TRUNCATE TABLE stg.' + QUOTENAME(name) + ';' + CHAR(13)\nFROM sys.tables\nWHERE schema_id = SCHEMA_ID('stg');\n\nEXEC sp_executesql @sql;"
+							"text": "DELETE FROM stg.salesorderheader;\nDELETE FROM stg.salesorderdetail;\nDELETE FROM stg.customer;\nDELETE FROM stg.person;\nDELETE FROM stg.product;\nDELETE FROM stg.productcategory;\nDELETE FROM stg.salesterritory;\nDELETE FROM stg.store;\nDELETE FROM stg.productsubcategory;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
