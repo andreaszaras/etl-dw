@@ -33,13 +33,24 @@
 					"name": "salesorderheader4"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable31",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "union1"
 				},
 				{
 					"name": "union2"
+				},
+				{
+					"name": "union3"
 				}
 			],
 			"scriptLines": [
@@ -168,7 +179,19 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> salesorderheader4",
 				"salesorderheader1, salesorderheader2 union(byName: true)~> union1",
-				"union1, salesorderheader3 union(byName: true)~> union2"
+				"union1, salesorderheader3 union(byName: true)~> union2",
+				"union2, salesorderheader4 union(byName: true)~> union3",
+				"union3 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
