@@ -1,0 +1,16 @@
+{
+	"name": "AzureSqlTable32",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ETL_DW",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "stg",
+			"table": "salesorderheader"
+		}
+	}
+}
