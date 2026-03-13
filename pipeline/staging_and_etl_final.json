@@ -215,7 +215,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": ""
+							"text": "BEGIN\n\nDELETE FROM stg.salesorderheader;\nDELETE FROM stg.salesorderdetail;\nDELETE FROM stg.customer;\nDELETE FROM stg.person;\nDELETE FROM stg.product;\nDELETE FROM stg.productcategory;\nDELETE FROM stg.salesterritory;\nDELETE FROM stg.store;\nDELETE FROM stg.productsubcategory;\n\nEND"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
