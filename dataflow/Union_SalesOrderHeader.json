@@ -34,7 +34,14 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "union1"
+				},
+				{
+					"name": "union2"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          SalesOrderID as string,",
@@ -159,7 +166,9 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> salesorderheader4"
+				"     ignoreNoFilesFound: false) ~> salesorderheader4",
+				"salesorderheader1, salesorderheader2 union(byName: true)~> union1",
+				"union1, salesorderheader3 union(byName: true)~> union2"
 			]
 		}
 	}
