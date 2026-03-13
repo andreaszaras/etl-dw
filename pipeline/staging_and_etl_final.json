@@ -123,6 +123,32 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Truncate_Stg_Schema",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "ETL_DW",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "DECLARE @sql NVARCHAR(MAX) = '';\n\nSELECT @sql = @sql + \n    'TRUNCATE TABLE stg.' + QUOTENAME(name) + ';' + CHAR(13)\nFROM sys.tables\nWHERE schema_id = SCHEMA_ID('stg');\n\nEXEC sp_executesql @sql;"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"parameters": {
