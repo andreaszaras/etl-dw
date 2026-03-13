@@ -215,7 +215,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "BEGIN\n\nDELETE FROM stg.salesorderheader;\nDELETE FROM stg.salesorderdetail;\nDELETE FROM stg.customer;\nDELETE FROM stg.person;\nDELETE FROM stg.product;\nDELETE FROM stg.productcategory;\nDELETE FROM stg.salesterritory;\nDELETE FROM stg.store;\nDELETE FROM stg.productsubcategory;\n\nEND"
+							"text": "BEGIN\n\nIF OBJECT_ID('stg.salesorderheader', 'U') IS NOT NULL DELETE FROM stg.salesorderheader;\nIF OBJECT_ID('stg.salesorderdetail', 'U') IS NOT NULL DELETE FROM stg.salesorderdetail;\nIF OBJECT_ID('stg.customer', 'U') IS NOT NULL DELETE FROM stg.customer;\nIF OBJECT_ID('stg.person', 'U') IS NOT NULL DELETE FROM stg.person;\nIF OBJECT_ID('stg.product', 'U') IS NOT NULL DELETE FROM stg.product;\nIF OBJECT_ID('stg.productcategory', 'U') IS NOT NULL DELETE FROM stg.productcategory;\nIF OBJECT_ID('stg.salesterritory', 'U') IS NOT NULL DELETE FROM stg.salesterritory;\nIF OBJECT_ID('stg.store', 'U') IS NOT NULL DELETE FROM stg.store;\nIF OBJECT_ID('stg.productsubcategory', 'U') IS NOT NULL DELETE FROM stg.productsubcategory;\n\nEND"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
