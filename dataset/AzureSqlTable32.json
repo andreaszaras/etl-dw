@@ -2,7 +2,7 @@
 	"name": "AzureSqlTable32",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "ETL_DW",
+			"referenceName": "etl_dw_1",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
