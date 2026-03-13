@@ -1,0 +1,60 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "ETL-DW-1"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabase1_password": {
+			"value": ""
+		},
+		"AzureSqlDatabase2_password": {
+			"value": ""
+		},
+		"ETL_DW_password": {
+			"value": ""
+		},
+		"etl_dw_1_password": {
+			"value": ""
+		},
+		"AzureSqlDatabase1_properties_typeProperties_server": {
+			"value": "etl-dw.database.windows.net"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_database": {
+			"value": "AW_OLTP"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"value": "etl-dw"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_server": {
+			"value": "etl-dw.database.windows.net"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_database": {
+			"value": "AW_OLTP_Final"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_userName": {
+			"value": "etl-dw"
+		},
+		"ETL_DW_properties_typeProperties_server": {
+			"value": "etl-dw.database.windows.net"
+		},
+		"ETL_DW_properties_typeProperties_database": {
+			"value": "AW"
+		},
+		"ETL_DW_properties_typeProperties_userName": {
+			"value": "etl-dw"
+		},
+		"etl_dw_1_properties_typeProperties_server": {
+			"value": "etl-dw.database.windows.net"
+		},
+		"etl_dw_1_properties_typeProperties_database": {
+			"value": "AW_OLTP_Final"
+		},
+		"etl_dw_1_properties_typeProperties_userName": {
+			"value": "etl-dw"
+		}
+	}
+}
