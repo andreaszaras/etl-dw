@@ -13,7 +13,8 @@
 				"type": "AzureBlobStorageLocation",
 				"fileName": "salesorderheader_part_3.xlsx",
 				"container": "etldw"
-			}
+			},
+			"firstRowAsHeader": true
 		},
 		"schema": [
 			{
