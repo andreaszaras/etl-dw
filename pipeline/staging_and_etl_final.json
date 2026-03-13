@@ -215,7 +215,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "DECLARE @sql NVARCHAR(MAX) = '';\n\nSELECT @sql = @sql + \n    'TRUNCATE TABLE stg.' + QUOTENAME(name) + ';' + CHAR(13)\nFROM sys.tables\nWHERE schema_id = SCHEMA_ID('stg');\n\nEXEC sp_executesql @sql;"
+							"text": "create schema stg\n\nDECLARE @sql NVARCHAR(MAX) = '';\n\nSELECT @sql = @sql + \n    'TRUNCATE TABLE stg.' + QUOTENAME(name) + ';' + CHAR(13)\nFROM sys.tables\nWHERE schema_id = SCHEMA_ID('stg');\n\nEXEC sp_executesql @sql;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
