@@ -1,0 +1,36 @@
+{
+	"name": "Excel_ProductSubCategory",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "ProductSubcategory",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "productsubcategory.xlsx",
+				"container": "etldw"
+			}
+		},
+		"schema": [
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			}
+		]
+	}
+}

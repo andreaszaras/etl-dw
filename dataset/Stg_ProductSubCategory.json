@@ -1,0 +1,37 @@
+{
+	"name": "Stg_ProductSubCategory",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "etl_dw_1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Prop_1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Prop_2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Prop_3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Prop_4",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "stg",
+			"table": "productsubcategory"
+		}
+	}
+}
