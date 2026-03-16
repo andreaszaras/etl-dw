@@ -5,6 +5,11 @@
 			"referenceName": "etl_dw_1",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"tableName": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
@@ -121,7 +126,10 @@
 		],
 		"typeProperties": {
 			"schema": "stg",
-			"table": "SalesOrderHeader"
+			"table": {
+				"value": "@dataset().tableName",
+				"type": "Expression"
+			}
 		}
 	}
 }
