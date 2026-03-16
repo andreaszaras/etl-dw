@@ -7,7 +7,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "Truncate_Tables",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -85,7 +85,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "Truncate_Tables",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -139,7 +139,7 @@
 				]
 			},
 			{
-				"name": "Script1",
+				"name": "Truncate_Tables",
 				"type": "Script",
 				"dependsOn": [],
 				"policy": {
