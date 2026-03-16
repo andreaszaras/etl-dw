@@ -45,6 +45,9 @@
 			"transformations": [
 				{
 					"name": "salesorderheader"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -172,7 +175,37 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> salesorderheader4",
-				"salesorderheader1, salesorderheader2, salesorderheader3, salesorderheader4 union(byName: true)~> salesorderheader",
+				"select1, salesorderheader2, salesorderheader3, salesorderheader4 union(byName: true)~> salesorderheader",
+				"salesorderheader1 select(mapColumn(",
+				"          SalesOrderID,",
+				"          RevisionNumber,",
+				"          OrderDate,",
+				"          DueDate,",
+				"          ShipDate,",
+				"          Status,",
+				"          OnlineOrderFlag,",
+				"          SalesOrderNumber,",
+				"          PurchaseOrderNumber,",
+				"          AccountNumber,",
+				"          CustomerID,",
+				"          SalesPersonID,",
+				"          TerritoryID,",
+				"          BillToAddressID,",
+				"          ShipToAddressID,",
+				"          ShipMethodID,",
+				"          CreditCardID,",
+				"          CreditCardApprovalCode,",
+				"          CurrencyRateID,",
+				"          SubTotal,",
+				"          TaxAmt,",
+				"          Freight,",
+				"          TotalDue,",
+				"          Comment,",
+				"          rowguid,",
+				"          ModifiedDate",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
 				"salesorderheader sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
