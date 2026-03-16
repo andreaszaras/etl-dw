@@ -151,13 +151,14 @@
 				},
 				"userProperties": [],
 				"linkedServiceName": {
-					"referenceName": "etl_dw_1",
+					"referenceName": "AzureSqlDatabase2",
 					"type": "LinkedServiceReference"
 				},
 				"typeProperties": {
 					"scripts": [
 						{
-							"type": "Query"
+							"type": "Query",
+							"text": "BEGIN\n\nIF OBJECT_ID('stg.salesorderheader', 'U') IS NOT NULL\n    DELETE FROM stg.salesorderheader;\n\nIF OBJECT_ID('stg.salesorderdetail', 'U') IS NOT NULL\n    DELETE FROM stg.salesorderdetail;\n\nIF OBJECT_ID('stg.customer', 'U') IS NOT NULL\n    DELETE FROM stg.customer;\n\nIF OBJECT_ID('stg.person', 'U') IS NOT NULL\n    DELETE FROM stg.person;\n\nIF OBJECT_ID('stg.product', 'U') IS NOT NULL\n    DELETE FROM stg.product;\n\nIF OBJECT_ID('stg.productsubcategory', 'U') IS NOT NULL\n    DELETE FROM stg.productsubcategory;\n\nIF OBJECT_ID('stg.productcategory', 'U') IS NOT NULL\n    DELETE FROM stg.productcategory;\n\nIF OBJECT_ID('stg.salesterritory', 'U') IS NOT NULL\n    DELETE FROM stg.salesterritory;\n\nIF OBJECT_ID('stg.store', 'U') IS NOT NULL\n    DELETE FROM stg.store;\n\nEND"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
