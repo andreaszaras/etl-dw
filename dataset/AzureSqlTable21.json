@@ -2,7 +2,7 @@
 	"name": "AzureSqlTable21",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSqlDatabase1",
+			"referenceName": "etl_dw_1",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "stream1"
+			"table": "stram1"
 		}
 	}
 }
