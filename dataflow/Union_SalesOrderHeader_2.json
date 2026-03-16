@@ -33,8 +33,20 @@
 					"name": "salesorderheader4"
 				}
 			],
-			"sinks": [],
-			"transformations": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable33",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "salesorderheader"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          SalesOrderID as string,",
@@ -159,7 +171,18 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> salesorderheader4"
+				"     ignoreNoFilesFound: false) ~> salesorderheader4",
+				"salesorderheader1, salesorderheader2, salesorderheader3, salesorderheader4 union(byName: true)~> salesorderheader",
+				"salesorderheader sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
