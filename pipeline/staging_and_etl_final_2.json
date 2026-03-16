@@ -7,7 +7,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Truncate_Stg_Schema",
+						"activity": "Script1",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -85,7 +85,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Truncate_Stg_Schema",
+						"activity": "Script1",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -139,7 +139,7 @@
 				]
 			},
 			{
-				"name": "Truncate_Stg_Schema",
+				"name": "Script1",
 				"type": "Script",
 				"dependsOn": [],
 				"policy": {
@@ -157,8 +157,7 @@
 				"typeProperties": {
 					"scripts": [
 						{
-							"type": "Query",
-							"text": "TRUNCATE TABLE stg.salesorderheader;\nTRUNCATE TABLE stg.salesorderdetail;\nTRUNCATE TABLE stg.customer;\nTRUNCATE TABLE stg.person;\nTRUNCATE TABLE stg.product;\nTRUNCATE TABLE stg.productsubcategory;\nTRUNCATE TABLE stg.productcategory;\nTRUNCATE TABLE stg.salesterritory;\nTRUNCATE TABLE stg.store;"
+							"type": "Query"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
