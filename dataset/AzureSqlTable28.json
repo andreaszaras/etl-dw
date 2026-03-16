@@ -2,7 +2,7 @@
 	"name": "AzureSqlTable28",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSqlDatabase1",
+			"referenceName": "etl_dw_1",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
