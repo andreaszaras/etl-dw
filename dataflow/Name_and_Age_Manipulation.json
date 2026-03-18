@@ -9,11 +9,15 @@
 						"referenceName": "AzureSqlTable34",
 						"type": "DatasetReference"
 					},
-					"name": "FirstName"
+					"name": "Person"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          BusinessEntityID as integer,",
@@ -32,7 +36,8 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> FirstName"
+				"     format: 'table') ~> Person",
+				"Person derive() ~> derivedColumn1"
 			]
 		}
 	}
