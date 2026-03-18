@@ -15,7 +15,13 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "derivedColumn1"
+					"name": "FirstName"
+				},
+				{
+					"name": "LastName"
+				},
+				{
+					"name": "MIddleName"
 				}
 			],
 			"scriptLines": [
@@ -37,7 +43,9 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> Person",
-				"Person derive() ~> derivedColumn1"
+				"Person derive(First_Name = toString(split(trim(FullName), ' ')[1])) ~> FirstName",
+				"FirstName derive(Last_Name = regexExtract(trim(toString(FullName)), '([^ ]+)$', 1)) ~> LastName",
+				"LastName derive(Middle_Name = iif(     size(split(trim(toString(FullName)), ' ')) > 2,     at(split(trim(toString(FullName)), ' '), 2),     '' )) ~> MIddleName"
 			]
 		}
 	}
