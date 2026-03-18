@@ -22,6 +22,9 @@
 				},
 				{
 					"name": "MIddleName"
+				},
+				{
+					"name": "AgeYears"
 				}
 			],
 			"scriptLines": [
@@ -45,7 +48,8 @@
 				"     format: 'table') ~> Person",
 				"Person derive(First_Name = toString(split(trim(FullName), ' ')[1])) ~> FirstName",
 				"FirstName derive(Last_Name = regexExtract(trim(toString(FullName)), '([^ ]+)$', 1)) ~> LastName",
-				"LastName derive(Middle_Name = iif(     size(split(trim(toString(FullName)), ' ')) > 2,     at(split(trim(toString(FullName)), ' '), 2),     '' )) ~> MIddleName"
+				"LastName derive(Middle_Name = iif(     size(split(trim(toString(FullName)), ' ')) > 2,     at(split(trim(toString(FullName)), ' '), 2),     '' )) ~> MIddleName",
+				"MIddleName derive(Age = toInteger(monthsBetween(currentDate(), DateOfBirth) / 12)) ~> AgeYears"
 			]
 		}
 	}
