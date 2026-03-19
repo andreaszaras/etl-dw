@@ -307,7 +307,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "TRUNCATE TABLE wrk.Person;\nTRUNCATE TABLE wrk.Customer;\nTRUNCATE TABLE wrk.Product;\nTRUNCATE TABLE wrk.SalesOrderHeader;\nTRUNCATE TABLE wrk.SalesOrderDetail;"
+							"text": "TRUNCATE TABLE wrk.productcategory;\nTRUNCATE TABLE wrk.Customer;\nTRUNCATE TABLE wrk.Productsubcategory;\nTRUNCATE TABLE wrk.SalesOrderHeader;\nTRUNCATE TABLE wrk.SalesOrderDetail;\nTRUNCATE TABLE wrk.store;\nTRUNCATE TABLE wrk.salesterritory;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
