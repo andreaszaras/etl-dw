@@ -3157,7 +3157,14 @@
 					{
 						"name": "Union_SalesOrderHeader_2",
 						"type": "ExecuteDataFlow",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "Stage_ProductSubCategory",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -3188,48 +3195,11 @@
 						}
 					},
 					{
-						"name": "Color_Transform",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "Name_and_Age_Manipulation",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "Color_Transform",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"ColorTransform": {},
-									"ProductNew": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
 						"name": "Name_and_Age_Manipulation",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
-								"activity": "truncate_wrk",
+								"activity": "Color_Transform",
 								"dependencyConditions": [
 									"Completed"
 								]
@@ -3266,7 +3236,7 @@
 						"type": "Script",
 						"dependsOn": [
 							{
-								"activity": "Stage_ProductSubCategory",
+								"activity": "Union_SalesOrderHeader_2",
 								"dependencyConditions": [
 									"Completed"
 								]
@@ -3299,7 +3269,7 @@
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "Color_Transform",
+								"activity": "Name_and_Age_Manipulation",
 								"dependencyConditions": [
 									"Completed"
 								]
@@ -3316,6 +3286,43 @@
 							},
 							"waitOnCompletion": true,
 							"parameters": {}
+						}
+					},
+					{
+						"name": "Color_Transform",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "truncate_wrk",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Color_Transform",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"ColorTransform": {},
+									"ProductNew": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
 						}
 					}
 				],
@@ -4397,10 +4404,10 @@
 				"[concat(variables('factoryId'), '/datasets/Stg_ProductSubCategory')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase3')]",
 				"[concat(variables('factoryId'), '/dataflows/Union_SalesOrderHeader_2')]",
-				"[concat(variables('factoryId'), '/dataflows/Color_Transform')]",
 				"[concat(variables('factoryId'), '/dataflows/Name_and_Age_Manipulation')]",
 				"[concat(variables('factoryId'), '/linkedServices/etl_dw_1')]",
 				"[concat(variables('factoryId'), '/pipelines/stg_to_wrk')]",
+				"[concat(variables('factoryId'), '/dataflows/Color_Transform')]",
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_rk6')]",
 				"[concat(variables('factoryId'), '/datasets/DestinationDataset_rk6')]"
 			]
