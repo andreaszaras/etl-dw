@@ -306,6 +306,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "stg_to_wrk",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			}
