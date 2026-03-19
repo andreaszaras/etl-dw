@@ -258,35 +258,6 @@
 				}
 			},
 			{
-				"name": "Execute Pipeline1",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "stg_to_wrk",
-						"dependencyConditions": [
-							"Completed"
-						]
-					}
-				],
-				"policy": {
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "STG_TO_WRK",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true,
-					"parameters": {
-						"cw_items": {
-							"value": "@pipeline().parameters.cw_items",
-							"type": "Expression"
-						}
-					}
-				}
-			},
-			{
 				"name": "stg_to_wrk",
 				"type": "Script",
 				"dependsOn": [
@@ -317,6 +288,25 @@
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "stg_wrk",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "stg_to_wrk",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"waitOnCompletion": true
 				}
 			}
 		],
