@@ -8,26 +8,20 @@
 		"AzureBlobStorage1_connectionString": {
 			"value": ""
 		},
-		"AzureSqlDatabase1_password": {
-			"value": ""
-		},
 		"AzureSqlDatabase2_password": {
 			"value": ""
 		},
-		"ETL_DW_password": {
+		"AzureSqlDatabase3_password": {
+			"value": ""
+		},
+		"AzureSqlDatabase4_password": {
+			"value": ""
+		},
+		"AzureSqlDatabase5_password": {
 			"value": ""
 		},
 		"etl_dw_1_password": {
 			"value": ""
-		},
-		"AzureSqlDatabase1_properties_typeProperties_server": {
-			"value": "etl-dw.database.windows.net"
-		},
-		"AzureSqlDatabase1_properties_typeProperties_database": {
-			"value": "AW_OLTP"
-		},
-		"AzureSqlDatabase1_properties_typeProperties_userName": {
-			"value": "etl-dw"
 		},
 		"AzureSqlDatabase2_properties_typeProperties_server": {
 			"value": "etl-dw.database.windows.net"
@@ -38,13 +32,31 @@
 		"AzureSqlDatabase2_properties_typeProperties_userName": {
 			"value": "etl-dw"
 		},
-		"ETL_DW_properties_typeProperties_server": {
+		"AzureSqlDatabase3_properties_typeProperties_server": {
 			"value": "etl-dw.database.windows.net"
 		},
-		"ETL_DW_properties_typeProperties_database": {
-			"value": "AW"
+		"AzureSqlDatabase3_properties_typeProperties_database": {
+			"value": "AW_OLTP_Final"
 		},
-		"ETL_DW_properties_typeProperties_userName": {
+		"AzureSqlDatabase3_properties_typeProperties_userName": {
+			"value": "etl-dw"
+		},
+		"AzureSqlDatabase4_properties_typeProperties_server": {
+			"value": "etl-dw.database.windows.net"
+		},
+		"AzureSqlDatabase4_properties_typeProperties_database": {
+			"value": "AW_OLTP_Final"
+		},
+		"AzureSqlDatabase4_properties_typeProperties_userName": {
+			"value": "etl-dw"
+		},
+		"AzureSqlDatabase5_properties_typeProperties_server": {
+			"value": "etl-dw.database.windows.net"
+		},
+		"AzureSqlDatabase5_properties_typeProperties_database": {
+			"value": "AW_OLTP_Final"
+		},
+		"AzureSqlDatabase5_properties_typeProperties_userName": {
 			"value": "etl-dw"
 		},
 		"etl_dw_1_properties_typeProperties_server": {
