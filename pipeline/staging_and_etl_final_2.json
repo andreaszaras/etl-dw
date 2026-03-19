@@ -256,6 +256,29 @@
 					},
 					"traceLevel": "Fine"
 				}
+			},
+			{
+				"name": "stg_to_wrk_execute",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Name_and_Age_Manipulation",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "stg_to_wrk",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
 			}
 		],
 		"parameters": {
