@@ -85,7 +85,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Truncate_Tables",
+						"activity": "DataBase_Staging",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -167,14 +167,7 @@
 			{
 				"name": "Union_SalesOrderHeader_2",
 				"type": "ExecuteDataFlow",
-				"dependsOn": [
-					{
-						"activity": "Truncate_Tables",
-						"dependencyConditions": [
-							"Completed"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -200,7 +193,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "DataBase_Staging",
+						"activity": "Name_and_Age_Manipulation",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -231,7 +224,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "DataBase_Staging",
+						"activity": "truncate_wrk",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -258,11 +251,11 @@
 				}
 			},
 			{
-				"name": "stg_to_wrk",
+				"name": "truncate_wrk",
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Name_and_Age_Manipulation",
+						"activity": "Stage_ProductSubCategory",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -295,7 +288,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "stg_to_wrk",
+						"activity": "Color_Transform",
 						"dependencyConditions": [
 							"Completed"
 						]
