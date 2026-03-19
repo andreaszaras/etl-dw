@@ -262,7 +262,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "stg_to_wrk",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -277,11 +277,17 @@
 						"referenceName": "STG_TO_WRK",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": true,
+					"parameters": {
+						"cw_items": {
+							"value": "@pipeline().parameters.cw_items",
+							"type": "Expression"
+						}
+					}
 				}
 			},
 			{
-				"name": "Script1",
+				"name": "stg_to_wrk",
 				"type": "Script",
 				"dependsOn": [
 					{
