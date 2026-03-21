@@ -260,29 +260,6 @@
 				}
 			},
 			{
-				"name": "stg_wrk",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "Name_and_Age_Manipulation",
-						"dependencyConditions": [
-							"Completed"
-						]
-					}
-				],
-				"policy": {
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "stg_to_wrk",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
-			},
-			{
 				"name": "Color_Transform",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
@@ -311,6 +288,32 @@
 						"computeType": "General"
 					},
 					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "stg_to_wrk",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Name_and_Age_Manipulation",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "stg_to_wrk",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"cw_items": "@pipeline().parameters.cw_items"
+					}
 				}
 			}
 		],
