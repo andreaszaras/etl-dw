@@ -253,7 +253,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "TRUNCATE TABLE wrk.productcategory;\nTRUNCATE TABLE wrk.Customer;\nTRUNCATE TABLE wrk.Productsubcategory;\nTRUNCATE TABLE wrk.SalesOrderHeader;\nTRUNCATE TABLE wrk.SalesOrderDetail;\nTRUNCATE TABLE wrk.store;\nTRUNCATE TABLE wrk.salesterritory;"
+							"text": "TRUNCATE TABLE wrk.productcategory;\nTRUNCATE TABLE wrk.Customer;\nTRUNCATE TABLE wrk.Productsubcategory;\nTRUNCATE TABLE wrk.SalesOrderHeader;\nTRUNCATE TABLE wrk.SalesOrderDetail;\nTRUNCATE TABLE wrk.store;\nTRUNCATE TABLE wrk.salesterritory;\nTRUNCATE TABLE wrk.Person;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -317,6 +317,32 @@
 							"type": "Expression"
 						}
 					}
+				}
+			},
+			{
+				"name": "DimCustomer",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "TRUNCATE TABLE dw.DimCustomer;\n\nINSERT INTO dw.DimCustomer (\nCustomerID,\nFirst_Name,\nLast_Name,\nMiddle_Name,\nAge,\nAccountNumber\n)\nSELECT \nc.CustomerID,\np.First_Name,\np.Last_Name,\np.Middle_Name,\np.Age,\nc.AccountNumber\nFROM wrk.Customer c\nLEFT JOIN wrk.Person p \nON c.PersonID = p.PersonID;\n\n\n"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
