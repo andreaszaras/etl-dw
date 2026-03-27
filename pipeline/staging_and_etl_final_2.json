@@ -372,7 +372,10 @@
 						"referenceName": "stg_to_wrk_fa",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": true,
+					"parameters": {
+						"cw_items": "@pipeline().parameters.cw_items"
+					}
 				}
 			},
 			{
