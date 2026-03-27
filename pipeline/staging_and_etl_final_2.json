@@ -118,6 +118,68 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "ProductSubcategoryID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ProductSubcategoryID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ProductCategoryID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ProductCategoryID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Name",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "rowguid",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "rowguid",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ModifiedDate",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ModifiedDate",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
@@ -253,7 +315,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "TRUNCATE TABLE wrk.productcategory;\nTRUNCATE TABLE wrk.Customer;\nTRUNCATE TABLE wrk.Productsubcategory;\nTRUNCATE TABLE wrk.SalesOrderHeader;\nTRUNCATE TABLE wrk.SalesOrderDetail;\nTRUNCATE TABLE wrk.store;\nTRUNCATE TABLE wrk.salesterritory;\nTRUNCATE TABLE wrk.Person;"
+							"text": "IF EXISTS (SELECT 1 FROM wrk.ProductCategory)\n    TRUNCATE TABLE wrk.ProductCategory;\n\nIF EXISTS (SELECT 1 FROM wrk.Customer)\n    TRUNCATE TABLE wrk.Customer;\n\nIF EXISTS (SELECT 1 FROM wrk.ProductSubcategory)\n    TRUNCATE TABLE wrk.ProductSubcategory;\n\nIF EXISTS (SELECT 1 FROM wrk.SalesOrderHeader)\n    TRUNCATE TABLE wrk.SalesOrderHeader;\n\nIF EXISTS (SELECT 1 FROM wrk.SalesOrderDetail)\n    TRUNCATE TABLE wrk.SalesOrderDetail;\n\nIF EXISTS (SELECT 1 FROM wrk.Store)\n    TRUNCATE TABLE wrk.Store;\n\nIF EXISTS (SELECT 1 FROM wrk.SalesTerritory)\n    TRUNCATE TABLE wrk.SalesTerritory;\n\nIF EXISTS (SELECT 1 FROM wrk.Person)\n    TRUNCATE TABLE wrk.Person;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -317,6 +379,72 @@
 							"type": "Expression"
 						}
 					}
+				}
+			},
+			{
+				"name": "DimCustomer",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Name_and_Age_Manipulation",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "TRUNCATE TABLE dw.DimCustomer;\n\nINSERT INTO dw.DimCustomer (\n    CustomerID,\n    CustomerType,\n    FirstName,\n    LastName,\n    MiddleName,\n    Age\n)\nSELECT \n    c.CustomerID,\n    CASE \n        WHEN c.PersonID IS NOT NULL THEN 'Person'\n        WHEN c.StoreID IS NOT NULL THEN 'Store'\n        ELSE 'Unknown'\n    END AS CustomerType,\n    p.First_Name,\n    p.Last_Name,\n    p.Middle_Name,\n    p.Age\nFROM wrk.Customer c\nLEFT JOIN wrk.Person p\n    ON c.PersonID = p.BusinessEntityID;\n"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "DimDate",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Name_and_Age_Manipulation",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "TRUNCATE TABLE dw.DimDate;\n\nWITH DateCTE AS (\nSELECT CAST('2010-01-01' AS DATE) AS TheDate\nUNION ALL\nSELECT DATEADD(DAY, 1, TheDate)\nFROM DateCTE\nWHERE TheDate < '2030-12-31'\n)\nINSERT INTO dw.DimDate (\nDateKey,\nFullDate,\nDayNumberOfMonth,\nMonthNumber,\nMonthName,\nQuarterNumber,\nYearNumber\n)\nSELECT\nCAST(FORMAT(TheDate, 'yyyyMMdd') AS INT),\nTheDate,\nDAY(TheDate),\nMONTH(TheDate),\nDATENAME(MONTH, TheDate),\nDATEPART(QUARTER, TheDate),\nYEAR(TheDate)\nFROM DateCTE\nOPTION (MAXRECURSION 0);\n\n\n\n"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
