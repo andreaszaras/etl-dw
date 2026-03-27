@@ -75,7 +75,7 @@
 		],
 		"parameters": {
 			"cw_items": {
-				"type": "Array",
+				"type": "array",
 				"defaultValue": [
 					{
 						"source": {
@@ -90,94 +90,61 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "CustomerID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "CustomerID"
 										},
 										"sink": {
-											"name": "CustomerID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "CustomerID"
 										}
 									},
 									{
 										"source": {
-											"name": "PersonID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "PersonID"
 										},
 										"sink": {
-											"name": "PersonID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "PersonID"
 										}
 									},
 									{
 										"source": {
-											"name": "StoreID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "StoreID"
 										},
 										"sink": {
-											"name": "StoreID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "StoreID"
 										}
 									},
 									{
 										"source": {
-											"name": "TerritoryID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "TerritoryID"
 										},
 										"sink": {
-											"name": "TerritoryID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "TerritoryID"
 										}
 									},
 									{
 										"source": {
-											"name": "AccountNumber",
-											"type": "String",
-											"physicalType": "varchar"
+											"name": "AccountNumber"
 										},
 										"sink": {
-											"name": "AccountNumber",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "AccountNumber"
 										}
 									},
 									{
 										"source": {
-											"name": "rowguid",
-											"type": "Guid",
-											"physicalType": "uniqueidentifier"
+											"name": "rowguid"
 										},
 										"sink": {
-											"name": "rowguid",
-											"type": "Guid",
-											"physicalType": "uniqueidentifier"
+											"name": "rowguid"
 										}
 									},
 									{
 										"source": {
-											"name": "ModifiedDate",
-											"type": "DateTime",
-											"physicalType": "datetime"
+											"name": "ModifiedDate"
 										},
 										"sink": {
-											"name": "ModifiedDate",
-											"type": "DateTime",
-											"physicalType": "datetime2"
+											"name": "ModifiedDate"
 										}
 									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
+								]
 							}
 						}
 					},
@@ -194,67 +161,46 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "ProductCategoryID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "ProductCategoryID"
 										},
 										"sink": {
-											"name": "ProductCategoryID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "ProductCategoryID"
 										}
 									},
 									{
 										"source": {
-											"name": "Name",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Name"
 										},
 										"sink": {
-											"name": "Name",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Name"
 										}
 									},
 									{
 										"source": {
-											"name": "rowguid",
-											"type": "Guid",
-											"physicalType": "uniqueidentifier"
+											"name": "rowguid"
 										},
 										"sink": {
-											"name": "rowguid",
-											"type": "Guid",
-											"physicalType": "uniqueidentifier"
+											"name": "rowguid"
 										}
 									},
 									{
 										"source": {
-											"name": "ModifiedDate",
-											"type": "DateTime",
-											"physicalType": "datetime"
+											"name": "ModifiedDate"
 										},
 										"sink": {
-											"name": "ModifiedDate",
-											"type": "DateTime",
-											"physicalType": "datetime2"
+											"name": "ModifiedDate"
 										}
 									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
+								]
 							}
 						}
 					},
 					{
 						"source": {
-							"table": "productsubcategory"
+							"table": "ProductSubcategory"
 						},
 						"destination": {
-							"table": "productsubcategory"
+							"table": "ProductSubcategory"
 						},
 						"copyActivity": {
 							"translator": {
@@ -262,70 +208,45 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "ProductSubcategoryID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ProductSubcategoryID"
 										},
 										"sink": {
-											"name": "ProductSubcategoryID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ProductSubcategoryID"
 										}
 									},
 									{
 										"source": {
-											"name": "ProductCategoryID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ProductCategoryID"
 										},
 										"sink": {
-											"name": "ProductCategoryID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ProductCategoryID"
 										}
 									},
 									{
 										"source": {
-											"name": "Name",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Name"
 										},
 										"sink": {
-											"name": "Name",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Name"
 										}
 									},
 									{
 										"source": {
-											"name": "rowguid",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "rowguid"
 										},
 										"sink": {
-											"name": "rowguid",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "rowguid"
 										}
 									},
 									{
 										"source": {
-											"name": "ModifiedDate",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ModifiedDate"
 										},
 										"sink": {
-											"name": "ModifiedDate",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ModifiedDate"
 										}
 									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
+								]
 							}
 						}
 					},
@@ -342,157 +263,102 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "SalesOrderID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "SalesOrderID"
 										},
 										"sink": {
-											"name": "SalesOrderID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "SalesOrderID"
 										}
 									},
 									{
 										"source": {
-											"name": "SalesOrderDetailID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "SalesOrderDetailID"
 										},
 										"sink": {
-											"name": "SalesOrderDetailID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "SalesOrderDetailID"
 										}
 									},
 									{
 										"source": {
-											"name": "CarrierTrackingNumber",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "CarrierTrackingNumber"
 										},
 										"sink": {
-											"name": "CarrierTrackingNumber",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "CarrierTrackingNumber"
 										}
 									},
 									{
 										"source": {
-											"name": "OrderQty",
-											"type": "Int16",
-											"physicalType": "smallint"
+											"name": "OrderQty"
 										},
 										"sink": {
-											"name": "OrderQty",
-											"type": "Int16",
-											"physicalType": "smallint"
+											"name": "OrderQty"
 										}
 									},
 									{
 										"source": {
-											"name": "ProductID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "ProductID"
 										},
 										"sink": {
-											"name": "ProductID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "ProductID"
 										}
 									},
 									{
 										"source": {
-											"name": "SpecialOfferID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "SpecialOfferID"
 										},
 										"sink": {
-											"name": "SpecialOfferID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "SpecialOfferID"
 										}
 									},
 									{
 										"source": {
-											"name": "UnitPrice",
-											"type": "Decimal",
-											"physicalType": "money",
-											"scale": 4,
-											"precision": 19
+											"name": "UnitPrice"
 										},
 										"sink": {
-											"name": "UnitPrice",
-											"type": "Decimal",
-											"physicalType": "decimal"
+											"name": "UnitPrice"
 										}
 									},
 									{
 										"source": {
-											"name": "UnitPriceDiscount",
-											"type": "Decimal",
-											"physicalType": "money",
-											"scale": 4,
-											"precision": 19
+											"name": "UnitPriceDiscount"
 										},
 										"sink": {
-											"name": "UnitPriceDiscount",
-											"type": "Decimal",
-											"physicalType": "decimal"
+											"name": "UnitPriceDiscount"
 										}
 									},
 									{
 										"source": {
-											"name": "LineTotal",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 6,
-											"precision": 38
+											"name": "LineTotal"
 										},
 										"sink": {
-											"name": "LineTotal",
-											"type": "Decimal",
-											"physicalType": "decimal"
+											"name": "LineTotal"
 										}
 									},
 									{
 										"source": {
-											"name": "rowguid",
-											"type": "Guid",
-											"physicalType": "uniqueidentifier"
+											"name": "rowguid"
 										},
 										"sink": {
-											"name": "rowguid",
-											"type": "Guid",
-											"physicalType": "uniqueidentifier"
+											"name": "rowguid"
 										}
 									},
 									{
 										"source": {
-											"name": "ModifiedDate",
-											"type": "DateTime",
-											"physicalType": "datetime"
+											"name": "ModifiedDate"
 										},
 										"sink": {
-											"name": "ModifiedDate",
-											"type": "DateTime",
-											"physicalType": "datetime2"
+											"name": "ModifiedDate"
 										}
 									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
+								]
 							}
 						}
 					},
 					{
 						"source": {
-							"table": "salesorderheader"
+							"table": "SalesOrderHeader"
 						},
 						"destination": {
-							"table": "salesorderheader"
+							"table": "SalesOrderHeader"
 						},
 						"copyActivity": {
 							"translator": {
@@ -500,322 +366,213 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "SalesOrderID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "SalesOrderID"
 										},
 										"sink": {
-											"name": "SalesOrderID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "SalesOrderID"
 										}
 									},
 									{
 										"source": {
-											"name": "RevisionNumber",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "RevisionNumber"
 										},
 										"sink": {
-											"name": "RevisionNumber",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "RevisionNumber"
 										}
 									},
 									{
 										"source": {
-											"name": "OrderDate",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "OrderDate"
 										},
 										"sink": {
-											"name": "OrderDate",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "OrderDate"
 										}
 									},
 									{
 										"source": {
-											"name": "DueDate",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "DueDate"
 										},
 										"sink": {
-											"name": "DueDate",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "DueDate"
 										}
 									},
 									{
 										"source": {
-											"name": "ShipDate",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ShipDate"
 										},
 										"sink": {
-											"name": "ShipDate",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ShipDate"
 										}
 									},
 									{
 										"source": {
-											"name": "Status",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Status"
 										},
 										"sink": {
-											"name": "Status",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Status"
 										}
 									},
 									{
 										"source": {
-											"name": "OnlineOrderFlag",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "OnlineOrderFlag"
 										},
 										"sink": {
-											"name": "OnlineOrderFlag",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "OnlineOrderFlag"
 										}
 									},
 									{
 										"source": {
-											"name": "SalesOrderNumber",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "SalesOrderNumber"
 										},
 										"sink": {
-											"name": "SalesOrderNumber",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "SalesOrderNumber"
 										}
 									},
 									{
 										"source": {
-											"name": "PurchaseOrderNumber",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "PurchaseOrderNumber"
 										},
 										"sink": {
-											"name": "PurchaseOrderNumber",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "PurchaseOrderNumber"
 										}
 									},
 									{
 										"source": {
-											"name": "AccountNumber",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "AccountNumber"
 										},
 										"sink": {
-											"name": "AccountNumber",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "AccountNumber"
 										}
 									},
 									{
 										"source": {
-											"name": "CustomerID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "CustomerID"
 										},
 										"sink": {
-											"name": "CustomerID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "CustomerID"
 										}
 									},
 									{
 										"source": {
-											"name": "SalesPersonID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "SalesPersonID"
 										},
 										"sink": {
-											"name": "SalesPersonID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "SalesPersonID"
 										}
 									},
 									{
 										"source": {
-											"name": "TerritoryID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "TerritoryID"
 										},
 										"sink": {
-											"name": "TerritoryID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "TerritoryID"
 										}
 									},
 									{
 										"source": {
-											"name": "BillToAddressID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "BillToAddressID"
 										},
 										"sink": {
-											"name": "BillToAddressID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "BillToAddressID"
 										}
 									},
 									{
 										"source": {
-											"name": "ShipToAddressID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ShipToAddressID"
 										},
 										"sink": {
-											"name": "ShipToAddressID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ShipToAddressID"
 										}
 									},
 									{
 										"source": {
-											"name": "ShipMethodID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ShipMethodID"
 										},
 										"sink": {
-											"name": "ShipMethodID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ShipMethodID"
 										}
 									},
 									{
 										"source": {
-											"name": "CreditCardID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "CreditCardID"
 										},
 										"sink": {
-											"name": "CreditCardID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "CreditCardID"
 										}
 									},
 									{
 										"source": {
-											"name": "CreditCardApprovalCode",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "CreditCardApprovalCode"
 										},
 										"sink": {
-											"name": "CreditCardApprovalCode",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "CreditCardApprovalCode"
 										}
 									},
 									{
 										"source": {
-											"name": "CurrencyRateID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "CurrencyRateID"
 										},
 										"sink": {
-											"name": "CurrencyRateID",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "CurrencyRateID"
 										}
 									},
 									{
 										"source": {
-											"name": "SubTotal",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "SubTotal"
 										},
 										"sink": {
-											"name": "SubTotal",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "SubTotal"
 										}
 									},
 									{
 										"source": {
-											"name": "TaxAmt",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "TaxAmt"
 										},
 										"sink": {
-											"name": "TaxAmt",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "TaxAmt"
 										}
 									},
 									{
 										"source": {
-											"name": "Freight",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Freight"
 										},
 										"sink": {
-											"name": "Freight",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Freight"
 										}
 									},
 									{
 										"source": {
-											"name": "TotalDue",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "TotalDue"
 										},
 										"sink": {
-											"name": "TotalDue",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "TotalDue"
 										}
 									},
 									{
 										"source": {
-											"name": "Comment",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Comment"
 										},
 										"sink": {
-											"name": "Comment",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Comment"
 										}
 									},
 									{
 										"source": {
-											"name": "rowguid",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "rowguid"
 										},
 										"sink": {
-											"name": "rowguid",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "rowguid"
 										}
 									},
 									{
 										"source": {
-											"name": "ModifiedDate",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ModifiedDate"
 										},
 										"sink": {
-											"name": "ModifiedDate",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "ModifiedDate"
 										}
 									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
+								]
 							}
 						}
 					},
@@ -832,138 +589,85 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "TerritoryID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "TerritoryID"
 										},
 										"sink": {
-											"name": "TerritoryID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "TerritoryID"
 										}
 									},
 									{
 										"source": {
-											"name": "Name",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Name"
 										},
 										"sink": {
-											"name": "Name",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Name"
 										}
 									},
 									{
 										"source": {
-											"name": "CountryRegionCode",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "CountryRegionCode"
 										},
 										"sink": {
-											"name": "CountryRegionCode",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "CountryRegionCode"
 										}
 									},
 									{
 										"source": {
-											"name": "Group",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Group"
 										},
 										"sink": {
-											"name": "Group",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Group"
 										}
 									},
 									{
 										"source": {
-											"name": "SalesYTD",
-											"type": "Decimal",
-											"physicalType": "money",
-											"scale": 4,
-											"precision": 19
+											"name": "SalesYTD"
 										},
 										"sink": {
-											"name": "SalesYTD",
-											"type": "Decimal",
-											"physicalType": "decimal"
+											"name": "SalesYTD"
 										}
 									},
 									{
 										"source": {
-											"name": "SalesLastYear",
-											"type": "Decimal",
-											"physicalType": "money",
-											"scale": 4,
-											"precision": 19
+											"name": "SalesLastYear"
 										},
 										"sink": {
-											"name": "SalesLastYear",
-											"type": "Decimal",
-											"physicalType": "decimal"
+											"name": "SalesLastYear"
 										}
 									},
 									{
 										"source": {
-											"name": "CostYTD",
-											"type": "Decimal",
-											"physicalType": "money",
-											"scale": 4,
-											"precision": 19
+											"name": "CostYTD"
 										},
 										"sink": {
-											"name": "CostYTD",
-											"type": "Decimal",
-											"physicalType": "decimal"
+											"name": "CostYTD"
 										}
 									},
 									{
 										"source": {
-											"name": "CostLastYear",
-											"type": "Decimal",
-											"physicalType": "money",
-											"scale": 4,
-											"precision": 19
+											"name": "CostLastYear"
 										},
 										"sink": {
-											"name": "CostLastYear",
-											"type": "Decimal",
-											"physicalType": "decimal"
+											"name": "CostLastYear"
 										}
 									},
 									{
 										"source": {
-											"name": "rowguid",
-											"type": "Guid",
-											"physicalType": "uniqueidentifier"
+											"name": "rowguid"
 										},
 										"sink": {
-											"name": "rowguid",
-											"type": "Guid",
-											"physicalType": "uniqueidentifier"
+											"name": "rowguid"
 										}
 									},
 									{
 										"source": {
-											"name": "ModifiedDate",
-											"type": "DateTime",
-											"physicalType": "datetime"
+											"name": "ModifiedDate"
 										},
 										"sink": {
-											"name": "ModifiedDate",
-											"type": "DateTime",
-											"physicalType": "datetime2"
+											"name": "ModifiedDate"
 										}
 									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
+								]
 							}
 						}
 					},
@@ -980,82 +684,53 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "BusinessEntityID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "BusinessEntityID"
 										},
 										"sink": {
-											"name": "BusinessEntityID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "BusinessEntityID"
 										}
 									},
 									{
 										"source": {
-											"name": "Name",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Name"
 										},
 										"sink": {
-											"name": "Name",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Name"
 										}
 									},
 									{
 										"source": {
-											"name": "SalesPersonID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "SalesPersonID"
 										},
 										"sink": {
-											"name": "SalesPersonID",
-											"type": "Int32",
-											"physicalType": "int"
+											"name": "SalesPersonID"
 										}
 									},
 									{
 										"source": {
-											"name": "Demographics",
-											"type": "String",
-											"physicalType": "xml"
+											"name": "Demographics"
 										},
 										"sink": {
-											"name": "Demographics",
-											"type": "String",
-											"physicalType": "nvarchar"
+											"name": "Demographics"
 										}
 									},
 									{
 										"source": {
-											"name": "rowguid",
-											"type": "Guid",
-											"physicalType": "uniqueidentifier"
+											"name": "rowguid"
 										},
 										"sink": {
-											"name": "rowguid",
-											"type": "Guid",
-											"physicalType": "uniqueidentifier"
+											"name": "rowguid"
 										}
 									},
 									{
 										"source": {
-											"name": "ModifiedDate",
-											"type": "DateTime",
-											"physicalType": "datetime"
+											"name": "ModifiedDate"
 										},
 										"sink": {
-											"name": "ModifiedDate",
-											"type": "DateTime",
-											"physicalType": "datetime2"
+											"name": "ModifiedDate"
 										}
 									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
+								]
 							}
 						}
 					}
