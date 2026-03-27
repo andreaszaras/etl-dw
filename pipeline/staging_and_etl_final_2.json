@@ -264,7 +264,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "stg_to_wrk",
+						"activity": "truncate_wrk",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -295,7 +295,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "truncate_wrk",
+						"activity": "Name_and_Age_Manipulation",
 						"dependencyConditions": [
 							"Completed"
 						]
