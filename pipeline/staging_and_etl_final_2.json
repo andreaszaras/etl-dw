@@ -369,13 +369,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "stg_to_wrk_f",
+						"referenceName": "stg_to_wrk_fa",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true,
-					"parameters": {
-						"cw_items": "@pipeline().parameters.cw_items"
-					}
+					"waitOnCompletion": true
 				}
 			},
 			{
