@@ -315,7 +315,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "IF EXISTS (SELECT 1 FROM wrk.ProductCategory)\n    TRUNCATE TABLE wrk.ProductCategory;\n\nIF EXISTS (SELECT 1 FROM wrk.Customer)\n    TRUNCATE TABLE wrk.Customer;\n\nIF EXISTS (SELECT 1 FROM wrk.ProductSubcategory)\n    TRUNCATE TABLE wrk.ProductSubcategory;\n\nIF EXISTS (SELECT 1 FROM wrk.SalesOrderHeader)\n    TRUNCATE TABLE wrk.SalesOrderHeader;\n\nIF EXISTS (SELECT 1 FROM wrk.SalesOrderDetail)\n    TRUNCATE TABLE wrk.SalesOrderDetail;\n\nIF EXISTS (SELECT 1 FROM wrk.Store)\n    TRUNCATE TABLE wrk.Store;\n\nIF EXISTS (SELECT 1 FROM wrk.SalesTerritory)\n    TRUNCATE TABLE wrk.SalesTerritory;\n\nIF EXISTS (SELECT 1 FROM wrk.Person)\n    TRUNCATE TABLE wrk.Person;"
+							"text": "IF OBJECT_ID('wrk.ProductCategory', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.ProductCategory;\n\nIF OBJECT_ID('wrk.Customer', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.Customer;\n\nIF OBJECT_ID('wrk.ProductSubcategory', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.ProductSubcategory;\n\nIF OBJECT_ID('wrk.SalesOrderHeader', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.SalesOrderHeader;\n\nIF OBJECT_ID('wrk.SalesOrderDetail', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.SalesOrderDetail;\n\nIF OBJECT_ID('wrk.Store', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.Store;\n\nIF OBJECT_ID('wrk.SalesTerritory', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.SalesTerritory;\n\nIF OBJECT_ID('wrk.Person', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.Person;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
