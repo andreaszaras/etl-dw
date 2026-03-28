@@ -13,6 +13,202 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_xjg')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "wrk",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Excel1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "ProductSubcategory",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "productsubcategory.xlsx",
+						"container": "etldw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Excel2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Sheet1",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "salesorderheader_part_1.xlsx",
+						"container": "etldw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "String"
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "String"
+					},
+					{
+						"name": "OrderDate",
+						"type": "String"
+					},
+					{
+						"name": "DueDate",
+						"type": "String"
+					},
+					{
+						"name": "ShipDate",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "String"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "String"
+					},
+					{
+						"name": "CustomerID",
+						"type": "String"
+					},
+					{
+						"name": "SalesPersonID",
+						"type": "String"
+					},
+					{
+						"name": "TerritoryID",
+						"type": "String"
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipMethodID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "String"
+					},
+					{
+						"name": "CurrencyRateID",
+						"type": "String"
+					},
+					{
+						"name": "SubTotal",
+						"type": "String"
+					},
+					{
+						"name": "TaxAmt",
+						"type": "String"
+					},
+					{
+						"name": "Freight",
+						"type": "String"
+					},
+					{
+						"name": "TotalDue",
+						"type": "String"
+					},
+					{
+						"name": "Comment",
+						"type": "String"
+					},
+					{
+						"name": "rowguid",
+						"type": "String"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Excel3')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -409,6 +605,53 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ProductSubcategory')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "productsubcategory.csv",
+						"container": "etldw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ProductSubcategoryID",
+						"type": "String"
+					},
+					{
+						"name": "ProductCategoryID",
+						"type": "String"
+					},
+					{
+						"name": "Name",
+						"type": "String"
+					},
+					{
+						"name": "rowguid",
+						"type": "String"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SourceDataset_0hr')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -524,6 +767,33 @@
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SourceDataset_fox')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "stg",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_lui')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -687,253 +957,6 @@
 						"type": "Expression"
 					}
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceDataset_svt')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "etl_dw_1",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"cw_table": {
-						"type": "String"
-					}
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "SalesLT",
-					"table": {
-						"value": "@dataset().cw_table",
-						"type": "Expression"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceDataset_xgn')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "etl_dw_1",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"cw_table": {
-						"type": "String"
-					}
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "stg",
-					"table": "Address"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceDataset_xjg')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "etl_dw_1",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"cw_table": {
-						"type": "String"
-					}
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "stg",
-					"table": {
-						"value": "@dataset().cw_table",
-						"type": "Expression"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Stg_ProductSubCategory')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "etl_dw_1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Prop_0",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Prop_1",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Prop_2",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Prop_3",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Prop_4",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "stg",
-					"table": "ProductSubCategory"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/soh1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Excel",
-				"typeProperties": {
-					"sheetName": "Sheet1",
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "salesorderheader_part_1.xlsx",
-						"container": "etldw"
-					},
-					"firstRowAsHeader": true
-				},
-				"schema": [
-					{
-						"name": "SalesOrderID",
-						"type": "String"
-					},
-					{
-						"name": "RevisionNumber",
-						"type": "String"
-					},
-					{
-						"name": "OrderDate",
-						"type": "String"
-					},
-					{
-						"name": "DueDate",
-						"type": "String"
-					},
-					{
-						"name": "ShipDate",
-						"type": "String"
-					},
-					{
-						"name": "Status",
-						"type": "String"
-					},
-					{
-						"name": "OnlineOrderFlag",
-						"type": "String"
-					},
-					{
-						"name": "SalesOrderNumber",
-						"type": "String"
-					},
-					{
-						"name": "PurchaseOrderNumber",
-						"type": "String"
-					},
-					{
-						"name": "AccountNumber",
-						"type": "String"
-					},
-					{
-						"name": "CustomerID",
-						"type": "String"
-					},
-					{
-						"name": "SalesPersonID",
-						"type": "String"
-					},
-					{
-						"name": "TerritoryID",
-						"type": "String"
-					},
-					{
-						"name": "BillToAddressID",
-						"type": "String"
-					},
-					{
-						"name": "ShipToAddressID",
-						"type": "String"
-					},
-					{
-						"name": "ShipMethodID",
-						"type": "String"
-					},
-					{
-						"name": "CreditCardID",
-						"type": "String"
-					},
-					{
-						"name": "CreditCardApprovalCode",
-						"type": "String"
-					},
-					{
-						"name": "CurrencyRateID",
-						"type": "String"
-					},
-					{
-						"name": "SubTotal",
-						"type": "String"
-					},
-					{
-						"name": "TaxAmt",
-						"type": "String"
-					},
-					{
-						"name": "Freight",
-						"type": "String"
-					},
-					{
-						"name": "TotalDue",
-						"type": "String"
-					},
-					{
-						"name": "Comment",
-						"type": "String"
-					},
-					{
-						"name": "rowguid",
-						"type": "String"
-					},
-					{
-						"name": "ModifiedDate",
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": []
 		}

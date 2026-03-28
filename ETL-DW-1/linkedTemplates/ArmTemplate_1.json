@@ -327,234 +327,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable33')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "etl_dw_1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "SalesOrderID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RevisionNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "OrderDate",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DueDate",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ShipDate",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Status",
-						"type": "nvarchar"
-					},
-					{
-						"name": "OnlineOrderFlag",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SalesOrderNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PurchaseOrderNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AccountNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CustomerID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SalesPersonID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TerritoryID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BillToAddressID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ShipToAddressID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ShipMethodID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CreditCardID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CreditCardApprovalCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CurrencyRateID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SubTotal",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TaxAmt",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Freight",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TotalDue",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Comment",
-						"type": "nvarchar"
-					},
-					{
-						"name": "rowguid",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ModifiedDate",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_1",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_2",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_3",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_4",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_5",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_6",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_7",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_8",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_9",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_10",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_11",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_12",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_13",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_14",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_15",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_16",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_17",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_18",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_19",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_20",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_21",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_22",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_23",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_24",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_25",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Column_26",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "stg",
-					"table": "SalesOrderHeader"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTable34')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -971,6 +743,277 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable40')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OrderDate",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DueDate",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ShipDate",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Status",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CustomerID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SalesPersonID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TerritoryID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ShipMethodID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CreditCardID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CurrencyRateID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SubTotal",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TaxAmt",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Freight",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TotalDue",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Comment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
+					"table": "SalesOrderHeader"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable41')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "OrderDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "DueDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "ShipDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "Status",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "bit"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SalesPersonID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "TerritoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ShipMethodID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CreditCardID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CurrencyRateID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SubTotal",
+						"type": "decimal",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TaxAmt",
+						"type": "decimal",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Freight",
+						"type": "decimal",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TotalDue",
+						"type": "decimal",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Comment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
+					"table": "SalesOrderHeader"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTable5')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1241,65 +1284,6 @@
 				"typeProperties": {
 					"schema": "SalesLT",
 					"table": "Customer"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable8')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "etl_dw_1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "AddressID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "AddressLine1",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AddressLine2",
-						"type": "nvarchar"
-					},
-					{
-						"name": "City",
-						"type": "nvarchar"
-					},
-					{
-						"name": "StateProvince",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CountryRegion",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PostalCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "rowguid",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "ModifiedDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					}
-				],
-				"typeProperties": {
-					"schema": "stg",
-					"table": "Address"
 				}
 			},
 			"dependsOn": []
