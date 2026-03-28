@@ -549,7 +549,7 @@
 				],
 				"typeProperties": {
 					"schema": "stg",
-					"table": "salesorderheader"
+					"table": "SalesOrderHeader"
 				}
 			},
 			"dependsOn": []
@@ -819,6 +819,94 @@
 				"typeProperties": {
 					"schema": "wrk",
 					"table": "product_new"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable39')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "BusinessEntityID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PersonType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NameStyle",
+						"type": "bit"
+					},
+					{
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Suffix",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailPromotion",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AdditionalContactInfo",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Demographics",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "FullName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DateOfBirth",
+						"type": "date"
+					},
+					{
+						"name": "First_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Last_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Middle_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Age",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "wrk",
+					"table": "Person"
 				}
 			},
 			"dependsOn": []
@@ -1212,89 +1300,6 @@
 				"typeProperties": {
 					"schema": "stg",
 					"table": "Address"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable9')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "etl_dw_1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "CustomerID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "NameStyle",
-						"type": "bit"
-					},
-					{
-						"name": "Title",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FirstName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MiddleName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "LastName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Suffix",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CompanyName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SalesPerson",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EmailAddress",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Phone",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PasswordHash",
-						"type": "varchar"
-					},
-					{
-						"name": "PasswordSalt",
-						"type": "varchar"
-					},
-					{
-						"name": "rowguid",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "ModifiedDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					}
-				],
-				"typeProperties": {
-					"schema": "stg",
-					"table": "Customer"
 				}
 			},
 			"dependsOn": []
