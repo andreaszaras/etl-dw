@@ -13,6 +13,433 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/Name_and_Age_Manipulation')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable34",
+								"type": "DatasetReference"
+							},
+							"name": "Person"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable39",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "FirstName"
+						},
+						{
+							"name": "LastName"
+						},
+						{
+							"name": "MIddleName"
+						},
+						{
+							"name": "AgeYears"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          BusinessEntityID as integer,",
+						"          PersonType as string,",
+						"          NameStyle as boolean,",
+						"          Title as string,",
+						"          Suffix as string,",
+						"          EmailPromotion as integer,",
+						"          AdditionalContactInfo as string,",
+						"          Demographics as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp,",
+						"          FullName as string,",
+						"          DateOfBirth as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> Person",
+						"Person derive(First_Name = toString(split(trim(FullName), ' ')[1])) ~> FirstName",
+						"FirstName derive(Last_Name = regexExtract(trim(toString(FullName)), '([^ ]+)$', 1)) ~> LastName",
+						"LastName derive(Middle_Name = iif(     size(split(trim(toString(FullName)), ' ')) > 2,     at(split(trim(toString(FullName)), ' '), 2),     '' )) ~> MIddleName",
+						"MIddleName derive(Age = toInteger(monthsBetween(currentDate(), DateOfBirth) / 12)) ~> AgeYears",
+						"AgeYears sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          BusinessEntityID as integer,",
+						"          PersonType as string,",
+						"          NameStyle as boolean,",
+						"          Title as string,",
+						"          Suffix as string,",
+						"          EmailPromotion as integer,",
+						"          AdditionalContactInfo as string,",
+						"          Demographics as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp,",
+						"          FullName as string,",
+						"          DateOfBirth as date,",
+						"          First_Name as string,",
+						"          Last_Name as string,",
+						"          Middle_Name as string,",
+						"          Age as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Union_SalesOrderHeader_2')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "SalesOrderHeader1",
+								"type": "DatasetReference"
+							},
+							"name": "salesorderheader1"
+						},
+						{
+							"dataset": {
+								"referenceName": "SalesOrderHeader2",
+								"type": "DatasetReference"
+							},
+							"name": "salesorderheader2"
+						},
+						{
+							"dataset": {
+								"referenceName": "SalesOrderHeader3",
+								"type": "DatasetReference"
+							},
+							"name": "salesorderheader3"
+						},
+						{
+							"dataset": {
+								"referenceName": "SalesOrderHeader4",
+								"type": "DatasetReference"
+							},
+							"name": "salesorderheader4"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable41",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "salesorderheader"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          SalesOrderID as string,",
+						"          RevisionNumber as string,",
+						"          OrderDate as string,",
+						"          DueDate as string,",
+						"          ShipDate as string,",
+						"          Status as string,",
+						"          OnlineOrderFlag as string,",
+						"          SalesOrderNumber as string,",
+						"          PurchaseOrderNumber as string,",
+						"          AccountNumber as string,",
+						"          CustomerID as string,",
+						"          SalesPersonID as string,",
+						"          TerritoryID as string,",
+						"          BillToAddressID as string,",
+						"          ShipToAddressID as string,",
+						"          ShipMethodID as string,",
+						"          CreditCardID as string,",
+						"          CreditCardApprovalCode as string,",
+						"          CurrencyRateID as string,",
+						"          SubTotal as string,",
+						"          TaxAmt as string,",
+						"          Freight as string,",
+						"          TotalDue as string,",
+						"          Comment as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> salesorderheader1",
+						"source(output(",
+						"          SalesOrderID as string,",
+						"          RevisionNumber as string,",
+						"          OrderDate as string,",
+						"          DueDate as string,",
+						"          ShipDate as string,",
+						"          Status as string,",
+						"          OnlineOrderFlag as string,",
+						"          SalesOrderNumber as string,",
+						"          PurchaseOrderNumber as string,",
+						"          AccountNumber as string,",
+						"          CustomerID as string,",
+						"          SalesPersonID as string,",
+						"          TerritoryID as string,",
+						"          BillToAddressID as string,",
+						"          ShipToAddressID as string,",
+						"          ShipMethodID as string,",
+						"          CreditCardID as string,",
+						"          CreditCardApprovalCode as string,",
+						"          CurrencyRateID as string,",
+						"          SubTotal as string,",
+						"          TaxAmt as string,",
+						"          Freight as string,",
+						"          TotalDue as string,",
+						"          Comment as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> salesorderheader2",
+						"source(output(",
+						"          SalesOrderID as string,",
+						"          RevisionNumber as string,",
+						"          OrderDate as string,",
+						"          DueDate as string,",
+						"          ShipDate as string,",
+						"          Status as string,",
+						"          OnlineOrderFlag as string,",
+						"          SalesOrderNumber as string,",
+						"          PurchaseOrderNumber as string,",
+						"          AccountNumber as string,",
+						"          CustomerID as string,",
+						"          SalesPersonID as string,",
+						"          TerritoryID as string,",
+						"          BillToAddressID as string,",
+						"          ShipToAddressID as string,",
+						"          ShipMethodID as string,",
+						"          CreditCardID as string,",
+						"          CreditCardApprovalCode as string,",
+						"          CurrencyRateID as string,",
+						"          SubTotal as string,",
+						"          TaxAmt as string,",
+						"          Freight as string,",
+						"          TotalDue as string,",
+						"          Comment as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> salesorderheader3",
+						"source(output(",
+						"          SalesOrderID as string,",
+						"          RevisionNumber as string,",
+						"          OrderDate as string,",
+						"          DueDate as string,",
+						"          ShipDate as string,",
+						"          Status as string,",
+						"          OnlineOrderFlag as string,",
+						"          SalesOrderNumber as string,",
+						"          PurchaseOrderNumber as string,",
+						"          AccountNumber as string,",
+						"          CustomerID as string,",
+						"          SalesPersonID as string,",
+						"          TerritoryID as string,",
+						"          BillToAddressID as string,",
+						"          ShipToAddressID as string,",
+						"          ShipMethodID as string,",
+						"          CreditCardID as string,",
+						"          CreditCardApprovalCode as string,",
+						"          CurrencyRateID as string,",
+						"          SubTotal as string,",
+						"          TaxAmt as string,",
+						"          Freight as string,",
+						"          TotalDue as string,",
+						"          Comment as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> salesorderheader4",
+						"salesorderheader1, salesorderheader2, salesorderheader3, salesorderheader4 union(byName: true)~> salesorderheader",
+						"salesorderheader sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          SalesOrderID as integer,",
+						"          RevisionNumber as integer,",
+						"          OrderDate as timestamp,",
+						"          DueDate as timestamp,",
+						"          ShipDate as timestamp,",
+						"          Status as integer,",
+						"          OnlineOrderFlag as boolean,",
+						"          SalesOrderNumber as string,",
+						"          PurchaseOrderNumber as string,",
+						"          AccountNumber as string,",
+						"          CustomerID as integer,",
+						"          SalesPersonID as integer,",
+						"          TerritoryID as integer,",
+						"          BillToAddressID as integer,",
+						"          ShipToAddressID as integer,",
+						"          ShipMethodID as integer,",
+						"          CreditCardID as integer,",
+						"          CreditCardApprovalCode as string,",
+						"          CurrencyRateID as integer,",
+						"          SubTotal as decimal(19,4),",
+						"          TaxAmt as decimal(19,4),",
+						"          Freight as decimal(19,4),",
+						"          TotalDue as decimal(19,4),",
+						"          Comment as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow2')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable28",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						},
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable29",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable23",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable22",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						}
+					],
+					"transformations": [
+						{
+							"name": "split1"
+						},
+						{
+							"name": "lookup1"
+						},
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          BusinessEntityID as integer,",
+						"          PersonType as string,",
+						"          NameStyle as boolean,",
+						"          Title as string,",
+						"          Suffix as string,",
+						"          EmailPromotion as integer,",
+						"          AdditionalContactInfo as string,",
+						"          Demographics as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp,",
+						"          FullName as string,",
+						"          DateOfBirth as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source1",
+						"source(output(",
+						"          BusinessEntityID as integer,",
+						"          PhoneNumber as string,",
+						"          PhoneNumberTypeID as integer,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source2",
+						"lookup1 split(!isNull(Found),",
+						"     disjoint: true) ~> split1@(stream1, stream2)",
+						"derivedColumn1, source2 lookup(source1@BusinessEntityID == source2@BusinessEntityID,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lookup1",
+						"source1 derive(Found = BusinessEntityID) ~> derivedColumn1",
+						"split1@stream1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
+						"split1@stream2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/staging_and_etl_final_2')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -353,7 +780,10 @@
 							},
 							"waitOnCompletion": true,
 							"parameters": {
-								"cw_items": "@pipeline().parameters.cw_items"
+								"cw_items": {
+									"value": "@pipeline().parameters.cw_items",
+									"type": "Expression"
+								}
 							}
 						}
 					},
@@ -508,7 +938,10 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/Union_SalesOrderHeader_2')]",
+				"[concat(variables('factoryId'), '/dataflows/Name_and_Age_Manipulation')]"
+			]
 		}
 	]
 }

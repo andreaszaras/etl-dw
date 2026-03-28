@@ -13,6 +13,66 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_fox')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "stg",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_l3x')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_schema": {
+						"type": "String"
+					},
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().cw_schema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SourceDataset_lui')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -762,6 +822,1191 @@
 				]
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/database_staging')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach_l3x",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.cw_items",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy_l3x",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "Source",
+											"value": "@{item().source.schema}.@{item().source.table}"
+										},
+										{
+											"name": "Destination",
+											"value": "@{item().destination.schema}.@{item().destination.table}"
+										}
+									],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"tableOption": {
+												"value": "@item().copySink.tableOption",
+												"type": "Expression"
+											}
+										},
+										"enableStaging": false,
+										"validateDataConsistency": false,
+										"translator": {
+											"value": "@item().copyActivity.translator",
+											"type": "Expression"
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "SourceDataset_l3x",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_schema": "@item().source.schema",
+												"cw_table": "@item().source.table"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DestinationDataset_l3x",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_schema": "@item().destination.schema",
+												"cw_table": "@item().destination.table"
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"cw_items": {
+						"type": "Array",
+						"defaultValue": [
+							{
+								"source": {
+									"schema": "Person",
+									"table": "Person"
+								},
+								"destination": {
+									"schema": "stg",
+									"table": "Person"
+								},
+								"copySink": {
+									"tableOption": "autoCreate"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "BusinessEntityID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "BusinessEntityID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "PersonType",
+													"type": "String",
+													"physicalType": "nchar"
+												},
+												"sink": {
+													"name": "PersonType",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "NameStyle",
+													"type": "Boolean",
+													"physicalType": "bit"
+												},
+												"sink": {
+													"name": "NameStyle",
+													"type": "Boolean",
+													"physicalType": "bit"
+												}
+											},
+											{
+												"source": {
+													"name": "Title",
+													"type": "String",
+													"physicalType": "nvarchar"
+												},
+												"sink": {
+													"name": "Title",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "Suffix",
+													"type": "String",
+													"physicalType": "nvarchar"
+												},
+												"sink": {
+													"name": "Suffix",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "EmailPromotion",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "EmailPromotion",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "AdditionalContactInfo",
+													"type": "String",
+													"physicalType": "xml"
+												},
+												"sink": {
+													"name": "AdditionalContactInfo",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "Demographics",
+													"type": "String",
+													"physicalType": "xml"
+												},
+												"sink": {
+													"name": "Demographics",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "rowguid",
+													"type": "Guid",
+													"physicalType": "uniqueidentifier"
+												},
+												"sink": {
+													"name": "rowguid",
+													"type": "Guid",
+													"physicalType": "uniqueidentifier"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedDate",
+													"type": "DateTime",
+													"physicalType": "datetime"
+												},
+												"sink": {
+													"name": "ModifiedDate",
+													"type": "DateTime",
+													"physicalType": "datetime2"
+												}
+											},
+											{
+												"source": {
+													"name": "FullName",
+													"type": "String",
+													"physicalType": "nvarchar"
+												},
+												"sink": {
+													"name": "FullName",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "DateOfBirth",
+													"type": "Date",
+													"physicalType": "date"
+												},
+												"sink": {
+													"name": "DateOfBirth",
+													"type": "Date",
+													"physicalType": "date"
+												}
+											}
+										],
+										"typeConversion": true,
+										"typeConversionSettings": {
+											"allowDataTruncation": true,
+											"treatBooleanAsNumber": false
+										}
+									}
+								}
+							},
+							{
+								"source": {
+									"schema": "Production",
+									"table": "Product"
+								},
+								"destination": {
+									"schema": "stg",
+									"table": "Product"
+								},
+								"copySink": {
+									"tableOption": "autoCreate"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "ProductID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "ProductID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "Name",
+													"type": "String",
+													"physicalType": "nvarchar"
+												},
+												"sink": {
+													"name": "Name",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "ProductNumber",
+													"type": "String",
+													"physicalType": "nvarchar"
+												},
+												"sink": {
+													"name": "ProductNumber",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "MakeFlag",
+													"type": "Boolean",
+													"physicalType": "bit"
+												},
+												"sink": {
+													"name": "MakeFlag",
+													"type": "Boolean",
+													"physicalType": "bit"
+												}
+											},
+											{
+												"source": {
+													"name": "FinishedGoodsFlag",
+													"type": "Boolean",
+													"physicalType": "bit"
+												},
+												"sink": {
+													"name": "FinishedGoodsFlag",
+													"type": "Boolean",
+													"physicalType": "bit"
+												}
+											},
+											{
+												"source": {
+													"name": "Color",
+													"type": "String",
+													"physicalType": "nvarchar"
+												},
+												"sink": {
+													"name": "Color",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "SafetyStockLevel",
+													"type": "Int16",
+													"physicalType": "smallint"
+												},
+												"sink": {
+													"name": "SafetyStockLevel",
+													"type": "Int16",
+													"physicalType": "smallint"
+												}
+											},
+											{
+												"source": {
+													"name": "ReorderPoint",
+													"type": "Int16",
+													"physicalType": "smallint"
+												},
+												"sink": {
+													"name": "ReorderPoint",
+													"type": "Int16",
+													"physicalType": "smallint"
+												}
+											},
+											{
+												"source": {
+													"name": "StandardCost",
+													"type": "Decimal",
+													"physicalType": "money",
+													"scale": 4,
+													"precision": 19
+												},
+												"sink": {
+													"name": "StandardCost",
+													"type": "Decimal",
+													"physicalType": "decimal"
+												}
+											},
+											{
+												"source": {
+													"name": "ListPrice",
+													"type": "Decimal",
+													"physicalType": "money",
+													"scale": 4,
+													"precision": 19
+												},
+												"sink": {
+													"name": "ListPrice",
+													"type": "Decimal",
+													"physicalType": "decimal"
+												}
+											},
+											{
+												"source": {
+													"name": "Size",
+													"type": "String",
+													"physicalType": "nvarchar"
+												},
+												"sink": {
+													"name": "Size",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "SizeUnitMeasureCode",
+													"type": "String",
+													"physicalType": "nchar"
+												},
+												"sink": {
+													"name": "SizeUnitMeasureCode",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "WeightUnitMeasureCode",
+													"type": "String",
+													"physicalType": "nchar"
+												},
+												"sink": {
+													"name": "WeightUnitMeasureCode",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "Weight",
+													"type": "Decimal",
+													"physicalType": "decimal",
+													"scale": 2,
+													"precision": 8
+												},
+												"sink": {
+													"name": "Weight",
+													"type": "Decimal",
+													"physicalType": "decimal"
+												}
+											},
+											{
+												"source": {
+													"name": "DaysToManufacture",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "DaysToManufacture",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "ProductLine",
+													"type": "String",
+													"physicalType": "nchar"
+												},
+												"sink": {
+													"name": "ProductLine",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "Class",
+													"type": "String",
+													"physicalType": "nchar"
+												},
+												"sink": {
+													"name": "Class",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "Style",
+													"type": "String",
+													"physicalType": "nchar"
+												},
+												"sink": {
+													"name": "Style",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "ProductSubcategoryID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "ProductSubcategoryID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "ProductModelID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "ProductModelID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "SellStartDate",
+													"type": "DateTime",
+													"physicalType": "datetime"
+												},
+												"sink": {
+													"name": "SellStartDate",
+													"type": "DateTime",
+													"physicalType": "datetime2"
+												}
+											},
+											{
+												"source": {
+													"name": "SellEndDate",
+													"type": "DateTime",
+													"physicalType": "datetime"
+												},
+												"sink": {
+													"name": "SellEndDate",
+													"type": "DateTime",
+													"physicalType": "datetime2"
+												}
+											},
+											{
+												"source": {
+													"name": "DiscontinuedDate",
+													"type": "DateTime",
+													"physicalType": "datetime"
+												},
+												"sink": {
+													"name": "DiscontinuedDate",
+													"type": "DateTime",
+													"physicalType": "datetime2"
+												}
+											},
+											{
+												"source": {
+													"name": "rowguid",
+													"type": "Guid",
+													"physicalType": "uniqueidentifier"
+												},
+												"sink": {
+													"name": "rowguid",
+													"type": "Guid",
+													"physicalType": "uniqueidentifier"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedDate",
+													"type": "DateTime",
+													"physicalType": "datetime"
+												},
+												"sink": {
+													"name": "ModifiedDate",
+													"type": "DateTime",
+													"physicalType": "datetime2"
+												}
+											}
+										],
+										"typeConversion": true,
+										"typeConversionSettings": {
+											"allowDataTruncation": true,
+											"treatBooleanAsNumber": false
+										}
+									}
+								}
+							},
+							{
+								"source": {
+									"schema": "Production",
+									"table": "ProductCategory"
+								},
+								"destination": {
+									"schema": "stg",
+									"table": "ProductCategory"
+								},
+								"copySink": {
+									"tableOption": "autoCreate"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "ProductCategoryID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "ProductCategoryID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "Name",
+													"type": "String",
+													"physicalType": "nvarchar"
+												},
+												"sink": {
+													"name": "Name",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "rowguid",
+													"type": "Guid",
+													"physicalType": "uniqueidentifier"
+												},
+												"sink": {
+													"name": "rowguid",
+													"type": "Guid",
+													"physicalType": "uniqueidentifier"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedDate",
+													"type": "DateTime",
+													"physicalType": "datetime"
+												},
+												"sink": {
+													"name": "ModifiedDate",
+													"type": "DateTime",
+													"physicalType": "datetime2"
+												}
+											}
+										],
+										"typeConversion": true,
+										"typeConversionSettings": {
+											"allowDataTruncation": true,
+											"treatBooleanAsNumber": false
+										}
+									}
+								}
+							},
+							{
+								"source": {
+									"schema": "Sales",
+									"table": "Customer"
+								},
+								"destination": {
+									"schema": "stg",
+									"table": "Customer"
+								},
+								"copySink": {
+									"tableOption": "autoCreate"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "CustomerID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "CustomerID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "PersonID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "PersonID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "StoreID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "StoreID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "TerritoryID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "TerritoryID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "AccountNumber",
+													"type": "String",
+													"physicalType": "varchar"
+												},
+												"sink": {
+													"name": "AccountNumber",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "rowguid",
+													"type": "Guid",
+													"physicalType": "uniqueidentifier"
+												},
+												"sink": {
+													"name": "rowguid",
+													"type": "Guid",
+													"physicalType": "uniqueidentifier"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedDate",
+													"type": "DateTime",
+													"physicalType": "datetime"
+												},
+												"sink": {
+													"name": "ModifiedDate",
+													"type": "DateTime",
+													"physicalType": "datetime2"
+												}
+											}
+										],
+										"typeConversion": true,
+										"typeConversionSettings": {
+											"allowDataTruncation": true,
+											"treatBooleanAsNumber": false
+										}
+									}
+								}
+							},
+							{
+								"source": {
+									"schema": "Sales",
+									"table": "SalesOrderDetail"
+								},
+								"destination": {
+									"schema": "stg",
+									"table": "SalesOrderDetail"
+								},
+								"copySink": {
+									"tableOption": "autoCreate"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "SalesOrderID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "SalesOrderID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "SalesOrderDetailID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "SalesOrderDetailID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "CarrierTrackingNumber",
+													"type": "String",
+													"physicalType": "nvarchar"
+												},
+												"sink": {
+													"name": "CarrierTrackingNumber",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "OrderQty",
+													"type": "Int16",
+													"physicalType": "smallint"
+												},
+												"sink": {
+													"name": "OrderQty",
+													"type": "Int16",
+													"physicalType": "smallint"
+												}
+											},
+											{
+												"source": {
+													"name": "ProductID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "ProductID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "SpecialOfferID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "SpecialOfferID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "UnitPrice",
+													"type": "Decimal",
+													"physicalType": "money",
+													"scale": 4,
+													"precision": 19
+												},
+												"sink": {
+													"name": "UnitPrice",
+													"type": "Decimal",
+													"physicalType": "decimal"
+												}
+											},
+											{
+												"source": {
+													"name": "UnitPriceDiscount",
+													"type": "Decimal",
+													"physicalType": "money",
+													"scale": 4,
+													"precision": 19
+												},
+												"sink": {
+													"name": "UnitPriceDiscount",
+													"type": "Decimal",
+													"physicalType": "decimal"
+												}
+											},
+											{
+												"source": {
+													"name": "LineTotal",
+													"type": "Decimal",
+													"physicalType": "decimal",
+													"scale": 6,
+													"precision": 38
+												},
+												"sink": {
+													"name": "LineTotal",
+													"type": "Decimal",
+													"physicalType": "decimal"
+												}
+											},
+											{
+												"source": {
+													"name": "rowguid",
+													"type": "Guid",
+													"physicalType": "uniqueidentifier"
+												},
+												"sink": {
+													"name": "rowguid",
+													"type": "Guid",
+													"physicalType": "uniqueidentifier"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedDate",
+													"type": "DateTime",
+													"physicalType": "datetime"
+												},
+												"sink": {
+													"name": "ModifiedDate",
+													"type": "DateTime",
+													"physicalType": "datetime2"
+												}
+											}
+										],
+										"typeConversion": true,
+										"typeConversionSettings": {
+											"allowDataTruncation": true,
+											"treatBooleanAsNumber": false
+										}
+									}
+								}
+							},
+							{
+								"source": {
+									"schema": "Sales",
+									"table": "SalesTerritory"
+								},
+								"destination": {
+									"schema": "stg",
+									"table": "SalesTerritory"
+								},
+								"copySink": {
+									"tableOption": "autoCreate"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "TerritoryID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "TerritoryID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "Name",
+													"type": "String",
+													"physicalType": "nvarchar"
+												},
+												"sink": {
+													"name": "Name",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "CountryRegionCode",
+													"type": "String",
+													"physicalType": "nvarchar"
+												},
+												"sink": {
+													"name": "CountryRegionCode",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "Group",
+													"type": "String",
+													"physicalType": "nvarchar"
+												},
+												"sink": {
+													"name": "Group",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "SalesYTD",
+													"type": "Decimal",
+													"physicalType": "money"
+												},
+												"sink": {
+													"name": "SalesYTD",
+													"type": "Decimal",
+													"physicalType": "decimal"
+												}
+											},
+											{
+												"source": {
+													"name": "SalesLastYear",
+													"type": "Decimal",
+													"physicalType": "money"
+												},
+												"sink": {
+													"name": "SalesLastYear",
+													"type": "Decimal",
+													"physicalType": "decimal"
+												}
+											},
+											{
+												"source": {
+													"name": "CostYTD",
+													"type": "Decimal",
+													"physicalType": "money"
+												},
+												"sink": {
+													"name": "CostYTD",
+													"type": "Decimal",
+													"physicalType": "decimal"
+												}
+											},
+											{
+												"source": {
+													"name": "CostLastYear",
+													"type": "Decimal",
+													"physicalType": "money"
+												},
+												"sink": {
+													"name": "CostLastYear",
+													"type": "Decimal",
+													"physicalType": "decimal"
+												}
+											},
+											{
+												"source": {
+													"name": "rowguid",
+													"type": "Guid",
+													"physicalType": "uniqueidentifier"
+												},
+												"sink": {
+													"name": "rowguid",
+													"type": "Guid",
+													"physicalType": "uniqueidentifier"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedDate",
+													"type": "DateTime",
+													"physicalType": "datetime"
+												},
+												"sink": {
+													"name": "ModifiedDate",
+													"type": "DateTime",
+													"physicalType": "datetime2"
+												}
+											}
+										],
+										"typeConversion": true,
+										"typeConversionSettings": {
+											"allowDataTruncation": true,
+											"treatBooleanAsNumber": false
+										}
+									}
+								}
+							},
+							{
+								"source": {
+									"schema": "Sales",
+									"table": "Store"
+								},
+								"destination": {
+									"schema": "Sales",
+									"table": "Store"
+								},
+								"copySink": {
+									"tableOption": null
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "BusinessEntityID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "BusinessEntityID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "Name",
+													"type": "String",
+													"physicalType": "nvarchar"
+												},
+												"sink": {
+													"name": "Name",
+													"type": "String",
+													"physicalType": "nvarchar"
+												}
+											},
+											{
+												"source": {
+													"name": "SalesPersonID",
+													"type": "Int32",
+													"physicalType": "int"
+												},
+												"sink": {
+													"name": "SalesPersonID",
+													"type": "Int32",
+													"physicalType": "int"
+												}
+											},
+											{
+												"source": {
+													"name": "Demographics",
+													"type": "String",
+													"physicalType": "xml"
+												},
+												"sink": {
+													"name": "Demographics",
+													"type": "String",
+													"physicalType": "xml"
+												}
+											},
+											{
+												"source": {
+													"name": "rowguid",
+													"type": "Guid",
+													"physicalType": "uniqueidentifier"
+												},
+												"sink": {
+													"name": "rowguid",
+													"type": "Guid",
+													"physicalType": "uniqueidentifier"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedDate",
+													"type": "DateTime",
+													"physicalType": "datetime"
+												},
+												"sink": {
+													"name": "ModifiedDate",
+													"type": "DateTime",
+													"physicalType": "datetime"
+												}
+											}
+										],
+										"typeConversion": true,
+										"typeConversionSettings": {
+											"allowDataTruncation": true,
+											"treatBooleanAsNumber": false
+										}
+									}
+								}
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_l3x')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/stg_to_wrk_final_version')]",
@@ -1917,433 +3162,6 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError') ~> ProductNew"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Name_and_Age_Manipulation')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable34",
-								"type": "DatasetReference"
-							},
-							"name": "Person"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable39",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "FirstName"
-						},
-						{
-							"name": "LastName"
-						},
-						{
-							"name": "MIddleName"
-						},
-						{
-							"name": "AgeYears"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          BusinessEntityID as integer,",
-						"          PersonType as string,",
-						"          NameStyle as boolean,",
-						"          Title as string,",
-						"          Suffix as string,",
-						"          EmailPromotion as integer,",
-						"          AdditionalContactInfo as string,",
-						"          Demographics as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp,",
-						"          FullName as string,",
-						"          DateOfBirth as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Person",
-						"Person derive(First_Name = toString(split(trim(FullName), ' ')[1])) ~> FirstName",
-						"FirstName derive(Last_Name = regexExtract(trim(toString(FullName)), '([^ ]+)$', 1)) ~> LastName",
-						"LastName derive(Middle_Name = iif(     size(split(trim(toString(FullName)), ' ')) > 2,     at(split(trim(toString(FullName)), ' '), 2),     '' )) ~> MIddleName",
-						"MIddleName derive(Age = toInteger(monthsBetween(currentDate(), DateOfBirth) / 12)) ~> AgeYears",
-						"AgeYears sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          BusinessEntityID as integer,",
-						"          PersonType as string,",
-						"          NameStyle as boolean,",
-						"          Title as string,",
-						"          Suffix as string,",
-						"          EmailPromotion as integer,",
-						"          AdditionalContactInfo as string,",
-						"          Demographics as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp,",
-						"          FullName as string,",
-						"          DateOfBirth as date,",
-						"          First_Name as string,",
-						"          Last_Name as string,",
-						"          Middle_Name as string,",
-						"          Age as integer",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Union_SalesOrderHeader_2')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "SalesOrderHeader1",
-								"type": "DatasetReference"
-							},
-							"name": "salesorderheader1"
-						},
-						{
-							"dataset": {
-								"referenceName": "SalesOrderHeader2",
-								"type": "DatasetReference"
-							},
-							"name": "salesorderheader2"
-						},
-						{
-							"dataset": {
-								"referenceName": "SalesOrderHeader3",
-								"type": "DatasetReference"
-							},
-							"name": "salesorderheader3"
-						},
-						{
-							"dataset": {
-								"referenceName": "SalesOrderHeader4",
-								"type": "DatasetReference"
-							},
-							"name": "salesorderheader4"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable41",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "salesorderheader"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          SalesOrderID as string,",
-						"          RevisionNumber as string,",
-						"          OrderDate as string,",
-						"          DueDate as string,",
-						"          ShipDate as string,",
-						"          Status as string,",
-						"          OnlineOrderFlag as string,",
-						"          SalesOrderNumber as string,",
-						"          PurchaseOrderNumber as string,",
-						"          AccountNumber as string,",
-						"          CustomerID as string,",
-						"          SalesPersonID as string,",
-						"          TerritoryID as string,",
-						"          BillToAddressID as string,",
-						"          ShipToAddressID as string,",
-						"          ShipMethodID as string,",
-						"          CreditCardID as string,",
-						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as string,",
-						"          SubTotal as string,",
-						"          TaxAmt as string,",
-						"          Freight as string,",
-						"          TotalDue as string,",
-						"          Comment as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> salesorderheader1",
-						"source(output(",
-						"          SalesOrderID as string,",
-						"          RevisionNumber as string,",
-						"          OrderDate as string,",
-						"          DueDate as string,",
-						"          ShipDate as string,",
-						"          Status as string,",
-						"          OnlineOrderFlag as string,",
-						"          SalesOrderNumber as string,",
-						"          PurchaseOrderNumber as string,",
-						"          AccountNumber as string,",
-						"          CustomerID as string,",
-						"          SalesPersonID as string,",
-						"          TerritoryID as string,",
-						"          BillToAddressID as string,",
-						"          ShipToAddressID as string,",
-						"          ShipMethodID as string,",
-						"          CreditCardID as string,",
-						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as string,",
-						"          SubTotal as string,",
-						"          TaxAmt as string,",
-						"          Freight as string,",
-						"          TotalDue as string,",
-						"          Comment as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> salesorderheader2",
-						"source(output(",
-						"          SalesOrderID as string,",
-						"          RevisionNumber as string,",
-						"          OrderDate as string,",
-						"          DueDate as string,",
-						"          ShipDate as string,",
-						"          Status as string,",
-						"          OnlineOrderFlag as string,",
-						"          SalesOrderNumber as string,",
-						"          PurchaseOrderNumber as string,",
-						"          AccountNumber as string,",
-						"          CustomerID as string,",
-						"          SalesPersonID as string,",
-						"          TerritoryID as string,",
-						"          BillToAddressID as string,",
-						"          ShipToAddressID as string,",
-						"          ShipMethodID as string,",
-						"          CreditCardID as string,",
-						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as string,",
-						"          SubTotal as string,",
-						"          TaxAmt as string,",
-						"          Freight as string,",
-						"          TotalDue as string,",
-						"          Comment as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> salesorderheader3",
-						"source(output(",
-						"          SalesOrderID as string,",
-						"          RevisionNumber as string,",
-						"          OrderDate as string,",
-						"          DueDate as string,",
-						"          ShipDate as string,",
-						"          Status as string,",
-						"          OnlineOrderFlag as string,",
-						"          SalesOrderNumber as string,",
-						"          PurchaseOrderNumber as string,",
-						"          AccountNumber as string,",
-						"          CustomerID as string,",
-						"          SalesPersonID as string,",
-						"          TerritoryID as string,",
-						"          BillToAddressID as string,",
-						"          ShipToAddressID as string,",
-						"          ShipMethodID as string,",
-						"          CreditCardID as string,",
-						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as string,",
-						"          SubTotal as string,",
-						"          TaxAmt as string,",
-						"          Freight as string,",
-						"          TotalDue as string,",
-						"          Comment as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> salesorderheader4",
-						"salesorderheader1, salesorderheader2, salesorderheader3, salesorderheader4 union(byName: true)~> salesorderheader",
-						"salesorderheader sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          SalesOrderID as integer,",
-						"          RevisionNumber as integer,",
-						"          OrderDate as timestamp,",
-						"          DueDate as timestamp,",
-						"          ShipDate as timestamp,",
-						"          Status as integer,",
-						"          OnlineOrderFlag as boolean,",
-						"          SalesOrderNumber as string,",
-						"          PurchaseOrderNumber as string,",
-						"          AccountNumber as string,",
-						"          CustomerID as integer,",
-						"          SalesPersonID as integer,",
-						"          TerritoryID as integer,",
-						"          BillToAddressID as integer,",
-						"          ShipToAddressID as integer,",
-						"          ShipMethodID as integer,",
-						"          CreditCardID as integer,",
-						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as integer,",
-						"          SubTotal as decimal(19,4),",
-						"          TaxAmt as decimal(19,4),",
-						"          Freight as decimal(19,4),",
-						"          TotalDue as decimal(19,4),",
-						"          Comment as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow2')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable28",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						},
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable29",
-								"type": "DatasetReference"
-							},
-							"name": "source2"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable23",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						},
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable22",
-								"type": "DatasetReference"
-							},
-							"name": "sink2"
-						}
-					],
-					"transformations": [
-						{
-							"name": "split1"
-						},
-						{
-							"name": "lookup1"
-						},
-						{
-							"name": "derivedColumn1"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          BusinessEntityID as integer,",
-						"          PersonType as string,",
-						"          NameStyle as boolean,",
-						"          Title as string,",
-						"          Suffix as string,",
-						"          EmailPromotion as integer,",
-						"          AdditionalContactInfo as string,",
-						"          Demographics as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp,",
-						"          FullName as string,",
-						"          DateOfBirth as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> source1",
-						"source(output(",
-						"          BusinessEntityID as integer,",
-						"          PhoneNumber as string,",
-						"          PhoneNumberTypeID as integer,",
-						"          ModifiedDate as timestamp",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> source2",
-						"lookup1 split(!isNull(Found),",
-						"     disjoint: true) ~> split1@(stream1, stream2)",
-						"derivedColumn1, source2 lookup(source1@BusinessEntityID == source2@BusinessEntityID,",
-						"     multiple: false,",
-						"     pickup: 'any',",
-						"     broadcast: 'auto')~> lookup1",
-						"source1 derive(Found = BusinessEntityID) ~> derivedColumn1",
-						"split1@stream1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
-						"split1@stream2 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
 					]
 				}
 			},
