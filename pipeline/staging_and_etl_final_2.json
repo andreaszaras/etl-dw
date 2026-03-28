@@ -314,7 +314,10 @@
 					},
 					"waitOnCompletion": true,
 					"parameters": {
-						"cw_items": "@pipeline().parameters.cw_items"
+						"cw_items": {
+							"value": "@pipeline().parameters.cw_items",
+							"type": "Expression"
+						}
 					}
 				}
 			},
