@@ -15,8 +15,8 @@
 			},
 			{
 				"name": "RevisionNumber",
-				"type": "smallint",
-				"precision": 5
+				"type": "tinyint",
+				"precision": 3
 			},
 			{
 				"name": "OrderDate",
@@ -35,8 +35,8 @@
 			},
 			{
 				"name": "Status",
-				"type": "smallint",
-				"precision": 5
+				"type": "tinyint",
+				"precision": 3
 			},
 			{
 				"name": "OnlineOrderFlag",
