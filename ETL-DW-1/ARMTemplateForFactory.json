@@ -298,7 +298,8 @@
 									"salesorderheader3": {},
 									"salesorderheader4": {},
 									"sink1": {}
-								}
+								},
+								"linkedServiceParameters": {}
 							},
 							"staging": {},
 							"compute": {
@@ -1642,7 +1643,10 @@
 										},
 										"sink": {
 											"type": "AzureSqlSink",
-											"tableOption": "autoCreate"
+											"writeBehavior": "insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
 										},
 										"enableStaging": false,
 										"validateDataConsistency": false,
@@ -4470,8 +4474,8 @@
 					},
 					{
 						"name": "RevisionNumber",
-						"type": "smallint",
-						"precision": 5
+						"type": "tinyint",
+						"precision": 3
 					},
 					{
 						"name": "OrderDate",
@@ -4490,8 +4494,8 @@
 					},
 					{
 						"name": "Status",
-						"type": "smallint",
-						"precision": 5
+						"type": "tinyint",
+						"precision": 3
 					},
 					{
 						"name": "OnlineOrderFlag",
@@ -7630,229 +7634,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Union_SalesOrderHeader')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "Excel2",
-								"type": "DatasetReference"
-							},
-							"name": "salesorderheader1"
-						},
-						{
-							"dataset": {
-								"referenceName": "Excel3",
-								"type": "DatasetReference"
-							},
-							"name": "salesorderheader2"
-						},
-						{
-							"dataset": {
-								"referenceName": "Excel4",
-								"type": "DatasetReference"
-							},
-							"name": "salesorderheader3"
-						},
-						{
-							"dataset": {
-								"referenceName": "Excel5",
-								"type": "DatasetReference"
-							},
-							"name": "salesorderheader4"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable1",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "union2"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          SalesOrderID as integer,",
-						"          RevisionNumber as short,",
-						"          OrderDate as date,",
-						"          DueDate as date,",
-						"          ShipDate as date,",
-						"          Status as short,",
-						"          OnlineOrderFlag as short,",
-						"          SalesOrderNumber as string,",
-						"          PurchaseOrderNumber as string,",
-						"          AccountNumber as string,",
-						"          CustomerID as integer,",
-						"          SalesPersonID as string,",
-						"          TerritoryID as short,",
-						"          BillToAddressID as short,",
-						"          ShipToAddressID as short,",
-						"          ShipMethodID as boolean,",
-						"          CreditCardID as short,",
-						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as short,",
-						"          SubTotal as double,",
-						"          TaxAmt as double,",
-						"          Freight as double,",
-						"          TotalDue as double,",
-						"          Comment as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> salesorderheader1",
-						"source(output(",
-						"          SalesOrderID as integer,",
-						"          RevisionNumber as short,",
-						"          OrderDate as date,",
-						"          DueDate as date,",
-						"          ShipDate as date,",
-						"          Status as short,",
-						"          OnlineOrderFlag as short,",
-						"          SalesOrderNumber as string,",
-						"          PurchaseOrderNumber as string,",
-						"          AccountNumber as string,",
-						"          CustomerID as integer,",
-						"          SalesPersonID as string,",
-						"          TerritoryID as short,",
-						"          BillToAddressID as short,",
-						"          ShipToAddressID as short,",
-						"          ShipMethodID as boolean,",
-						"          CreditCardID as short,",
-						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as short,",
-						"          SubTotal as double,",
-						"          TaxAmt as double,",
-						"          Freight as double,",
-						"          TotalDue as double,",
-						"          Comment as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> salesorderheader2",
-						"source(output(",
-						"          SalesOrderID as integer,",
-						"          RevisionNumber as short,",
-						"          OrderDate as date,",
-						"          DueDate as date,",
-						"          ShipDate as date,",
-						"          Status as short,",
-						"          OnlineOrderFlag as short,",
-						"          SalesOrderNumber as string,",
-						"          PurchaseOrderNumber as string,",
-						"          AccountNumber as string,",
-						"          CustomerID as integer,",
-						"          SalesPersonID as string,",
-						"          TerritoryID as short,",
-						"          BillToAddressID as short,",
-						"          ShipToAddressID as short,",
-						"          ShipMethodID as boolean,",
-						"          CreditCardID as short,",
-						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as short,",
-						"          SubTotal as double,",
-						"          TaxAmt as double,",
-						"          Freight as double,",
-						"          TotalDue as double,",
-						"          Comment as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> salesorderheader3",
-						"source(output(",
-						"          SalesOrderID as integer,",
-						"          RevisionNumber as short,",
-						"          OrderDate as date,",
-						"          DueDate as date,",
-						"          ShipDate as date,",
-						"          Status as short,",
-						"          OnlineOrderFlag as short,",
-						"          SalesOrderNumber as string,",
-						"          PurchaseOrderNumber as string,",
-						"          AccountNumber as string,",
-						"          CustomerID as integer,",
-						"          SalesPersonID as string,",
-						"          TerritoryID as short,",
-						"          BillToAddressID as short,",
-						"          ShipToAddressID as short,",
-						"          ShipMethodID as boolean,",
-						"          CreditCardID as short,",
-						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as short,",
-						"          SubTotal as double,",
-						"          TaxAmt as double,",
-						"          Freight as double,",
-						"          TotalDue as double,",
-						"          Comment as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> salesorderheader4",
-						"salesorderheader1, salesorderheader2, salesorderheader3, salesorderheader4 union(byName: true)~> union2",
-						"union2 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          SalesOrderID as integer,",
-						"          RevisionNumber as integer,",
-						"          OrderDate as timestamp,",
-						"          DueDate as timestamp,",
-						"          ShipDate as timestamp,",
-						"          Status as integer,",
-						"          OnlineOrderFlag as boolean,",
-						"          SalesOrderNumber as string,",
-						"          PurchaseOrderNumber as string,",
-						"          AccountNumber as string,",
-						"          CustomerID as integer,",
-						"          ShipToAddressID as integer,",
-						"          BillToAddressID as integer,",
-						"          ShipMethod as string,",
-						"          CreditCardApprovalCode as string,",
-						"          SubTotal as decimal(19,4),",
-						"          TaxAmt as decimal(19,4),",
-						"          Freight as decimal(19,4),",
-						"          TotalDue as decimal(19,4),",
-						"          Comment as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     recreate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Excel2')]",
-				"[concat(variables('factoryId'), '/datasets/Excel3')]",
-				"[concat(variables('factoryId'), '/datasets/Excel4')]",
-				"[concat(variables('factoryId'), '/datasets/Excel5')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Union_SalesOrderHeader_2')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -7862,28 +7643,28 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "soh1",
+								"referenceName": "SalesOrderHeader1",
 								"type": "DatasetReference"
 							},
 							"name": "salesorderheader1"
 						},
 						{
 							"dataset": {
-								"referenceName": "soh2",
+								"referenceName": "SalesOrderHeader2",
 								"type": "DatasetReference"
 							},
 							"name": "salesorderheader2"
 						},
 						{
 							"dataset": {
-								"referenceName": "soh3",
+								"referenceName": "SalesOrderHeader3",
 								"type": "DatasetReference"
 							},
 							"name": "salesorderheader3"
 						},
 						{
 							"dataset": {
-								"referenceName": "soh4",
+								"referenceName": "SalesOrderHeader4",
 								"type": "DatasetReference"
 							},
 							"name": "salesorderheader4"
@@ -7905,125 +7686,125 @@
 					],
 					"scriptLines": [
 						"source(output(",
-						"          SalesOrderID as integer,",
-						"          RevisionNumber as short,",
-						"          OrderDate as date,",
-						"          DueDate as date,",
-						"          ShipDate as date,",
-						"          Status as short,",
-						"          OnlineOrderFlag as short,",
+						"          SalesOrderID as string,",
+						"          RevisionNumber as string,",
+						"          OrderDate as string,",
+						"          DueDate as string,",
+						"          ShipDate as string,",
+						"          Status as string,",
+						"          OnlineOrderFlag as string,",
 						"          SalesOrderNumber as string,",
 						"          PurchaseOrderNumber as string,",
 						"          AccountNumber as string,",
-						"          CustomerID as integer,",
+						"          CustomerID as string,",
 						"          SalesPersonID as string,",
-						"          TerritoryID as short,",
-						"          BillToAddressID as short,",
-						"          ShipToAddressID as short,",
-						"          ShipMethodID as boolean,",
-						"          CreditCardID as short,",
+						"          TerritoryID as string,",
+						"          BillToAddressID as string,",
+						"          ShipToAddressID as string,",
+						"          ShipMethodID as string,",
+						"          CreditCardID as string,",
 						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as short,",
-						"          SubTotal as double,",
-						"          TaxAmt as double,",
-						"          Freight as double,",
-						"          TotalDue as double,",
+						"          CurrencyRateID as string,",
+						"          SubTotal as string,",
+						"          TaxAmt as string,",
+						"          Freight as string,",
+						"          TotalDue as string,",
 						"          Comment as string,",
 						"          rowguid as string,",
-						"          ModifiedDate as date",
+						"          ModifiedDate as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> salesorderheader1",
 						"source(output(",
-						"          SalesOrderID as integer,",
-						"          RevisionNumber as short,",
-						"          OrderDate as date,",
-						"          DueDate as date,",
-						"          ShipDate as date,",
-						"          Status as short,",
-						"          OnlineOrderFlag as short,",
+						"          SalesOrderID as string,",
+						"          RevisionNumber as string,",
+						"          OrderDate as string,",
+						"          DueDate as string,",
+						"          ShipDate as string,",
+						"          Status as string,",
+						"          OnlineOrderFlag as string,",
 						"          SalesOrderNumber as string,",
 						"          PurchaseOrderNumber as string,",
 						"          AccountNumber as string,",
-						"          CustomerID as integer,",
+						"          CustomerID as string,",
 						"          SalesPersonID as string,",
-						"          TerritoryID as short,",
-						"          BillToAddressID as short,",
-						"          ShipToAddressID as short,",
-						"          ShipMethodID as boolean,",
-						"          CreditCardID as short,",
+						"          TerritoryID as string,",
+						"          BillToAddressID as string,",
+						"          ShipToAddressID as string,",
+						"          ShipMethodID as string,",
+						"          CreditCardID as string,",
 						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as short,",
-						"          SubTotal as double,",
-						"          TaxAmt as double,",
-						"          Freight as double,",
-						"          TotalDue as double,",
+						"          CurrencyRateID as string,",
+						"          SubTotal as string,",
+						"          TaxAmt as string,",
+						"          Freight as string,",
+						"          TotalDue as string,",
 						"          Comment as string,",
 						"          rowguid as string,",
-						"          ModifiedDate as date",
+						"          ModifiedDate as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> salesorderheader2",
 						"source(output(",
-						"          SalesOrderID as integer,",
-						"          RevisionNumber as short,",
-						"          OrderDate as date,",
-						"          DueDate as date,",
-						"          ShipDate as date,",
-						"          Status as short,",
-						"          OnlineOrderFlag as short,",
+						"          SalesOrderID as string,",
+						"          RevisionNumber as string,",
+						"          OrderDate as string,",
+						"          DueDate as string,",
+						"          ShipDate as string,",
+						"          Status as string,",
+						"          OnlineOrderFlag as string,",
 						"          SalesOrderNumber as string,",
 						"          PurchaseOrderNumber as string,",
 						"          AccountNumber as string,",
-						"          CustomerID as integer,",
+						"          CustomerID as string,",
 						"          SalesPersonID as string,",
-						"          TerritoryID as short,",
-						"          BillToAddressID as short,",
-						"          ShipToAddressID as short,",
-						"          ShipMethodID as boolean,",
-						"          CreditCardID as short,",
+						"          TerritoryID as string,",
+						"          BillToAddressID as string,",
+						"          ShipToAddressID as string,",
+						"          ShipMethodID as string,",
+						"          CreditCardID as string,",
 						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as short,",
-						"          SubTotal as double,",
-						"          TaxAmt as double,",
-						"          Freight as double,",
-						"          TotalDue as double,",
+						"          CurrencyRateID as string,",
+						"          SubTotal as string,",
+						"          TaxAmt as string,",
+						"          Freight as string,",
+						"          TotalDue as string,",
 						"          Comment as string,",
 						"          rowguid as string,",
-						"          ModifiedDate as date",
+						"          ModifiedDate as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> salesorderheader3",
 						"source(output(",
-						"          SalesOrderID as integer,",
-						"          RevisionNumber as short,",
-						"          OrderDate as date,",
-						"          DueDate as date,",
-						"          ShipDate as date,",
-						"          Status as short,",
-						"          OnlineOrderFlag as short,",
+						"          SalesOrderID as string,",
+						"          RevisionNumber as string,",
+						"          OrderDate as string,",
+						"          DueDate as string,",
+						"          ShipDate as string,",
+						"          Status as string,",
+						"          OnlineOrderFlag as string,",
 						"          SalesOrderNumber as string,",
 						"          PurchaseOrderNumber as string,",
 						"          AccountNumber as string,",
-						"          CustomerID as integer,",
+						"          CustomerID as string,",
 						"          SalesPersonID as string,",
-						"          TerritoryID as short,",
-						"          BillToAddressID as short,",
-						"          ShipToAddressID as short,",
-						"          ShipMethodID as boolean,",
-						"          CreditCardID as short,",
+						"          TerritoryID as string,",
+						"          BillToAddressID as string,",
+						"          ShipToAddressID as string,",
+						"          ShipMethodID as string,",
+						"          CreditCardID as string,",
 						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as short,",
-						"          SubTotal as double,",
-						"          TaxAmt as double,",
-						"          Freight as double,",
-						"          TotalDue as double,",
+						"          CurrencyRateID as string,",
+						"          SubTotal as string,",
+						"          TaxAmt as string,",
+						"          Freight as string,",
+						"          TotalDue as string,",
 						"          Comment as string,",
 						"          rowguid as string,",
-						"          ModifiedDate as date",
+						"          ModifiedDate as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -8071,319 +7852,11 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/soh1')]",
-				"[concat(variables('factoryId'), '/datasets/soh2')]",
-				"[concat(variables('factoryId'), '/datasets/soh3')]",
-				"[concat(variables('factoryId'), '/datasets/soh4')]",
+				"[concat(variables('factoryId'), '/datasets/SalesOrderHeader1')]",
+				"[concat(variables('factoryId'), '/datasets/SalesOrderHeader2')]",
+				"[concat(variables('factoryId'), '/datasets/SalesOrderHeader3')]",
+				"[concat(variables('factoryId'), '/datasets/SalesOrderHeader4')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable41')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable13",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						},
-						{
-							"dataset": {
-								"referenceName": "DelimitedText2",
-								"type": "DatasetReference"
-							},
-							"name": "source3"
-						},
-						{
-							"dataset": {
-								"referenceName": "DelimitedText3",
-								"type": "DatasetReference"
-							},
-							"name": "source4"
-						},
-						{
-							"dataset": {
-								"referenceName": "DelimitedText4",
-								"type": "DatasetReference"
-							},
-							"name": "source5"
-						},
-						{
-							"dataset": {
-								"referenceName": "DelimitedText5",
-								"type": "DatasetReference"
-							},
-							"name": "source6"
-						},
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable18",
-								"type": "DatasetReference"
-							},
-							"name": "product"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable17",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						},
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable16",
-								"type": "DatasetReference"
-							},
-							"name": "sink2"
-						},
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable19",
-								"type": "DatasetReference"
-							},
-							"name": "sink3"
-						}
-					],
-					"transformations": [
-						{
-							"name": "FirstName"
-						},
-						{
-							"name": "alterRow1",
-							"description": "upsertIf(true())"
-						},
-						{
-							"name": "LastName"
-						},
-						{
-							"name": "MiddleName"
-						},
-						{
-							"name": "union2"
-						},
-						{
-							"name": "union3"
-						},
-						{
-							"name": "union4"
-						},
-						{
-							"name": "aggregate1"
-						},
-						{
-							"name": "age"
-						},
-						{
-							"name": "ColorImputed"
-						},
-						{
-							"name": "select1"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          BusinessEntityID as integer,",
-						"          PersonType as string,",
-						"          NameStyle as boolean,",
-						"          Title as string,",
-						"          Suffix as string,",
-						"          EmailPromotion as integer,",
-						"          AdditionalContactInfo as string,",
-						"          Demographics as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp,",
-						"          FullName as string,",
-						"          DateOfBirth as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> source1",
-						"source(output(",
-						"          SalesOrderID as string,",
-						"          SalesOrderDetailID as string,",
-						"          CarrierTrackingNumber as string,",
-						"          OrderQty as string,",
-						"          ProductID as string,",
-						"          SpecialOfferID as string,",
-						"          UnitPrice as string,",
-						"          UnitPriceDiscount as string,",
-						"          LineTotal as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source3",
-						"source(output(",
-						"          SalesOrderID as string,",
-						"          SalesOrderDetailID as string,",
-						"          CarrierTrackingNumber as string,",
-						"          OrderQty as string,",
-						"          ProductID as string,",
-						"          SpecialOfferID as string,",
-						"          UnitPrice as string,",
-						"          UnitPriceDiscount as string,",
-						"          LineTotal as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source4",
-						"source(output(",
-						"          SalesOrderID as string,",
-						"          SalesOrderDetailID as string,",
-						"          CarrierTrackingNumber as string,",
-						"          OrderQty as string,",
-						"          ProductID as string,",
-						"          SpecialOfferID as string,",
-						"          UnitPrice as string,",
-						"          UnitPriceDiscount as string,",
-						"          LineTotal as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source5",
-						"source(output(",
-						"          SalesOrderID as string,",
-						"          SalesOrderDetailID as string,",
-						"          CarrierTrackingNumber as string,",
-						"          OrderQty as string,",
-						"          ProductID as string,",
-						"          SpecialOfferID as string,",
-						"          UnitPrice as string,",
-						"          UnitPriceDiscount as string,",
-						"          LineTotal as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source6",
-						"source(output(",
-						"          ProductID as integer,",
-						"          Name as string,",
-						"          ProductNumber as string,",
-						"          MakeFlag as boolean,",
-						"          FinishedGoodsFlag as boolean,",
-						"          Color as string,",
-						"          SafetyStockLevel as integer,",
-						"          ReorderPoint as integer,",
-						"          StandardCost as decimal(19,4),",
-						"          ListPrice as decimal(19,4),",
-						"          Size as string,",
-						"          SizeUnitMeasureCode as string,",
-						"          WeightUnitMeasureCode as string,",
-						"          Weight as decimal(8,2),",
-						"          DaysToManufacture as integer,",
-						"          ProductLine as string,",
-						"          Class as string,",
-						"          Style as string,",
-						"          ProductSubcategoryID as integer,",
-						"          ProductModelID as integer,",
-						"          SellStartDate as timestamp,",
-						"          SellEndDate as timestamp,",
-						"          DiscontinuedDate as timestamp,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> product",
-						"source1 derive(First_Name = toString(split(trim(FullName), ' ')[1])) ~> FirstName",
-						"age alterRow(insertIf(true())) ~> alterRow1",
-						"FirstName derive(Last_name = regexExtract(trim(toString(FullName)), '([^ ]+)$', 1)) ~> LastName",
-						"LastName derive(Midlle_Name = iif(     size(split(trim(toString(FullName)), ' ')) > 2,     at(split(trim(toString(FullName)), ' '), 2),     '' )) ~> MiddleName",
-						"source3, source4 union(byName: true)~> union2",
-						"union2, source5 union(byName: true)~> union3",
-						"union3, source6 union(byName: true)~> union4",
-						"union4 aggregate(aaa = count(1)) ~> aggregate1",
-						"MiddleName derive(age_years = toInteger(monthsBetween(currentDate(), DateOfBirth) / 12)) ~> age",
-						"product derive(color_imputed = iif(isNull(Color) || length(trim(Color)) == 0, 'Unknown', Color)) ~> ColorImputed",
-						"ColorImputed select(mapColumn(",
-						"          ProductID,",
-						"          Name,",
-						"          ProductNumber,",
-						"          MakeFlag,",
-						"          FinishedGoodsFlag,",
-						"          SafetyStockLevel,",
-						"          ReorderPoint,",
-						"          StandardCost,",
-						"          ListPrice,",
-						"          Size,",
-						"          SizeUnitMeasureCode,",
-						"          WeightUnitMeasureCode,",
-						"          Weight,",
-						"          DaysToManufacture,",
-						"          ProductLine,",
-						"          Class,",
-						"          Style,",
-						"          ProductSubcategoryID,",
-						"          ProductModelID,",
-						"          SellStartDate,",
-						"          SellEndDate,",
-						"          DiscontinuedDate,",
-						"          rowguid,",
-						"          ModifiedDate,",
-						"          color_imputed",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select1",
-						"alterRow1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
-						"aggregate1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink2",
-						"select1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink3"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable13')]",
-				"[concat(variables('factoryId'), '/datasets/DelimitedText2')]",
-				"[concat(variables('factoryId'), '/datasets/DelimitedText3')]",
-				"[concat(variables('factoryId'), '/datasets/DelimitedText4')]",
-				"[concat(variables('factoryId'), '/datasets/DelimitedText5')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable18')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable17')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable16')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable19')]"
 			]
 		},
 		{
@@ -8500,6 +7973,538 @@
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable29')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable23')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable22')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SalesOrderHeader1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "salesorderheader_part_1.csv",
+						"container": "etldw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "String"
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "String"
+					},
+					{
+						"name": "OrderDate",
+						"type": "String"
+					},
+					{
+						"name": "DueDate",
+						"type": "String"
+					},
+					{
+						"name": "ShipDate",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "String"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "String"
+					},
+					{
+						"name": "CustomerID",
+						"type": "String"
+					},
+					{
+						"name": "SalesPersonID",
+						"type": "String"
+					},
+					{
+						"name": "TerritoryID",
+						"type": "String"
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipMethodID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "String"
+					},
+					{
+						"name": "CurrencyRateID",
+						"type": "String"
+					},
+					{
+						"name": "SubTotal",
+						"type": "String"
+					},
+					{
+						"name": "TaxAmt",
+						"type": "String"
+					},
+					{
+						"name": "Freight",
+						"type": "String"
+					},
+					{
+						"name": "TotalDue",
+						"type": "String"
+					},
+					{
+						"name": "Comment",
+						"type": "String"
+					},
+					{
+						"name": "rowguid",
+						"type": "String"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SalesOrderHeader2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "salesorderheader_part_2.csv",
+						"container": "etldw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "String"
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "String"
+					},
+					{
+						"name": "OrderDate",
+						"type": "String"
+					},
+					{
+						"name": "DueDate",
+						"type": "String"
+					},
+					{
+						"name": "ShipDate",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "String"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "String"
+					},
+					{
+						"name": "CustomerID",
+						"type": "String"
+					},
+					{
+						"name": "SalesPersonID",
+						"type": "String"
+					},
+					{
+						"name": "TerritoryID",
+						"type": "String"
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipMethodID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "String"
+					},
+					{
+						"name": "CurrencyRateID",
+						"type": "String"
+					},
+					{
+						"name": "SubTotal",
+						"type": "String"
+					},
+					{
+						"name": "TaxAmt",
+						"type": "String"
+					},
+					{
+						"name": "Freight",
+						"type": "String"
+					},
+					{
+						"name": "TotalDue",
+						"type": "String"
+					},
+					{
+						"name": "Comment",
+						"type": "String"
+					},
+					{
+						"name": "rowguid",
+						"type": "String"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SalesOrderHeader3')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "salesorderheader_part_3.csv",
+						"container": "etldw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "String"
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "String"
+					},
+					{
+						"name": "OrderDate",
+						"type": "String"
+					},
+					{
+						"name": "DueDate",
+						"type": "String"
+					},
+					{
+						"name": "ShipDate",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "String"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "String"
+					},
+					{
+						"name": "CustomerID",
+						"type": "String"
+					},
+					{
+						"name": "SalesPersonID",
+						"type": "String"
+					},
+					{
+						"name": "TerritoryID",
+						"type": "String"
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipMethodID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "String"
+					},
+					{
+						"name": "CurrencyRateID",
+						"type": "String"
+					},
+					{
+						"name": "SubTotal",
+						"type": "String"
+					},
+					{
+						"name": "TaxAmt",
+						"type": "String"
+					},
+					{
+						"name": "Freight",
+						"type": "String"
+					},
+					{
+						"name": "TotalDue",
+						"type": "String"
+					},
+					{
+						"name": "Comment",
+						"type": "String"
+					},
+					{
+						"name": "rowguid",
+						"type": "String"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SalesOrderHeader4')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "salesorderheader_part_4.csv",
+						"container": "etldw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "String"
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "String"
+					},
+					{
+						"name": "OrderDate",
+						"type": "String"
+					},
+					{
+						"name": "DueDate",
+						"type": "String"
+					},
+					{
+						"name": "ShipDate",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "String"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "String"
+					},
+					{
+						"name": "CustomerID",
+						"type": "String"
+					},
+					{
+						"name": "SalesPersonID",
+						"type": "String"
+					},
+					{
+						"name": "TerritoryID",
+						"type": "String"
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipMethodID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "String"
+					},
+					{
+						"name": "CurrencyRateID",
+						"type": "String"
+					},
+					{
+						"name": "SubTotal",
+						"type": "String"
+					},
+					{
+						"name": "TaxAmt",
+						"type": "String"
+					},
+					{
+						"name": "Freight",
+						"type": "String"
+					},
+					{
+						"name": "TotalDue",
+						"type": "String"
+					},
+					{
+						"name": "Comment",
+						"type": "String"
+					},
+					{
+						"name": "rowguid",
+						"type": "String"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
 			]
 		}
 	]
