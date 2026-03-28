@@ -62,7 +62,7 @@
 									"referenceName": "SourceDataset_rk6",
 									"type": "DatasetReference",
 									"parameters": {
-										"cw_schema": "@item().source.schema",
+										"cw_schema": "stg",
 										"cw_table": "@item().source.table"
 									}
 								}
@@ -314,7 +314,10 @@
 					},
 					"waitOnCompletion": true,
 					"parameters": {
-						"cw_items": "@pipeline().parameters.cw_items"
+						"cw_items": {
+							"value": "@pipeline().parameters.cw_items",
+							"type": "Expression"
+						}
 					}
 				}
 			},
