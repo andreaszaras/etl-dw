@@ -219,7 +219,7 @@
 		],
 		"typeProperties": {
 			"schema": "stg",
-			"table": "salesorderheader"
+			"table": "SalesOrderHeader"
 		}
 	}
 }
