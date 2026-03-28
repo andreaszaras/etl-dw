@@ -101,18 +101,20 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "ExcelSource",
+						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
 							"recursive": true,
 							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
 						}
 					},
 					"sink": {
 						"type": "AzureSqlSink",
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false,
-						"tableOption": "autoCreate",
 						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
@@ -189,7 +191,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Excel_ProductSubCategory",
+						"referenceName": "ProductSubcategory",
 						"type": "DatasetReference"
 					}
 				],
