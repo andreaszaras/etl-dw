@@ -312,7 +312,10 @@
 						"referenceName": "stg_to_wrk_final_version",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": true,
+					"parameters": {
+						"cw_items": "@pipeline().parameters.cw_items"
+					}
 				}
 			},
 			{
@@ -382,6 +385,85 @@
 				}
 			}
 		],
+		"parameters": {
+			"cw_items": {
+				"type": "array",
+				"defaultValue": [
+					{
+						"source": {
+							"table": "Customer"
+						},
+						"destination": {
+							"table": "Customer"
+						}
+					},
+					{
+						"source": {
+							"table": "Person"
+						},
+						"destination": {
+							"table": "Person"
+						}
+					},
+					{
+						"source": {
+							"table": "Product"
+						},
+						"destination": {
+							"table": "Product"
+						}
+					},
+					{
+						"source": {
+							"table": "ProductCategory"
+						},
+						"destination": {
+							"table": "ProductCategory"
+						}
+					},
+					{
+						"source": {
+							"table": "ProductSubcategory"
+						},
+						"destination": {
+							"table": "ProductSubcategory"
+						}
+					},
+					{
+						"source": {
+							"table": "SalesOrderHeader"
+						},
+						"destination": {
+							"table": "SalesOrderHeader"
+						}
+					},
+					{
+						"source": {
+							"table": "SalesOrderDetail"
+						},
+						"destination": {
+							"table": "SalesOrderDetail"
+						}
+					},
+					{
+						"source": {
+							"table": "SalesTerritory"
+						},
+						"destination": {
+							"table": "SalesTerritory"
+						}
+					},
+					{
+						"source": {
+							"table": "Store"
+						},
+						"destination": {
+							"table": "Store"
+						}
+					}
+				]
+			}
+		},
 		"annotations": []
 	}
 }
