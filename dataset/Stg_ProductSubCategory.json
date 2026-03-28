@@ -31,7 +31,7 @@
 		],
 		"typeProperties": {
 			"schema": "stg",
-			"table": "productsubcategory"
+			"table": "ProductSubCategory"
 		}
 	}
 }
