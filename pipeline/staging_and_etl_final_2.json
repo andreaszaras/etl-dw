@@ -312,10 +312,7 @@
 						"referenceName": "stg_to_wrk_final_version",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true,
-					"parameters": {
-						"cw_items": "@null"
-					}
+					"waitOnCompletion": true
 				}
 			},
 			{
