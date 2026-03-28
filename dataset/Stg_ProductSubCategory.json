@@ -9,23 +9,23 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "Prop_0",
+				"name": "ProductSubcategoryID",
 				"type": "nvarchar"
 			},
 			{
-				"name": "Prop_1",
+				"name": "ProductCategoryID",
 				"type": "nvarchar"
 			},
 			{
-				"name": "Prop_2",
+				"name": "Name",
 				"type": "nvarchar"
 			},
 			{
-				"name": "Prop_3",
+				"name": "rowguid",
 				"type": "nvarchar"
 			},
 			{
-				"name": "Prop_4",
+				"name": "ModifiedDate",
 				"type": "nvarchar"
 			}
 		],
