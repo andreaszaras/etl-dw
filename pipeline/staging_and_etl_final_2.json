@@ -368,13 +368,12 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "stage_to_work_final",
-						"type": "PipelineReference"
-					},
 					"waitOnCompletion": true,
 					"parameters": {
-						"cw_items": "@pipeline().parameters.cw_items"
+						"cw_items": {
+							"value": "@pipeline().parameters.cw_items",
+							"type": "Expression"
+						}
 					}
 				}
 			},
