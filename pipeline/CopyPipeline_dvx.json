@@ -3,8 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_dvx",
-				"type": "Copy",
+				"name": "Truncate_Stage",
+				"type": "Script",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -13,122 +13,20 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [
-					{
-						"name": "Source",
-						"value": "Sales.Store"
-					},
-					{
-						"name": "Destination",
-						"value": "stg.Store"
-					}
-				],
-				"typeProperties": {
-					"source": {
-						"type": "AzureSqlSource",
-						"partitionOption": "None"
-					},
-					"sink": {
-						"type": "AzureSqlSink",
-						"tableOption": "autoCreate"
-					},
-					"enableStaging": false,
-					"validateDataConsistency": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "BusinessEntityID",
-									"type": "Int32",
-									"physicalType": "int"
-								},
-								"sink": {
-									"name": "BusinessEntityID",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "Name",
-									"type": "String",
-									"physicalType": "nvarchar"
-								},
-								"sink": {
-									"name": "Name",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "SalesPersonID",
-									"type": "Int32",
-									"physicalType": "int"
-								},
-								"sink": {
-									"name": "SalesPersonID",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "Demographics",
-									"type": "String",
-									"physicalType": "xml"
-								},
-								"sink": {
-									"name": "Demographics",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "rowguid",
-									"type": "Guid",
-									"physicalType": "uniqueidentifier"
-								},
-								"sink": {
-									"name": "rowguid",
-									"type": "Guid",
-									"physicalType": "uniqueidentifier"
-								}
-							},
-							{
-								"source": {
-									"name": "ModifiedDate",
-									"type": "DateTime",
-									"physicalType": "datetime"
-								},
-								"sink": {
-									"name": "ModifiedDate",
-									"type": "DateTime",
-									"physicalType": "datetime2"
-								}
-							}
-						],
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
 				},
-				"inputs": [
-					{
-						"referenceName": "SourceDataset_dvx",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "DestinationDataset_dvx",
-						"type": "DatasetReference"
-					}
-				]
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "BEGIN\n\nIF OBJECT_ID('stg.salesorderheader', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.salesorderheader;\n\nIF OBJECT_ID('stg.salesorderdetail', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.salesorderdetail;\n\nIF OBJECT_ID('stg.customer', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.customer;\n\nIF OBJECT_ID('stg.person', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.person;\n\nIF OBJECT_ID('stg.product', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.product;\n\nIF OBJECT_ID('stg.productsubcategory', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.productsubcategory;\n\nIF OBJECT_ID('stg.productcategory', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.productcategory;\n\nIF OBJECT_ID('stg.salesterritory', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.salesterritory;\n\nIF OBJECT_ID('stg.store', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.store;\n\nEND\n"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"annotations": []
