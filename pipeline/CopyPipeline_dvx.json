@@ -127,7 +127,11 @@
 							"outputs": [
 								{
 									"referenceName": "AzureSqlTable47",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"schema": "stg",
+										"table": "@item().table_name"
+									}
 								}
 							]
 						}
