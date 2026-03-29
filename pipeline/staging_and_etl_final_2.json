@@ -329,7 +329,10 @@
 						"referenceName": "database_staging",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": true,
+					"parameters": {
+						"cw_items": "@pipeline().parameters.cw_items"
+					}
 				}
 			}
 		],
