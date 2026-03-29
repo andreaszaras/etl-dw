@@ -124,7 +124,8 @@
 									"referenceName": "AzureSqlTable46",
 									"type": "DatasetReference",
 									"parameters": {
-										"schema": "@item().schema_name"
+										"schema": "@item().schema_name",
+										"table": "@item().table_name"
 									}
 								}
 							],
