@@ -80,7 +80,7 @@
 					},
 					"activities": [
 						{
-							"name": "Copy data2",
+							"name": "Copy_OLTP_Tables",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
