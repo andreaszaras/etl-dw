@@ -48,7 +48,10 @@
 						"referenceName": "oltp_to_stg",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": true,
+					"parameters": {
+						"cw_items": "@pipeline().parameters.cw_items"
+					}
 				}
 			}
 		],
