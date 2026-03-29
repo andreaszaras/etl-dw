@@ -1,0 +1,22 @@
+{
+	"name": "AzureSqlTable46",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "etl_dw_1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Schema": {
+				"type": "array",
+				"defaultValue": "@dataset().p_schema"
+			},
+			"Table": {
+				"type": "array",
+				"defaultValue": "@item().table_name"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
