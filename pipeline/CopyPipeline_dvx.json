@@ -74,6 +74,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup1').output.value",
+						"type": "Expression"
+					},
 					"activities": [
 						{
 							"name": "Copy data2",
@@ -113,7 +117,10 @@
 							"inputs": [
 								{
 									"referenceName": "AzureSqlTable46",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"schema": "@item().schema_name"
+									}
 								}
 							],
 							"outputs": [
