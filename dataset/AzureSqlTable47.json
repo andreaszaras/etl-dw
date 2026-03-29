@@ -17,8 +17,11 @@
 		"type": "AzureSqlTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "@concat(dataset().schema, '.', dataset().table)",
-			"table": ""
+			"schema": {
+				"value": "@dataset().schema",
+				"type": "Expression"
+			},
+			"table": "@dataset().table"
 		}
 	}
 }
