@@ -29,7 +29,7 @@
 				}
 			},
 			{
-				"name": "Lookup1",
+				"name": "Select_Tables_OLTP",
 				"type": "Lookup",
 				"dependsOn": [
 					{
@@ -66,7 +66,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "Select_Tables_OLTP",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -75,7 +75,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup1').output.value",
+						"value": "@activity('Select_Tables_OLTP').output.value",
 						"type": "Expression"
 					},
 					"activities": [
