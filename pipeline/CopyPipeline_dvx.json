@@ -62,7 +62,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "Loop_OLTP",
 				"type": "ForEach",
 				"dependsOn": [
 					{
