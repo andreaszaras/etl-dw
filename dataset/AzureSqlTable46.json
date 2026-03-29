@@ -6,17 +6,22 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"Schema": {
-				"type": "array",
-				"defaultValue": "@dataset().p_schema"
+			"schema": {
+				"type": "string"
 			},
-			"Table": {
-				"type": "array",
-				"defaultValue": "@item().table_name"
+			"table": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"schema": "@concat(dataset().Schema, '.', dataset().Table)",
+			"table": {
+				"value": "@concat(dataset().Schema, '.', dataset().Table)",
+				"type": "Expression"
+			}
+		}
 	}
 }
