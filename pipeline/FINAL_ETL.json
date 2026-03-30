@@ -124,7 +124,14 @@
 							"outputs": [
 								{
 									"referenceName": "AzureSqlTable50",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"schema": "stg",
+										"table": {
+											"value": "@item().table_name",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
