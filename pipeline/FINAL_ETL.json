@@ -57,7 +57,8 @@
 					"dataset": {
 						"referenceName": "AzureSqlTable48",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
@@ -99,7 +100,9 @@
 								"sink": {
 									"type": "AzureSqlSink",
 									"writeBehavior": "insert",
-									"sqlWriterUseTableLock": false
+									"sqlWriterUseTableLock": false,
+									"tableOption": "autoCreate",
+									"disableMetricsCollection": false
 								},
 								"enableStaging": false,
 								"translator": {
