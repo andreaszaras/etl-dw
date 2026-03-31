@@ -390,7 +390,7 @@
 				}
 			},
 			{
-				"name": "Lookup1",
+				"name": "Select_Tables_From_STG",
 				"type": "Lookup",
 				"dependsOn": [
 					{
@@ -411,6 +411,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT\n    t.TABLE_SCHEMA AS schema_name,\n    t.TABLE_NAME   AS table_name\nFROM INFORMATION_SCHEMA.TABLES t\nWHERE TABLE_TYPE = 'BASE TABLE'\n  AND (t.TABLE_SCHEMA + '.' + t.TABLE_NAME) IN (\n        stg.SalesOrderDetail',\n        stg.Customer',\n        stg.Person',\n        stg.Store',\n        stg.Product',\n        'stg.ProductCategory',\n        'stg.SalesTerritory'\n  )\nORDER BY t.TABLE_SCHEMA, t.TABLE_NAME;\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
