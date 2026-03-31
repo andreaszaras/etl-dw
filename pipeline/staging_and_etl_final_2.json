@@ -160,14 +160,7 @@
 			{
 				"name": "Color_Transform",
 				"type": "ExecuteDataFlow",
-				"dependsOn": [
-					{
-						"activity": "stg_to_wrk",
-						"dependencyConditions": [
-							"Completed"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -186,35 +179,6 @@
 						"computeType": "General"
 					},
 					"traceLevel": "Fine"
-				}
-			},
-			{
-				"name": "stg_to_wrk",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "truncate_wrk",
-						"dependencyConditions": [
-							"Completed"
-						]
-					}
-				],
-				"policy": {
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "stg_to_wrk_final_version",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true,
-					"parameters": {
-						"cw_items": {
-							"value": "@pipeline().parameters.cw_items",
-							"type": "Expression"
-						}
-					}
 				}
 			},
 			{
