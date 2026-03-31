@@ -7,7 +7,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Loop_OLTOP",
+						"activity": "Loop_OLTP",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -307,7 +307,7 @@
 				}
 			},
 			{
-				"name": "Loop_OLTOP",
+				"name": "Loop_OLTP",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -377,7 +377,10 @@
 									"referenceName": "AzureSqlTable53",
 									"type": "DatasetReference",
 									"parameters": {
-										"schema": "wrk",
+										"schema": {
+											"value": "wrk",
+											"type": "Expression"
+										},
 										"table": {
 											"value": "@item().table_name",
 											"type": "Expression"
