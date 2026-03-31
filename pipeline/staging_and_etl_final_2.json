@@ -5,7 +5,14 @@
 			{
 				"name": "Stage_ProductSubCategory",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Loop_OLTOP",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -332,6 +339,54 @@
 						"referenceName": "AzureSqlTable51",
 						"type": "DatasetReference"
 					}
+				}
+			},
+			{
+				"name": "Loop_OLTOP",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Select_Tables_From_OLTP",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Select_Tables_From_OLTP').output.value   ",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_OLTOP_Tables",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "AzureSqlTable52",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
 				}
 			}
 		],
