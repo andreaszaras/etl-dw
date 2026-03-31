@@ -420,6 +420,19 @@
 						"type": "DatasetReference"
 					}
 				}
+			},
+			{
+				"name": "Loop_STG",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Select_Tables_From_STG",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": []
 			}
 		],
 		"parameters": {
