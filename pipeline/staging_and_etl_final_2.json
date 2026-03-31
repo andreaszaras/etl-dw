@@ -338,7 +338,8 @@
 					"dataset": {
 						"referenceName": "AzureSqlTable51",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
