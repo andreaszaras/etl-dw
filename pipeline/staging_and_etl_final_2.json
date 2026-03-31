@@ -475,7 +475,10 @@
 							"inputs": [
 								{
 									"referenceName": "AzureSqlTable55",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"schema": "@item().schema_name"
+									}
 								}
 							],
 							"outputs": [
