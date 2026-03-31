@@ -480,7 +480,11 @@
 									"referenceName": "AzureSqlTable55",
 									"type": "DatasetReference",
 									"parameters": {
-										"schema": "@item().schema_name"
+										"schema": "@item().schema_name",
+										"table": {
+											"value": "@item().table_name",
+											"type": "Expression"
+										}
 									}
 								}
 							],
