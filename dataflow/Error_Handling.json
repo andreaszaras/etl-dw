@@ -283,7 +283,7 @@
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> joincustomer",
+				"     broadcast: 'right')~> joincustomer",
 				"joincustomer, product join(split1@ValidCustomerRows@ProductID == product@ProductID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
