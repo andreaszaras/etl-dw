@@ -218,7 +218,7 @@
 				"          SalesOrderID = split1@ValidCustomerRows@SalesOrderID,",
 				"          SalesOrderDetailID,",
 				"          DateKey,",
-				"          CustomerKey = split1@ValidCustomerRows@CustomerKey,",
+				"          CustomerKey = customer@CustomerKey,",
 				"          ProductKey,",
 				"          OrderQty,",
 				"          UnitPrice,",
