@@ -26,7 +26,22 @@
 					"name": "source1"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable61",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable62",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
 			"transformations": [
 				{
 					"name": "join1"
@@ -118,7 +133,55 @@
 				"     broadcast: 'auto')~> lookup1",
 				"derivedColumn1 split(FoundCustomer,",
 				"     !FoundCustomer,",
-				"     disjoint: false) ~> split1@(ValidCustomerRows, )"
+				"     disjoint: false) ~> split1@(ValidCustomerRows, MissingCustomerRows)",
+				"split1@ValidCustomerRows sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          SalesKey as long,",
+				"          SalesOrderID as integer,",
+				"          SalesOrderDetailID as integer,",
+				"          OrderDateKey as integer,",
+				"          CustomerKey as integer,",
+				"          ProductKey as integer,",
+				"          TerritoryKey as integer,",
+				"          OrderQty as integer,",
+				"          UnitPrice as decimal(19,4),",
+				"          UnitPriceDiscount as decimal(19,4),",
+				"          LineTotal as decimal(19,4)",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          SalesOrderDetailID,",
+				"          CustomerKey,",
+				"          OrderQty,",
+				"          UnitPrice,",
+				"          UnitPriceDiscount,",
+				"          LineTotal",
+				"     )) ~> sink1",
+				"split1@MissingCustomerRows sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          SalesOrderID as integer,",
+				"          SalesOrderDetailID as integer,",
+				"          CustomerID as integer,",
+				"          ErrorDescription as string,",
+				"          ErrorDate as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
 			]
 		}
 	}
