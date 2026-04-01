@@ -384,10 +384,7 @@
 									"referenceName": "AzureSqlTable53",
 									"type": "DatasetReference",
 									"parameters": {
-										"schema": {
-											"value": "wrk",
-											"type": "Expression"
-										},
+										"schema": "stg",
 										"table": {
 											"value": "@item().table_name",
 											"type": "Expression"
