@@ -428,7 +428,8 @@
 					"dataset": {
 						"referenceName": "AzureSqlTable54",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
