@@ -12513,7 +12513,7 @@
 						"     matchType:'exact',",
 						"     ignoreSpaces: false,",
 						"     broadcast: 'auto')~> joinprodcut",
-						"joinprodcut, date join(OrderDate == FullDate,",
+						"joinprodcut, date join(toDate(OrderDate) == FullDate,",
 						"     joinType:'inner',",
 						"     matchType:'exact',",
 						"     ignoreSpaces: false,",
