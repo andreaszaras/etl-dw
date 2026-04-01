@@ -31,6 +31,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "product"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable64",
+						"type": "DatasetReference"
+					},
+					"name": "date"
 				}
 			],
 			"sinks": [
@@ -73,6 +80,9 @@
 				},
 				{
 					"name": "joinprodcut"
+				},
+				{
+					"name": "joindate"
 				}
 			],
 			"scriptLines": [
@@ -158,6 +168,19 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> product",
+				"source(output(",
+				"          DateKey as integer,",
+				"          FullDate as date,",
+				"          DayNumberOfMonth as integer,",
+				"          MonthNumber as integer,",
+				"          MonthName as string,",
+				"          QuarterNumber as integer,",
+				"          YearNumber as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> date",
 				"SOH, SOD join(SOH@SalesOrderID == SOD@SalesOrderID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
@@ -170,7 +193,7 @@
 				"derivedColumn1 split(FoundCustomer,",
 				"     !FoundCustomer,",
 				"     disjoint: false) ~> split1@(ValidCustomerRows, MissingCustomerRows)",
-				"joinprodcut select(mapColumn(",
+				"joindate select(mapColumn(",
 				"          SalesOrderID = split1@ValidCustomerRows@SalesOrderID,",
 				"          SalesOrderDetailID,",
 				"          OrderQty,",
@@ -242,6 +265,11 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> joinprodcut",
+				"joinprodcut, date join(OrderDate == FullDate,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joindate",
 				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
