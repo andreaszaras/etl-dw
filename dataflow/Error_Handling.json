@@ -225,7 +225,7 @@
 				"          UnitPrice,",
 				"          UnitPriceDiscount,",
 				"          LineTotal,",
-				"          TerritoryID = customer@TerritoryID",
+				"          TerritoryKey",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
