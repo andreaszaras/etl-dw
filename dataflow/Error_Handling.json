@@ -295,7 +295,7 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> joindate",
-				"joindate, territoryu join(split1@ValidCustomerRows@TerritoryID == territoryu@TerritoryID,",
+				"joindate, territoryu join(customer@TerritoryID == territoryu@TerritoryID,",
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
