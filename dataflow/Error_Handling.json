@@ -23,7 +23,14 @@
 						"referenceName": "AzureSqlTable60",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "customer"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable63",
+						"type": "DatasetReference"
+					},
+					"name": "product"
 				}
 			],
 			"sinks": [
@@ -60,6 +67,12 @@
 				},
 				{
 					"name": "select2"
+				},
+				{
+					"name": "joincustomer"
+				},
+				{
+					"name": "joinprodcut"
 				}
 			],
 			"scriptLines": [
@@ -127,20 +140,37 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
+				"     format: 'table') ~> customer",
+				"source(output(",
+				"          ProductKey as integer,",
+				"          ProductID as integer,",
+				"          ProductName as string,",
+				"          ProductNumber as string,",
+				"          Color_Imputed as string,",
+				"          StandardCost as decimal(19,4),",
+				"          ListPrice as decimal(19,4),",
+				"          ProductSubcategoryID as integer,",
+				"          ProductSubcategoryName as string,",
+				"          ProductCategoryID as integer,",
+				"          ProductCategoryName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> product",
 				"SOH, SOD join(SOH@SalesOrderID == SOD@SalesOrderID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
 				"lookup1 derive(FoundCustomer = !isNull(CustomerKey)) ~> derivedColumn1",
-				"join1, source1 lookup(SOH@CustomerID == source1@CustomerID,",
+				"join1, customer lookup(SOH@CustomerID == customer@CustomerID,",
 				"     multiple: true,",
 				"     broadcast: 'auto')~> lookup1",
 				"derivedColumn1 split(FoundCustomer,",
 				"     !FoundCustomer,",
 				"     disjoint: false) ~> split1@(ValidCustomerRows, MissingCustomerRows)",
-				"split1@ValidCustomerRows select(mapColumn(",
+				"joinprodcut select(mapColumn(",
 				"          SalesOrderID = split1@ValidCustomerRows@SalesOrderID,",
 				"          SalesOrderDetailID,",
 				"          OrderQty,",
@@ -202,6 +232,16 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
+				"split1@ValidCustomerRows, customer join(split1@ValidCustomerRows@CustomerID == customer@CustomerID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joincustomer",
+				"joincustomer, product join(ERROR_FUNCTION('') == ProductKey,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinprodcut",
 				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
