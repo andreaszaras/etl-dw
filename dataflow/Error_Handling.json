@@ -38,6 +38,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "date"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable65",
+						"type": "DatasetReference"
+					},
+					"name": "territoryu"
 				}
 			],
 			"sinks": [
@@ -83,6 +90,9 @@
 				},
 				{
 					"name": "joindate"
+				},
+				{
+					"name": "jointerritory"
 				}
 			],
 			"scriptLines": [
@@ -181,6 +191,17 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> date",
+				"source(output(",
+				"          TerritoryKey as integer,",
+				"          TerritoryID as integer,",
+				"          TerritoryName as string,",
+				"          CountryRegionCode as string,",
+				"          TerritoryGroup as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> territoryu",
 				"SOH, SOD join(SOH@SalesOrderID == SOD@SalesOrderID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
@@ -193,7 +214,7 @@
 				"derivedColumn1 split(FoundCustomer,",
 				"     !FoundCustomer,",
 				"     disjoint: false) ~> split1@(ValidCustomerRows, MissingCustomerRows)",
-				"joindate select(mapColumn(",
+				"jointerritory select(mapColumn(",
 				"          SalesOrderID = split1@ValidCustomerRows@SalesOrderID,",
 				"          SalesOrderDetailID,",
 				"          OrderQty,",
@@ -270,6 +291,11 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> joindate",
+				"joindate, territoryu join(split1@ValidCustomerRows@TerritoryID == territoryu@TerritoryID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> jointerritory",
 				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",

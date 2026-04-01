@@ -1,0 +1,39 @@
+{
+	"name": "AzureSqlTable65",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "etl_dw_1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TerritoryKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TerritoryID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TerritoryName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CountryRegionCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TerritoryGroup",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dw",
+			"table": "DimTerritory"
+		}
+	}
+}
