@@ -237,7 +237,7 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> joincustomer",
-				"joincustomer, product join(ERROR_FUNCTION('') == ProductKey,",
+				"joincustomer, product join(split1@ValidCustomerRows@ProductID == product@ProductID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
