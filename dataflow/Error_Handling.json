@@ -36,6 +36,9 @@
 				},
 				{
 					"name": "lookup1"
+				},
+				{
+					"name": "split1"
 				}
 			],
 			"scriptLines": [
@@ -112,7 +115,10 @@
 				"lookup1 derive(FoundCustomer = !isNull(CustomerKey)) ~> derivedColumn1",
 				"join1, source1 lookup(SOH@CustomerID == source1@CustomerID,",
 				"     multiple: true,",
-				"     broadcast: 'auto')~> lookup1"
+				"     broadcast: 'auto')~> lookup1",
+				"derivedColumn1 split(FoundCustomer,",
+				"     !FoundCustomer,",
+				"     disjoint: false) ~> split1@(ValidCustomerRows, )"
 			]
 		}
 	}
