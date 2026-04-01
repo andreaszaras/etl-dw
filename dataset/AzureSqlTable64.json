@@ -1,0 +1,50 @@
+{
+	"name": "AzureSqlTable64",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "etl_dw_1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DateKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FullDate",
+				"type": "date"
+			},
+			{
+				"name": "DayNumberOfMonth",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "MonthNumber",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "MonthName",
+				"type": "varchar"
+			},
+			{
+				"name": "QuarterNumber",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "YearNumber",
+				"type": "smallint",
+				"precision": 5
+			}
+		],
+		"typeProperties": {
+			"schema": "dw",
+			"table": "DimDate"
+		}
+	}
+}
