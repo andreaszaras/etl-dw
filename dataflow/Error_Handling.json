@@ -5,6 +5,10 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "AzureSqlTable59",
+						"type": "DatasetReference"
+					},
 					"name": "SOH"
 				},
 				{
@@ -13,17 +17,60 @@
 						"type": "DatasetReference"
 					},
 					"name": "SOD"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable60",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
 				}
 			],
 			"sinks": [],
 			"transformations": [
 				{
 					"name": "join1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "lookup1"
 				}
 			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> SOH",
+				"source(output(",
+				"          SalesOrderID as integer,",
+				"          RevisionNumber as integer,",
+				"          OrderDate as timestamp,",
+				"          DueDate as timestamp,",
+				"          ShipDate as timestamp,",
+				"          Status as integer,",
+				"          OnlineOrderFlag as boolean,",
+				"          SalesOrderNumber as string,",
+				"          PurchaseOrderNumber as string,",
+				"          AccountNumber as string,",
+				"          CustomerID as integer,",
+				"          SalesPersonID as integer,",
+				"          TerritoryID as integer,",
+				"          BillToAddressID as integer,",
+				"          ShipToAddressID as integer,",
+				"          ShipMethodID as integer,",
+				"          CreditCardID as integer,",
+				"          CreditCardApprovalCode as string,",
+				"          CurrencyRateID as integer,",
+				"          SubTotal as decimal(19,4),",
+				"          TaxAmt as decimal(19,4),",
+				"          Freight as decimal(19,4),",
+				"          TotalDue as decimal(19,4),",
+				"          Comment as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> SOH",
 				"source(output(",
 				"          SalesOrderID as integer,",
 				"          SalesOrderDetailID as integer,",
@@ -41,11 +88,31 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> SOD",
-				"SOH, SOD join(ERROR_FUNCTION('') == SalesOrderID,",
+				"source(output(",
+				"          CustomerKey as integer,",
+				"          CustomerID as integer,",
+				"          PersonID as integer,",
+				"          StoreID as integer,",
+				"          TerritoryID as integer,",
+				"          CustomerType as string,",
+				"          FirstName as string,",
+				"          MiddleName as string,",
+				"          LastName as string,",
+				"          age as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"SOH, SOD join(SOH@SalesOrderID == SOD@SalesOrderID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1"
+				"     broadcast: 'auto')~> join1",
+				"lookup1 derive(FoundCustomer = !isNull(CustomerKey)) ~> derivedColumn1",
+				"join1, source1 lookup(SOH@CustomerID == source1@CustomerID,",
+				"     multiple: true,",
+				"     broadcast: 'auto')~> lookup1"
 			]
 		}
 	}
