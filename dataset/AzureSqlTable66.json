@@ -1,0 +1,16 @@
+{
+	"name": "AzureSqlTable66",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "etl_dw_1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "wrk",
+			"table": "pre_fact"
+		}
+	}
+}
