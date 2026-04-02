@@ -542,7 +542,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "DELETE FROM dw.FactSales;\nDELETE FROM dw.DimProduct;\n\nINSERT INTO dw.DimProduct (\n    ProductID,\n    ProductName,\n    ProductNumber,\n    Color_Imputed,\n    StandardCost,\n    ListPrice,\n    ProductSubcategoryID,\n    ProductSubcategoryName,\n    ProductCategoryID,\n    ProductCategoryName\n)\nSELECT\n    p.ProductID,\n    p.Name AS ProductName,\n    p.ProductNumber,\n    p.Color_Imputed,\n    p.StandardCost,\n    p.ListPrice,\n    ps.ProductSubcategoryID,\n    ps.Name AS ProductSubcategoryName,\n    pc.ProductCategoryID,\n    pc.Name AS ProductCategoryName\nFROM wrk.Product_new p\nLEFT JOIN stg.ProductSubcategory ps\n    ON p.ProductSubcategoryID = ps.ProductSubcategoryID\nLEFT JOIN stg.ProductCategory pc\n    ON ps.ProductCategoryID = pc.ProductCategoryID;"
+							"text": "DELETE FROM dw.FactSales;\nDELETE FROM dw.DimProduct;\n\nINSERT INTO dw.DimProduct (\n    ProductID,\n    ProductName,\n    ProductNumber,\n    Color_Imputed,\n    StandardCost,\n    ListPrice,\n    ProductSubcategoryID,\n    ProductSubcategoryName,\n    ProductCategoryID,\n    ProductCategoryName\n)\nSELECT\n    p.ProductID,\n    p.Name AS ProductName,\n    p.ProductNumber,\n    p.Color_Imputed,\n    p.StandardCost,\n    p.ListPrice,\n    ps.ProductSubcategoryID,\n    ps.Name AS ProductSubcategoryName,\n    pc.ProductCategoryID,\n    pc.Name AS ProductCategoryName\nFROM wrk.product_new p\nLEFT JOIN stg.ProductSubcategory ps\n    ON p.ProductSubcategoryID = ps.ProductSubcategoryID\nLEFT JOIN stg.ProductCategory pc\n    ON ps.ProductCategoryID = pc.ProductCategoryID;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
