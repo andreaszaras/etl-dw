@@ -50,13 +50,6 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable61",
-						"type": "DatasetReference"
-					},
-					"name": "sink1"
-				},
-				{
-					"dataset": {
 						"referenceName": "AzureSqlTable62",
 						"type": "DatasetReference"
 					},
@@ -77,22 +70,7 @@
 					"name": "split1"
 				},
 				{
-					"name": "select1"
-				},
-				{
 					"name": "select2"
-				},
-				{
-					"name": "joincustomer"
-				},
-				{
-					"name": "joinprodcut"
-				},
-				{
-					"name": "joindate"
-				},
-				{
-					"name": "jointerritory"
 				}
 			],
 			"scriptLines": [
@@ -215,20 +193,6 @@
 				"derivedColumn1 split(FoundCustomer,",
 				"     !FoundCustomer,",
 				"     disjoint: false) ~> split1@(ValidCustomerRows, MissingCustomerRows)",
-				"jointerritory select(mapColumn(",
-				"          SalesOrderID = split1@ValidCustomerRows@SalesOrderID,",
-				"          SalesOrderDetailID,",
-				"          DateKey,",
-				"          CustomerKey = customer@CustomerKey,",
-				"          ProductKey,",
-				"          OrderQty,",
-				"          UnitPrice,",
-				"          UnitPriceDiscount,",
-				"          LineTotal,",
-				"          TerritoryKey",
-				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
 				"split1@MissingCustomerRows select(mapColumn(",
 				"          SalesOrderID = split1@MissingCustomerRows@SalesOrderID,",
 				"          RevisionNumber,",
@@ -281,62 +245,6 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
-				"split1@ValidCustomerRows, customer join(split1@ValidCustomerRows@CustomerID == customer@CustomerID,",
-				"     joinType:'left',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'right')~> joincustomer",
-				"joincustomer, product join(split1@ValidCustomerRows@ProductID == product@ProductID,",
-				"     joinType:'left',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> joinprodcut",
-				"joinprodcut, date join(OrderDateKey == DateKey,",
-				"     joinType:'left',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> joindate",
-				"joindate, territoryu join(split1@ValidCustomerRows@TerritoryID == territoryu@TerritoryID,",
-				"     joinType:'left',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> jointerritory",
-				"select1 sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     input(",
-				"          SalesKey as long,",
-				"          SalesOrderID as integer,",
-				"          SalesOrderDetailID as integer,",
-				"          OrderDateKey as integer,",
-				"          CustomerKey as integer,",
-				"          ProductKey as integer,",
-				"          TerritoryKey as integer,",
-				"          OrderQty as integer,",
-				"          UnitPrice as decimal(19,4),",
-				"          UnitPriceDiscount as decimal(19,4),",
-				"          LineTotal as decimal(19,4)",
-				"     ),",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
-				"     truncate:true,",
-				"     format: 'table',",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
-				"     mapColumn(",
-				"          SalesOrderID,",
-				"          SalesOrderDetailID,",
-				"          OrderQty,",
-				"          UnitPrice,",
-				"          UnitPriceDiscount,",
-				"          LineTotal,",
-				"          CustomerKey,",
-				"          OrderDateKey = DateKey,",
-				"          ProductKey,",
-				"          TerritoryKey",
-				"     )) ~> sink1",
 				"select2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
