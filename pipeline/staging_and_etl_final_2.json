@@ -215,7 +215,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "TRUNCATE TABLE dw.DimCustomer;\n\nINSERT INTO dw.DimCustomer (\n    CustomerID,\n    CustomerType,\n    FirstName,\n    LastName,\n    MiddleName,\n    Age\n)\nSELECT \n    c.CustomerID,\n    CASE \n        WHEN c.PersonID IS NOT NULL THEN 'Person'\n        WHEN c.StoreID IS NOT NULL THEN 'Store'\n        ELSE 'Unknown'\n    END AS CustomerType,\n    p.First_Name,\n    p.Last_Name,\n    p.Middle_Name,\n    p.Age\nFROM wrk.Customer c\nLEFT JOIN wrk.Person p\n    ON c.PersonID = p.BusinessEntityID;\n"
+							"text": "DELETE FROM dw.DimCustomer;\n\nINSERT INTO dw.DimCustomer (\n    CustomerID,\n    CustomerType,\n    FirstName,\n    LastName,\n    MiddleName,\n    Age\n)\nSELECT \n    c.CustomerID,\n    CASE \n        WHEN c.PersonID IS NOT NULL THEN 'Person'\n        WHEN c.StoreID IS NOT NULL THEN 'Store'\n        ELSE 'Unknown'\n    END AS CustomerType,\n    p.First_Name,\n    p.Last_Name,\n    p.Middle_Name,\n    p.Age\nFROM wrk.Customer c\nLEFT JOIN wrk.Person p\n    ON c.PersonID = p.BusinessEntityID;\n"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -248,7 +248,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "TRUNCATE TABLE dw.DimDate;\n\nWITH DateCTE AS (\nSELECT CAST('2010-01-01' AS DATE) AS TheDate\nUNION ALL\nSELECT DATEADD(DAY, 1, TheDate)\nFROM DateCTE\nWHERE TheDate < '2030-12-31'\n)\nINSERT INTO dw.DimDate (\nDateKey,\nFullDate,\nDayNumberOfMonth,\nMonthNumber,\nMonthName,\nQuarterNumber,\nYearNumber\n)\nSELECT\nCAST(FORMAT(TheDate, 'yyyyMMdd') AS INT),\nTheDate,\nDAY(TheDate),\nMONTH(TheDate),\nDATENAME(MONTH, TheDate),\nDATEPART(QUARTER, TheDate),\nYEAR(TheDate)\nFROM DateCTE\nOPTION (MAXRECURSION 0);\n\n\n\n"
+							"text": "DELETE FROM dw.DimDate;\n\nWITH DateCTE AS (\nSELECT CAST('2010-01-01' AS DATE) AS TheDate\nUNION ALL\nSELECT DATEADD(DAY, 1, TheDate)\nFROM DateCTE\nWHERE TheDate < '2030-12-31'\n)\nINSERT INTO dw.DimDate (\nDateKey,\nFullDate,\nDayNumberOfMonth,\nMonthNumber,\nMonthName,\nQuarterNumber,\nYearNumber\n)\nSELECT\nCAST(FORMAT(TheDate, 'yyyyMMdd') AS INT),\nTheDate,\nDAY(TheDate),\nMONTH(TheDate),\nDATENAME(MONTH, TheDate),\nDATEPART(QUARTER, TheDate),\nYEAR(TheDate)\nFROM DateCTE\nOPTION (MAXRECURSION 0);\n\n\n\n"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -542,7 +542,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "TRUNCATE TABLE dw.DimProduct;\n\nINSERT INTO dw.DimProduct (\n    ProductID,\n    ProductName,\n    ProductNumber,\n    Color_Imputed,\n    StandardCost,\n    ListPrice,\n    ProductSubcategoryID,\n    ProductSubcategoryName,\n    ProductCategoryID,\n    ProductCategoryName\n)\nSELECT\n    p.ProductID,\n    p.Name AS ProductName,\n    p.ProductNumber,\n    p.Color_Imputed,\n    p.StandardCost,\n    p.ListPrice,\n    ps.ProductSubcategoryID,\n    ps.Name AS ProductSubcategoryName,\n    pc.ProductCategoryID,\n    pc.Name AS ProductCategoryName\nFROM stg.Product_new p\nLEFT JOIN stg.ProductSubcategory ps\n    ON p.ProductSubcategoryID = ps.ProductSubcategoryID\nLEFT JOIN stg.ProductCategory pc\n    ON ps.ProductCategoryID = pc.ProductCategoryID;"
+							"text": "DELETE FROM dw.DimProduct;\n\nINSERT INTO dw.DimProduct (\n    ProductID,\n    ProductName,\n    ProductNumber,\n    Color_Imputed,\n    StandardCost,\n    ListPrice,\n    ProductSubcategoryID,\n    ProductSubcategoryName,\n    ProductCategoryID,\n    ProductCategoryName\n)\nSELECT\n    p.ProductID,\n    p.Name AS ProductName,\n    p.ProductNumber,\n    p.Color_Imputed,\n    p.StandardCost,\n    p.ListPrice,\n    ps.ProductSubcategoryID,\n    ps.Name AS ProductSubcategoryName,\n    pc.ProductCategoryID,\n    pc.Name AS ProductCategoryName\nFROM stg.Product_new p\nLEFT JOIN stg.ProductSubcategory ps\n    ON p.ProductSubcategoryID = ps.ProductSubcategoryID\nLEFT JOIN stg.ProductCategory pc\n    ON ps.ProductCategoryID = pc.ProductCategoryID;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -575,7 +575,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "TRUNCATE TABLE dw.DimTerritory;\n\nINSERT INTO dw.DimTerritory (\n    TerritoryID,\n    TerritoryName,\n    CountryRegionCode,\n    TerritoryGroup\n)\nSELECT\n    TerritoryID,\n    Name AS TerritoryName,\n    CountryRegionCode,\n    [Group] AS TerritoryGroup\nFROM stg.SalesTerritory;"
+							"text": "DELETE FROM dw.DimTerritory;\n\nINSERT INTO dw.DimTerritory (\n    TerritoryID,\n    TerritoryName,\n    CountryRegionCode,\n    TerritoryGroup\n)\nSELECT\n    TerritoryID,\n    Name AS TerritoryName,\n    CountryRegionCode,\n    [Group] AS TerritoryGroup\nFROM stg.SalesTerritory;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
