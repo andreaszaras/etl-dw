@@ -638,7 +638,8 @@
 				"typeProperties": {
 					"scripts": [
 						{
-							"type": "Query"
+							"type": "Query",
+							"text": "TRUNCATE TABLE dw.FactSales;\n\nINSERT INTO dw.FactSales\n(\n    SalesOrderID,\n    SalesOrderDetailID,\n    OrderDateKey,\n    CustomerKey,\n    ProductKey,\n    TerritoryKey,\n    OrderQty,\n    UnitPrice,\n    UnitPriceDiscount,\n    LineTotal\n)\nSELECT\n    f.SalesOrderID,\n    f.SalesOrderDetailID,\n    dd.DateKey,\n    dc.CustomerKey,\n    dp.ProductKey,\n    dt.TerritoryKey,\n    f.OrderQty,\n    f.UnitPrice,\n    f.UnitPriceDiscount,\n    f.LineTotal\nFROM wrk.pre_fact f\nLEFT JOIN dw.DimCustomer dc\n    ON f.CustomerID = dc.CustomerID\nLEFT JOIN dw.DimProduct dp\n    ON f.ProductID = dp.ProductID\nLEFT JOIN dw.DimDate dd\n    ON CAST(f.OrderDate AS DATE) = dd.FullDate\nLEFT JOIN dw.DimTerritory dt\n    ON f.TerritoryID = dt.TerritoryID\nWHERE dc.CustomerKey IS NOT NULL\n  AND dp.ProductKey IS NOT NULL\n  AND dd.DateKey IS NOT NULL\n  AND dt.TerritoryKey IS NOT NULL;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
