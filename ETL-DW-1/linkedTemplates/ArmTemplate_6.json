@@ -13,6 +13,381 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/Stg_ProductSubCategory')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ProductSubcategoryID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ProductCategoryID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
+					"table": "ProductSubcategory"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/soh1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Sheet1",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "salesorderheader_part_1.xlsx",
+						"container": "etldw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "String"
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "String"
+					},
+					{
+						"name": "OrderDate",
+						"type": "String"
+					},
+					{
+						"name": "DueDate",
+						"type": "String"
+					},
+					{
+						"name": "ShipDate",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "String"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "String"
+					},
+					{
+						"name": "CustomerID",
+						"type": "String"
+					},
+					{
+						"name": "SalesPersonID",
+						"type": "String"
+					},
+					{
+						"name": "TerritoryID",
+						"type": "String"
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipMethodID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "String"
+					},
+					{
+						"name": "CurrencyRateID",
+						"type": "String"
+					},
+					{
+						"name": "SubTotal",
+						"type": "String"
+					},
+					{
+						"name": "TaxAmt",
+						"type": "String"
+					},
+					{
+						"name": "Freight",
+						"type": "String"
+					},
+					{
+						"name": "TotalDue",
+						"type": "String"
+					},
+					{
+						"name": "Comment",
+						"type": "String"
+					},
+					{
+						"name": "rowguid",
+						"type": "String"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/soh2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Sheet1",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "salesorderheader_part_2.xlsx",
+						"container": "etldw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/soh3')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Sheet1",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "salesorderheader_part_3.xlsx",
+						"container": "etldw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/soh4')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -112,173 +487,6 @@
 						"type": "String"
 					}
 				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable63')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "etl_dw_1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ProductKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ProductID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ProductName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProductNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Color_Imputed",
-						"type": "nvarchar"
-					},
-					{
-						"name": "StandardCost",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "ListPrice",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "ProductSubcategoryID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ProductSubcategoryName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProductCategoryID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ProductCategoryName",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dw",
-					"table": "DimProduct"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable64')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "etl_dw_1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "DateKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "FullDate",
-						"type": "date"
-					},
-					{
-						"name": "DayNumberOfMonth",
-						"type": "tinyint",
-						"precision": 3
-					},
-					{
-						"name": "MonthNumber",
-						"type": "tinyint",
-						"precision": 3
-					},
-					{
-						"name": "MonthName",
-						"type": "varchar"
-					},
-					{
-						"name": "QuarterNumber",
-						"type": "tinyint",
-						"precision": 3
-					},
-					{
-						"name": "YearNumber",
-						"type": "smallint",
-						"precision": 5
-					}
-				],
-				"typeProperties": {
-					"schema": "dw",
-					"table": "DimDate"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable65')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "etl_dw_1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "TerritoryKey",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "TerritoryID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "TerritoryName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CountryRegionCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TerritoryGroup",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dw",
-					"table": "DimTerritory"
-				}
 			},
 			"dependsOn": []
 		},
@@ -414,17 +622,17 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "AzureSqlTable61",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						},
-						{
-							"dataset": {
 								"referenceName": "AzureSqlTable62",
 								"type": "DatasetReference"
 							},
 							"name": "sink2"
+						},
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable66",
+								"type": "DatasetReference"
+							},
+							"name": "Factwrk"
 						}
 					],
 					"transformations": [
@@ -441,22 +649,7 @@
 							"name": "split1"
 						},
 						{
-							"name": "select1"
-						},
-						{
 							"name": "select2"
-						},
-						{
-							"name": "joincustomer"
-						},
-						{
-							"name": "joinprodcut"
-						},
-						{
-							"name": "joindate"
-						},
-						{
-							"name": "jointerritory"
 						}
 					],
 					"scriptLines": [
@@ -579,20 +772,6 @@
 						"derivedColumn1 split(FoundCustomer,",
 						"     !FoundCustomer,",
 						"     disjoint: false) ~> split1@(ValidCustomerRows, MissingCustomerRows)",
-						"jointerritory select(mapColumn(",
-						"          SalesOrderID = split1@ValidCustomerRows@SalesOrderID,",
-						"          SalesOrderDetailID,",
-						"          DateKey,",
-						"          CustomerKey = customer@CustomerKey,",
-						"          ProductKey,",
-						"          OrderQty,",
-						"          UnitPrice,",
-						"          UnitPriceDiscount,",
-						"          LineTotal,",
-						"          TerritoryID = customer@TerritoryID",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select1",
 						"split1@MissingCustomerRows select(mapColumn(",
 						"          SalesOrderID = split1@MissingCustomerRows@SalesOrderID,",
 						"          RevisionNumber,",
@@ -645,61 +824,6 @@
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> select2",
-						"split1@ValidCustomerRows, customer join(split1@ValidCustomerRows@CustomerID == customer@CustomerID,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'right')~> joincustomer",
-						"joincustomer, product join(split1@ValidCustomerRows@ProductID == product@ProductID,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinprodcut",
-						"joinprodcut, date join(OrderDateKey == DateKey,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joindate",
-						"joindate, territoryu join(split1@ValidCustomerRows@TerritoryID == territoryu@TerritoryID,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> jointerritory",
-						"select1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          SalesKey as long,",
-						"          SalesOrderID as integer,",
-						"          SalesOrderDetailID as integer,",
-						"          OrderDateKey as integer,",
-						"          CustomerKey as integer,",
-						"          ProductKey as integer,",
-						"          TerritoryKey as integer,",
-						"          OrderQty as integer,",
-						"          UnitPrice as decimal(19,4),",
-						"          UnitPriceDiscount as decimal(19,4),",
-						"          LineTotal as decimal(19,4)",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          SalesOrderID,",
-						"          SalesOrderDetailID,",
-						"          OrderQty,",
-						"          UnitPrice,",
-						"          UnitPriceDiscount,",
-						"          LineTotal,",
-						"          CustomerKey,",
-						"          OrderDateKey = DateKey,",
-						"          ProductKey",
-						"     )) ~> sink1",
 						"select2 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -713,18 +837,26 @@
 						"     insertable:true,",
 						"     updateable:false,",
 						"     upsertable:false,",
+						"     truncate:true,",
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink2",
+						"split1@ValidCustomerRows sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> Factwrk"
 					]
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable63')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable64')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable65')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Name_and_Age_Manipulation')]",
@@ -1134,6 +1266,7 @@
 						"     insertable:true,",
 						"     updateable:false,",
 						"     upsertable:false,",
+						"     truncate:true,",
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
@@ -1144,6 +1277,7 @@
 						"     insertable:true,",
 						"     updateable:false,",
 						"     upsertable:false,",
+						"     truncate:true,",
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
@@ -1183,8 +1317,8 @@
 									"product": {},
 									"date": {},
 									"territoryu": {},
-									"sink1": {},
-									"sink2": {}
+									"sink2": {},
+									"Factwrk": {}
 								}
 							},
 							"staging": {},
@@ -1776,7 +1910,7 @@
 							"scripts": [
 								{
 									"type": "Query",
-									"text": "TRUNCATE TABLE dw.DimProduct;\n\nINSERT INTO dw.DimProduct (\n    ProductID,\n    ProductName,\n    ProductNumber,\n    Color_Imputed,\n    StandardCost,\n    ListPrice,\n    ProductSubcategoryID,\n    ProductSubcategoryName,\n    ProductCategoryID,\n    ProductCategoryName\n)\nSELECT\n    p.ProductID,\n    p.Name AS ProductName,\n    p.ProductNumber,\n    ISNULL(p.Color, 'Unknown') AS Color_Imputed,\n    p.StandardCost,\n    p.ListPrice,\n    ps.ProductSubcategoryID,\n    ps.Name AS ProductSubcategoryName,\n    pc.ProductCategoryID,\n    pc.Name AS ProductCategoryName\nFROM stg.Product p\nLEFT JOIN stg.ProductSubcategory ps\n    ON p.ProductSubcategoryID = ps.ProductSubcategoryID\nLEFT JOIN stg.ProductCategory pc\n    ON ps.ProductCategoryID = pc.ProductCategoryID;"
+									"text": "TRUNCATE TABLE dw.DimProduct;\n\nINSERT INTO dw.DimProduct (\n    ProductID,\n    ProductName,\n    ProductNumber,\n    Color_Imputed,\n    StandardCost,\n    ListPrice,\n    ProductSubcategoryID,\n    ProductSubcategoryName,\n    ProductCategoryID,\n    ProductCategoryName\n)\nSELECT\n    p.ProductID,\n    p.Name AS ProductName,\n    p.ProductNumber,\n    p.Color_Imputed,\n    p.StandardCost,\n    p.ListPrice,\n    ps.ProductSubcategoryID,\n    ps.Name AS ProductSubcategoryName,\n    pc.ProductCategoryID,\n    pc.Name AS ProductCategoryName\nFROM stg.Product_new p\nLEFT JOIN stg.ProductSubcategory ps\n    ON p.ProductSubcategoryID = ps.ProductSubcategoryID\nLEFT JOIN stg.ProductCategory pc\n    ON ps.ProductCategoryID = pc.ProductCategoryID;"
 								}
 							],
 							"scriptBlockExecutionTimeout": "02:00:00"
@@ -1810,6 +1944,82 @@
 								{
 									"type": "Query",
 									"text": "TRUNCATE TABLE dw.DimTerritory;\n\nINSERT INTO dw.DimTerritory (\n    TerritoryID,\n    TerritoryName,\n    CountryRegionCode,\n    TerritoryGroup\n)\nSELECT\n    TerritoryID,\n    Name AS TerritoryName,\n    CountryRegionCode,\n    [Group] AS TerritoryGroup\nFROM stg.SalesTerritory;"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Error_Handling",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "DimCustomer",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Error_Handling",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"SOH": {},
+									"SOD": {},
+									"customer": {},
+									"product": {},
+									"date": {},
+									"territoryu": {},
+									"sink2": {},
+									"Factwrk": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "SalesFact",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Error_Handling",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "etl_dw_1",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "TRUNCATE TABLE dw.FactSales;\n\nINSERT INTO dw.FactSales\n(\n    SalesOrderID,\n    SalesOrderDetailID,\n    OrderDateKey,\n    CustomerKey,\n    ProductKey,\n    TerritoryKey,\n    OrderQty,\n    UnitPrice,\n    UnitPriceDiscount,\n    LineTotal\n)\nSELECT\n    f.SalesOrderID,\n    f.SalesOrderDetailID,\n    dd.DateKey,\n    dc.CustomerKey,\n    dp.ProductKey,\n    dt.TerritoryKey,\n    f.OrderQty,\n    f.UnitPrice,\n    f.UnitPriceDiscount,\n    f.LineTotal\nFROM wrk.pre_fact f\nLEFT JOIN dw.DimCustomer dc\n    ON f.CustomerID = dc.CustomerID\nLEFT JOIN dw.DimProduct dp\n    ON f.ProductID = dp.ProductID\nLEFT JOIN dw.DimDate dd\n    ON CAST(f.OrderDate AS DATE) = dd.FullDate\nLEFT JOIN dw.DimTerritory dt\n    ON f.TerritoryID = dt.TerritoryID\nWHERE dc.CustomerKey IS NOT NULL\n  AND dp.ProductKey IS NOT NULL\n  AND dd.DateKey IS NOT NULL\n  AND dt.TerritoryKey IS NOT NULL;"
 								}
 							],
 							"scriptBlockExecutionTimeout": "02:00:00"
@@ -1901,9 +2111,11 @@
 				"annotations": []
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Stg_ProductSubCategory')]",
 				"[concat(variables('factoryId'), '/dataflows/Union_SalesOrderHeader_2')]",
 				"[concat(variables('factoryId'), '/dataflows/Name_and_Age_Manipulation')]",
-				"[concat(variables('factoryId'), '/dataflows/Color_Transform')]"
+				"[concat(variables('factoryId'), '/dataflows/Color_Transform')]",
+				"[concat(variables('factoryId'), '/dataflows/Error_Handling')]"
 			]
 		}
 	]

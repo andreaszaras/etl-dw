@@ -952,7 +952,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable7')]",
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable63')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -982,11 +982,7 @@
 						"type": "nvarchar"
 					},
 					{
-						"name": "Color",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Size",
+						"name": "Color_Imputed",
 						"type": "nvarchar"
 					},
 					{
@@ -1002,10 +998,13 @@
 						"scale": 4
 					},
 					{
-						"name": "Weight",
-						"type": "decimal",
-						"precision": 8,
-						"scale": 2
+						"name": "ProductSubcategoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ProductSubcategoryName",
+						"type": "nvarchar"
 					},
 					{
 						"name": "ProductCategoryID",
@@ -1013,17 +1012,13 @@
 						"precision": 10
 					},
 					{
-						"name": "CategoryName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ParentCategoryName",
+						"name": "ProductCategoryName",
 						"type": "nvarchar"
 					}
 				],
 				"typeProperties": {
-					"schema": "SalesLT",
-					"table": "Customer"
+					"schema": "dw",
+					"table": "DimProduct"
 				}
 			},
 			"dependsOn": []
