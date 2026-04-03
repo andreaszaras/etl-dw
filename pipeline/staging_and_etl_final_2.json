@@ -697,8 +697,17 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"scripts": [],
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "ALTER TABLE dw.FactSales\nDROP CONSTRAINT FK_FactSales_Customer;\n\nALTER TABLE dw.FactSales\nDROP CONSTRAINT FK_FactSales_Product;\n\nALTER TABLE dw.FactSales\nDROP CONSTRAINT FK_FactSales_Date;\n\nALTER TABLE dw.FactSales\nDROP CONSTRAINT FK_FactSales_Territory;"
+						}
+					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
