@@ -193,7 +193,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Name_and_Age_Manipulation",
+						"activity": "Script1",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -226,7 +226,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Name_and_Age_Manipulation",
+						"activity": "Script1",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -520,7 +520,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Name_and_Age_Manipulation",
+						"activity": "Script1",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -553,7 +553,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Name_and_Age_Manipulation",
+						"activity": "Script1",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -675,6 +675,30 @@
 							"text": "ALTER TABLE dw.FactSales\nADD CONSTRAINT FK_FactSales_Customer\nFOREIGN KEY (CustomerKey)\nREFERENCES dw.DimCustomer(CustomerKey);\n\nALTER TABLE dw.FactSales\nADD CONSTRAINT FK_FactSales_Product\nFOREIGN KEY (ProductKey)\nREFERENCES dw.DimProduct(ProductKey);\n\nALTER TABLE dw.FactSales\nADD CONSTRAINT FK_FactSales_Date\nFOREIGN KEY (OrderDateKey)\nREFERENCES dw.DimDate(DateKey);\n\nALTER TABLE dw.FactSales\nADD CONSTRAINT FK_FactSales_Territory\nFOREIGN KEY (TerritoryKey)\nREFERENCES dw.DimTerritory(TerritoryKey);\n"
 						}
 					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Name_and_Age_Manipulation",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"scripts": [],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
