@@ -759,7 +759,40 @@
 						}
 					},
 					{
-						"name": "Error_Handling",
+						"name": "SalesFact",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Error_Handling_Final",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "etl_dw_1",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "TRUNCATE TABLE dw.FactSales;\n\nINSERT INTO dw.FactSales\n(\n    SalesOrderID,\n    SalesOrderDetailID,\n    OrderDateKey,\n    CustomerKey,\n    ProductKey,\n    TerritoryKey,\n    OrderQty,\n    UnitPrice,\n    UnitPriceDiscount,\n    LineTotal\n)\nSELECT\n    f.SalesOrderID,\n    f.SalesOrderDetailID,\n    dd.DateKey,\n    dc.CustomerKey,\n    dp.ProductKey,\n    dt.TerritoryKey,\n    f.OrderQty,\n    f.UnitPrice,\n    f.UnitPriceDiscount,\n    f.LineTotal\nFROM wrk.pre_fact f\nLEFT JOIN dw.DimCustomer dc\n    ON f.CustomerID = dc.CustomerID\nLEFT JOIN dw.DimProduct dp\n    ON f.ProductID = dp.ProductID\nLEFT JOIN dw.DimDate dd\n    ON CAST(f.OrderDate AS DATE) = dd.FullDate\nLEFT JOIN dw.DimTerritory dt\n    ON f.TerritoryID = dt.TerritoryID\nWHERE dc.CustomerKey IS NOT NULL\n  AND dp.ProductKey IS NOT NULL\n  AND dd.DateKey IS NOT NULL\n  AND dt.TerritoryKey IS NOT NULL;"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Error_Handling_Final",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
@@ -797,18 +830,15 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "Error_Handling",
+								"referenceName": "Error_Handling_Final",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
 									"SOH": {},
 									"SOD": {},
-									"customer": {},
-									"product": {},
-									"date": {},
-									"territoryu": {},
-									"sink2": {},
-									"Factwrk": {}
+									"Customer": {},
+									"FactWrk": {},
+									"sink1": {}
 								}
 							},
 							"staging": {},
@@ -817,39 +847,6 @@
 								"computeType": "General"
 							},
 							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "SalesFact",
-						"type": "Script",
-						"dependsOn": [
-							{
-								"activity": "Error_Handling",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"linkedServiceName": {
-							"referenceName": "etl_dw_1",
-							"type": "LinkedServiceReference"
-						},
-						"typeProperties": {
-							"scripts": [
-								{
-									"type": "Query",
-									"text": "IF EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = 'FK_FactSales_Customer')\n    ALTER TABLE dw.FactSales DROP CONSTRAINT FK_FactSales_Customer;\n\nIF EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = 'FK_FactSales_Product')\n    ALTER TABLE dw.FactSales DROP CONSTRAINT FK_FactSales_Product;\n\nIF EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = 'FK_FactSales_Date')\n    ALTER TABLE dw.FactSales DROP CONSTRAINT FK_FactSales_Date;\n\nIF EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = 'FK_FactSales_Territory')\n    ALTER TABLE dw.FactSales DROP CONSTRAINT FK_FactSales_Territory;\n\nTRUNCATE TABLE dw.FactSales;\n\nINSERT INTO dw.FactSales\n(\n    SalesOrderID,\n    SalesOrderDetailID,\n    OrderDateKey,\n    CustomerKey,\n    ProductKey,\n    TerritoryKey,\n    OrderQty,\n    UnitPrice,\n    UnitPriceDiscount,\n    LineTotal\n)\nSELECT\n    f.SalesOrderID,\n    f.SalesOrderDetailID,\n    dd.DateKey,\n    dc.CustomerKey,\n    dp.ProductKey,\n    dt.TerritoryKey,\n    f.OrderQty,\n    f.UnitPrice,\n    f.UnitPriceDiscount,\n    f.LineTotal\nFROM wrk.pre_fact f\nLEFT JOIN dw.DimCustomer dc\n    ON f.CustomerID = dc.CustomerID\nLEFT JOIN dw.DimProduct dp\n    ON f.ProductID = dp.ProductID\nLEFT JOIN dw.DimDate dd\n    ON CAST(f.OrderDate AS DATE) = dd.FullDate\nLEFT JOIN dw.DimTerritory dt\n    ON f.TerritoryID = dt.TerritoryID\nWHERE dc.CustomerKey IS NOT NULL\n  AND dp.ProductKey IS NOT NULL\n  AND dd.DateKey IS NOT NULL\n  AND dt.TerritoryKey IS NOT NULL;"
-								}
-							],
-							"scriptBlockExecutionTimeout": "02:00:00"
 						}
 					}
 				],
@@ -946,7 +943,7 @@
 				"[concat(variables('factoryId'), '/dataflows/Color_Transform')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable51')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable54')]",
-				"[concat(variables('factoryId'), '/dataflows/Error_Handling')]",
+				"[concat(variables('factoryId'), '/dataflows/Error_Handling_Final')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable52')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable53')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable55')]",
@@ -4164,6 +4161,302 @@
 				"typeProperties": {
 					"schema": "wrk",
 					"table": "pre_fact"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/etl_dw_1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable67')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "OrderDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "DueDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "ShipDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "Status",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "bit"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SalesPersonID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "TerritoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ShipMethodID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CreditCardID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CurrencyRateID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SubTotal",
+						"type": "decimal",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TaxAmt",
+						"type": "decimal",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Freight",
+						"type": "decimal",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TotalDue",
+						"type": "decimal",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Comment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "wrk",
+					"table": "SalesOrderHeader"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/etl_dw_1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable68')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SalesOrderDetailID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CarrierTrackingNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OrderQty",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ProductID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SpecialOfferID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "UnitPrice",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "UnitPriceDiscount",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "LineTotal",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 6
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "wrk",
+					"table": "SalesOrderDetail"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/etl_dw_1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable69')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CustomerKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PersonID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "StoreID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "TerritoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CustomerType",
+						"type": "varchar"
+					},
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "age",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dw",
+					"table": "DimCustomer"
 				}
 			},
 			"dependsOn": [
@@ -8002,6 +8295,285 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Error_Handling_Final')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable67",
+								"type": "DatasetReference"
+							},
+							"name": "SOH"
+						},
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable68",
+								"type": "DatasetReference"
+							},
+							"name": "SOD"
+						},
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable69",
+								"type": "DatasetReference"
+							},
+							"name": "Customer"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable70",
+								"type": "DatasetReference"
+							},
+							"name": "FactWrk"
+						},
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable71",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SODSOH"
+						},
+						{
+							"name": "lookup1"
+						},
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "split1"
+						},
+						{
+							"name": "select1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          SalesOrderID as integer,",
+						"          RevisionNumber as integer,",
+						"          OrderDate as timestamp,",
+						"          DueDate as timestamp,",
+						"          ShipDate as timestamp,",
+						"          Status as integer,",
+						"          OnlineOrderFlag as boolean,",
+						"          SalesOrderNumber as string,",
+						"          PurchaseOrderNumber as string,",
+						"          AccountNumber as string,",
+						"          CustomerID as integer,",
+						"          SalesPersonID as integer,",
+						"          TerritoryID as integer,",
+						"          BillToAddressID as integer,",
+						"          ShipToAddressID as integer,",
+						"          ShipMethodID as integer,",
+						"          CreditCardID as integer,",
+						"          CreditCardApprovalCode as string,",
+						"          CurrencyRateID as integer,",
+						"          SubTotal as decimal(19,4),",
+						"          TaxAmt as decimal(19,4),",
+						"          Freight as decimal(19,4),",
+						"          TotalDue as decimal(19,4),",
+						"          Comment as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> SOH",
+						"source(output(",
+						"          SalesOrderID as integer,",
+						"          SalesOrderDetailID as integer,",
+						"          CarrierTrackingNumber as string,",
+						"          OrderQty as integer,",
+						"          ProductID as integer,",
+						"          SpecialOfferID as integer,",
+						"          UnitPrice as decimal(19,4),",
+						"          UnitPriceDiscount as decimal(19,4),",
+						"          LineTotal as decimal(38,6),",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> SOD",
+						"source(output(",
+						"          CustomerKey as integer,",
+						"          CustomerID as integer,",
+						"          PersonID as integer,",
+						"          StoreID as integer,",
+						"          TerritoryID as integer,",
+						"          CustomerType as string,",
+						"          FirstName as string,",
+						"          MiddleName as string,",
+						"          LastName as string,",
+						"          age as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> Customer",
+						"SOH, SOD join(SOH@SalesOrderID == SOD@SalesOrderID,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> SODSOH",
+						"SODSOH, Customer lookup(SOH@CustomerID == Customer@CustomerID,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lookup1",
+						"lookup1 derive(FoundCustomer = !isNull(CustomerKey)) ~> derivedColumn1",
+						"derivedColumn1 split(FoundCustomer,",
+						"     !FoundCustomer,",
+						"     disjoint: false) ~> split1@(ValidCustomerRows, MissingCustomerRows)",
+						"split1@MissingCustomerRows select(mapColumn(",
+						"          SalesOrderID = split1@MissingCustomerRows@SalesOrderID,",
+						"          RevisionNumber,",
+						"          OrderDate,",
+						"          DueDate,",
+						"          ShipDate,",
+						"          Status,",
+						"          OnlineOrderFlag,",
+						"          SalesOrderNumber,",
+						"          PurchaseOrderNumber,",
+						"          AccountNumber,",
+						"          CustomerID = split1@MissingCustomerRows@CustomerID,",
+						"          SalesPersonID,",
+						"          TerritoryID = split1@MissingCustomerRows@TerritoryID,",
+						"          BillToAddressID,",
+						"          ShipToAddressID,",
+						"          ShipMethodID,",
+						"          CreditCardID,",
+						"          CreditCardApprovalCode,",
+						"          CurrencyRateID,",
+						"          SubTotal,",
+						"          TaxAmt,",
+						"          Freight,",
+						"          TotalDue,",
+						"          Comment,",
+						"          rowguid = split1@MissingCustomerRows@rowguid,",
+						"          ModifiedDate = split1@MissingCustomerRows@ModifiedDate,",
+						"          SalesOrderID = split1@MissingCustomerRows@SalesOrderID,",
+						"          SalesOrderDetailID,",
+						"          CarrierTrackingNumber,",
+						"          OrderQty,",
+						"          ProductID,",
+						"          SpecialOfferID,",
+						"          UnitPrice,",
+						"          UnitPriceDiscount,",
+						"          LineTotal,",
+						"          rowguid = split1@MissingCustomerRows@rowguid,",
+						"          ModifiedDate = split1@MissingCustomerRows@ModifiedDate,",
+						"          CustomerKey,",
+						"          CustomerID = split1@MissingCustomerRows@CustomerID,",
+						"          PersonID,",
+						"          StoreID,",
+						"          TerritoryID = split1@MissingCustomerRows@TerritoryID,",
+						"          CustomerType,",
+						"          FirstName,",
+						"          MiddleName,",
+						"          LastName,",
+						"          age,",
+						"          FoundCustomer",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"split1@ValidCustomerRows sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          SalesOrderID as integer,",
+						"          RevisionNumber as integer,",
+						"          OrderDate as timestamp,",
+						"          DueDate as timestamp,",
+						"          ShipDate as timestamp,",
+						"          Status as integer,",
+						"          OnlineOrderFlag as boolean,",
+						"          SalesOrderNumber as string,",
+						"          PurchaseOrderNumber as string,",
+						"          AccountNumber as string,",
+						"          CustomerID as integer,",
+						"          SalesPersonID as integer,",
+						"          TerritoryID as integer,",
+						"          BillToAddressID as integer,",
+						"          ShipToAddressID as integer,",
+						"          ShipMethodID as integer,",
+						"          CreditCardID as integer,",
+						"          CreditCardApprovalCode as string,",
+						"          CurrencyRateID as integer,",
+						"          SubTotal as decimal(19,4),",
+						"          TaxAmt as decimal(19,4),",
+						"          Freight as decimal(19,4),",
+						"          TotalDue as decimal(19,4),",
+						"          Comment as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp,",
+						"          SalesOrderDetailID as integer,",
+						"          CarrierTrackingNumber as string,",
+						"          OrderQty as integer,",
+						"          ProductID as integer,",
+						"          SpecialOfferID as integer,",
+						"          UnitPrice as decimal(19,4),",
+						"          UnitPriceDiscount as decimal(19,4),",
+						"          LineTotal as decimal(38,6),",
+						"          CustomerKey as integer,",
+						"          PersonID as integer,",
+						"          StoreID as integer,",
+						"          CustomerType as string,",
+						"          FirstName as string,",
+						"          MiddleName as string,",
+						"          LastName as string,",
+						"          age as integer,",
+						"          FoundCustomer as boolean,",
+						"          OrderDateKey as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> FactWrk",
+						"select1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          SalesOrderID as integer,",
+						"          SalesOrderDetailID as integer,",
+						"          CustomerID as integer,",
+						"          ErrorDescription as string,",
+						"          ErrorDate as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable67')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable68')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable69')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable70')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable71')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Name_and_Age_Manipulation')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -8324,6 +8896,289 @@
 				"[concat(variables('factoryId'), '/datasets/SalesOrderHeader3')]",
 				"[concat(variables('factoryId'), '/datasets/SalesOrderHeader4')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable41')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable70')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "OrderDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "DueDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "ShipDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "Status",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "bit"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SalesPersonID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "TerritoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ShipMethodID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CreditCardID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CurrencyRateID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SubTotal",
+						"type": "decimal",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TaxAmt",
+						"type": "decimal",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Freight",
+						"type": "decimal",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "TotalDue",
+						"type": "decimal",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Comment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "SalesOrderDetailID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CarrierTrackingNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OrderQty",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ProductID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SpecialOfferID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "UnitPrice",
+						"type": "decimal",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "UnitPriceDiscount",
+						"type": "decimal",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "LineTotal",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 6
+					},
+					{
+						"name": "CustomerKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PersonID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "StoreID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CustomerType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "age",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FoundCustomer",
+						"type": "bit"
+					},
+					{
+						"name": "OrderDateKey",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "wrk",
+					"table": "Pre_Fact"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/etl_dw_1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable71')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SalesOrderDetailID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ErrorDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ErrorDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dw",
+					"table": "Error_FactSales"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/etl_dw_1')]"
 			]
 		}
 	]
