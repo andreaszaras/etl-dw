@@ -17,6 +17,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "SOD"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable69",
+						"type": "DatasetReference"
+					},
+					"name": "Customer"
 				}
 			],
 			"sinks": [],
@@ -70,7 +77,23 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> SOD"
+				"     format: 'table') ~> SOD",
+				"source(output(",
+				"          CustomerKey as integer,",
+				"          CustomerID as integer,",
+				"          PersonID as integer,",
+				"          StoreID as integer,",
+				"          TerritoryID as integer,",
+				"          CustomerType as string,",
+				"          FirstName as string,",
+				"          MiddleName as string,",
+				"          LastName as string,",
+				"          age as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Customer"
 			]
 		}
 	}
