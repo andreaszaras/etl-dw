@@ -193,7 +193,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "Name_and_Age_Manipulation",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -226,7 +226,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "Name_and_Age_Manipulation",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -520,7 +520,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "Name_and_Age_Manipulation",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -553,7 +553,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "Name_and_Age_Manipulation",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -587,6 +587,24 @@
 				"dependsOn": [
 					{
 						"activity": "DimCustomer",
+						"dependencyConditions": [
+							"Completed"
+						]
+					},
+					{
+						"activity": "DimDate",
+						"dependencyConditions": [
+							"Completed"
+						]
+					},
+					{
+						"activity": "DimProduct",
+						"dependencyConditions": [
+							"Completed"
+						]
+					},
+					{
+						"activity": "DimAddress",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -640,72 +658,6 @@
 						{
 							"type": "Query",
 							"text": "IF EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = 'FK_FactSales_Customer')\n    ALTER TABLE dw.FactSales DROP CONSTRAINT FK_FactSales_Customer;\n\nIF EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = 'FK_FactSales_Product')\n    ALTER TABLE dw.FactSales DROP CONSTRAINT FK_FactSales_Product;\n\nIF EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = 'FK_FactSales_Date')\n    ALTER TABLE dw.FactSales DROP CONSTRAINT FK_FactSales_Date;\n\nIF EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = 'FK_FactSales_Territory')\n    ALTER TABLE dw.FactSales DROP CONSTRAINT FK_FactSales_Territory;\n\nTRUNCATE TABLE dw.FactSales;\n\nINSERT INTO dw.FactSales\n(\n    SalesOrderID,\n    SalesOrderDetailID,\n    OrderDateKey,\n    CustomerKey,\n    ProductKey,\n    TerritoryKey,\n    OrderQty,\n    UnitPrice,\n    UnitPriceDiscount,\n    LineTotal\n)\nSELECT\n    f.SalesOrderID,\n    f.SalesOrderDetailID,\n    dd.DateKey,\n    dc.CustomerKey,\n    dp.ProductKey,\n    dt.TerritoryKey,\n    f.OrderQty,\n    f.UnitPrice,\n    f.UnitPriceDiscount,\n    f.LineTotal\nFROM wrk.pre_fact f\nLEFT JOIN dw.DimCustomer dc\n    ON f.CustomerID = dc.CustomerID\nLEFT JOIN dw.DimProduct dp\n    ON f.ProductID = dp.ProductID\nLEFT JOIN dw.DimDate dd\n    ON CAST(f.OrderDate AS DATE) = dd.FullDate\nLEFT JOIN dw.DimTerritory dt\n    ON f.TerritoryID = dt.TerritoryID\nWHERE dc.CustomerKey IS NOT NULL\n  AND dp.ProductKey IS NOT NULL\n  AND dd.DateKey IS NOT NULL\n  AND dt.TerritoryKey IS NOT NULL;"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Add_FK_To_Fact",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "SalesFact",
-						"dependencyConditions": [
-							"Completed"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "etl_dw_1",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "ALTER TABLE dw.FactSales\nADD CONSTRAINT FK_FactSales_Customer\nFOREIGN KEY (CustomerKey)\nREFERENCES dw.DimCustomer(CustomerKey);\n\nALTER TABLE dw.FactSales\nADD CONSTRAINT FK_FactSales_Product\nFOREIGN KEY (ProductKey)\nREFERENCES dw.DimProduct(ProductKey);\n\nALTER TABLE dw.FactSales\nADD CONSTRAINT FK_FactSales_Date\nFOREIGN KEY (OrderDateKey)\nREFERENCES dw.DimDate(DateKey);\n\nALTER TABLE dw.FactSales\nADD CONSTRAINT FK_FactSales_Territory\nFOREIGN KEY (TerritoryKey)\nREFERENCES dw.DimTerritory(TerritoryKey);\n"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Script1",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "Name_and_Age_Manipulation",
-						"dependencyConditions": [
-							"Completed"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "etl_dw_1",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "ALTER TABLE dw.FactSales\nDROP CONSTRAINT FK_FactSales_Customer;\n\nALTER TABLE dw.FactSales\nDROP CONSTRAINT FK_FactSales_Product;\n\nALTER TABLE dw.FactSales\nDROP CONSTRAINT FK_FactSales_Date;\n\nALTER TABLE dw.FactSales\nDROP CONSTRAINT FK_FactSales_Territory;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
