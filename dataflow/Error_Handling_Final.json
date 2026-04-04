@@ -27,7 +27,11 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "SODSOH"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          SalesOrderID as integer,",
@@ -93,7 +97,12 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> Customer"
+				"     format: 'table') ~> Customer",
+				"SOH, SOD join(SOH@SalesOrderID == SOD@SalesOrderID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> SODSOH"
 			]
 		}
 	}
