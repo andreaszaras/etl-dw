@@ -1,0 +1,19 @@
+{
+	"name": "Excel10",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "salesorderheader_part_3.xlsx",
+				"container": "etldw"
+			}
+		},
+		"schema": []
+	}
+}

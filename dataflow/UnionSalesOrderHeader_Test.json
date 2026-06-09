@@ -17,6 +17,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "SalesOrderHeader2"
+				},
+				{
+					"dataset": {
+						"referenceName": "Excel10",
+						"type": "DatasetReference"
+					},
+					"name": "SalesOrderHeader3"
 				}
 			],
 			"sinks": [],
@@ -55,7 +62,10 @@
 				"     ignoreNoFilesFound: false) ~> SalesOrderHeader1",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> SalesOrderHeader2"
+				"     ignoreNoFilesFound: false) ~> SalesOrderHeader2",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SalesOrderHeader3"
 			]
 		}
 	}
