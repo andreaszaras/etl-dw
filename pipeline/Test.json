@@ -1,0 +1,80 @@
+{
+	"name": "Test",
+	"properties": {
+		"activities": [
+			{
+				"name": "Truncate_Staging",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "BEGIN\n\nIF OBJECT_ID('stg.salesorderheader', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.salesorderheader;\n\nIF OBJECT_ID('stg.salesorderdetail', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.salesorderdetail;\n\nIF OBJECT_ID('stg.customer', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.customer;\n\nIF OBJECT_ID('stg.person', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.person;\n\nIF OBJECT_ID('stg.product', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.product;\n\nIF OBJECT_ID('stg.productsubcategory', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.productsubcategory;\n\nIF OBJECT_ID('stg.productcategory', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.productcategory;\n\nIF OBJECT_ID('stg.salesterritory', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.salesterritory;\n\nIF OBJECT_ID('stg.store', 'U') IS NOT NULL\n    TRUNCATE TABLE stg.store;\n\nEND\n"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Select_Tables_From_OLTP",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Truncate_Staging",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT\n    t.TABLE_SCHEMA AS schema_name,\n    t.TABLE_NAME   AS table_name\nFROM INFORMATION_SCHEMA.TABLES t\nWHERE TABLE_TYPE = 'BASE TABLE'\n  AND (t.TABLE_SCHEMA + '.' + t.TABLE_NAME) IN (\n        'Sales.SalesOrderDetail',\n        'Sales.Customer',\n        'Person.Person',\n        'Sales.Store',\n        'Production.Product',\n        'Production.ProductCategory',\n        'Sales.SalesTerritory'\n  )\nORDER BY t.TABLE_SCHEMA, t.TABLE_NAME;\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzureSqlTable72",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Loop_OLTOP",
+				"description": "",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Select_Tables_From_OLTP",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": []
+			}
+		],
+		"annotations": []
+	}
+}
