@@ -1,0 +1,24 @@
+{
+	"name": "AzureSqlTable83",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "etl_dw_1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"shema": {
+				"type": "string"
+			},
+			"table": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "@dataset",
+			"table": "@data"
+		}
+	}
+}
