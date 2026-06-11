@@ -254,7 +254,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "Loop_STG",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -264,7 +264,68 @@
 						]
 					}
 				],
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('select_tables_from_stg2').output.value   ",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "CopySTG",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "AzureSqlTable84",
+									"type": "DatasetReference",
+									"parameters": {
+										"schema": "@item"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "AzureSqlTable83",
+									"type": "DatasetReference",
+									"parameters": {
+										"shema": "@item().schema",
+										"table": "@item"
+									}
+								}
+							]
+						}
+					]
+				}
 			}
 		],
 		"annotations": []
