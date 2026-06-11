@@ -1,0 +1,88 @@
+{
+	"name": "Name_and_Age_Manip",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable78",
+						"type": "DatasetReference"
+					},
+					"name": "Person"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable79",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FirstName1"
+				},
+				{
+					"name": "LastName2"
+				},
+				{
+					"name": "AgeYearas1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          BusinessEntityID as integer,",
+				"          PersonType as string,",
+				"          NameStyle as boolean,",
+				"          Title as string,",
+				"          Suffix as string,",
+				"          EmailPromotion as integer,",
+				"          AdditionalContactInfo as string,",
+				"          Demographics as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as timestamp,",
+				"          FullName as string,",
+				"          DateOfBirth as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Person",
+				"Person derive({} = toString(split(trim(FullName), ' ')[1])) ~> FirstName1",
+				"FirstName1 derive({} = regexExtract(trim(toString(FullName)), '([^ ]+)$', 1)) ~> LastName2",
+				"LastName2 derive({} = toInteger(monthsBetween(currentDate(), DateOfBirth) / 12)) ~> AgeYearas1",
+				"AgeYearas1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          BusinessEntityID as integer,",
+				"          PersonType as string,",
+				"          NameStyle as boolean,",
+				"          Title as string,",
+				"          Suffix as string,",
+				"          EmailPromotion as integer,",
+				"          AdditionalContactInfo as string,",
+				"          Demographics as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as timestamp,",
+				"          FullName as string,",
+				"          DateOfBirth as date,",
+				"          First_Name as string,",
+				"          Last_Name as string,",
+				"          Middle_Name as string,",
+				"          Age as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}
