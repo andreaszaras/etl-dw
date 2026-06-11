@@ -189,8 +189,8 @@
 				]
 			},
 			{
-				"name": "Data flow1",
-				"type": "ExecuteDataFlow",
+				"name": "Truncate_wrk",
+				"type": "Script",
 				"dependsOn": [
 					{
 						"activity": "StageProductSubCategoyry",
@@ -207,17 +207,64 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "etl_dw_1",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"dataflow": {
-						"referenceName": "UnionSalesOrderHeader_Test",
-						"type": "DataFlowReference"
-					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
-					},
-					"traceLevel": "Fine"
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "IF OBJECT_ID('wrk.ProductCategory', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.ProductCategory;\n\nIF OBJECT_ID('wrk.Customer', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.Customer;\n\nIF OBJECT_ID('wrk.ProductSubcategory', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.ProductSubcategory;\n\nIF OBJECT_ID('wrk.SalesOrderHeader', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.SalesOrderHeader;\n\nIF OBJECT_ID('wrk.SalesOrderDetail', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.SalesOrderDetail;\n\nIF OBJECT_ID('wrk.Store', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.Store;\n\nIF OBJECT_ID('wrk.SalesTerritory', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.SalesTerritory;\n\nIF OBJECT_ID('wrk.Person', 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.Person;\n\nIF OBJECT_ID('wrk.pre_fact’, 'U') IS NOT NULL\n    TRUNCATE TABLE wrk.pre_fact;\n"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "select_tables_from_stg2",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Truncate_wrk",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT\n    t.TABLE_SCHEMA AS schema_name,\n    t.TABLE_NAME   AS table_name\nFROM INFORMATION_SCHEMA.TABLES t\nWHERE TABLE_TYPE = 'BASE TABLE'\n  AND (t.TABLE_SCHEMA + '.' + t.TABLE_NAME) IN (\n        'stg.SalesOrderDetail',\n        'stg.Customer',\n        'stg.Person',\n        'stg.Store',\n        'stg.Product',\n        'stg.ProductCategory',\n        'stg.ProductSubcategory',\n         'stg.SalesOrderHeader',\n        'stg.SalesTerritory'\n  )\nORDER BY t.TABLE_SCHEMA, t.TABLE_NAME; ",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzureSqlTable81",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "select_tables_from_stg2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": []
 			}
 		],
 		"annotations": []
